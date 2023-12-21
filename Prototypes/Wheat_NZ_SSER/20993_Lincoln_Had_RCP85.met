@@ -4,7 +4,7 @@ AgentNumber = 20993
 Latitude = -43.625
 Longitude = 172.475
 
-! Data from CMIP5 dataset (GCM: HadGEM2-ES and RCP: 8.5), sourced from NIWA in Oct/2017
+! Data from CMIP5  dataset (GCM: HadGEM2-ES and RCP: 8.5), sourced from NIWA in Oct/2017
 
 ! Summary table - Long-term averages (2006-2120):
 ! Month         Rain    Tmin    Tmax    Radn      VP    Wind     CO2
