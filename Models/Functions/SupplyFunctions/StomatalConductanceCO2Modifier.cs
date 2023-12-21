@@ -36,9 +36,10 @@ namespace Models.Functions.SupplyFunctions
         public double Value(int arrayIndex = -1)
         {
             if (MetData.CO2 < 350)
-                throw new Exception("CO2 concentration too low for Stomatal Conductance CO2 Function");
+                return 1.0; // Allow for pre-climate change runs - FIXME
+            // throw new Exception("CO2 concentration too low for Stomatal Conductance CO2 Function");
             else if (MetData.CO2 == 350)
-                return 1.0;
+                        return 1.0;
             else
             {
                 double temp = (MetData.MaxT + MetData.MinT) / 2.0; // Average temperature
