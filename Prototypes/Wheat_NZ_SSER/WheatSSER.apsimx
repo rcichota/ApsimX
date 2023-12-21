@@ -1166,8 +1166,8 @@
                   "Axis": [
                     {
                       "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                      "Title": null,
-                      "Position": 3,
+                      "Title": "Yield",
+                      "Position": 2,
                       "Inverted": false,
                       "CrossesAtZero": false,
                       "LabelOnOneLine": false,
@@ -1177,8 +1177,8 @@
                     },
                     {
                       "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                      "Title": null,
-                      "Position": 0,
+                      "Title": "Clock.Today",
+                      "Position": 1,
                       "Inverted": false,
                       "CrossesAtZero": false,
                       "LabelOnOneLine": false,
@@ -1198,8 +1198,8 @@
                     {
                       "$type": "Models.Series, Models",
                       "Type": 0,
-                      "XAxis": 3,
-                      "YAxis": 0,
+                      "XAxis": 1,
+                      "YAxis": 2,
                       "ColourArgb": -16777216,
                       "FactorToVaryColours": null,
                       "FactorToVaryMarkers": null,
@@ -1213,7 +1213,7 @@
                       "YFieldName": "Yield",
                       "X2FieldName": null,
                       "Y2FieldName": null,
-                      "ShowInLegend": false,
+                      "ShowInLegend": true,
                       "IncludeSeriesNameInLegend": false,
                       "Cumulative": false,
                       "CumulativeX": false,
