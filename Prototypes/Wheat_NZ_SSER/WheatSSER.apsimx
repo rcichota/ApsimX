@@ -182,6 +182,106 @@
               "ResourceName": null,
               "Children": [
                 {
+                  "$type": "Models.Core.Folder, Models",
+                  "ShowInDocs": true,
+                  "GraphsPerPage": 6,
+                  "Name": "ManagerFolder",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Manager, Models",
+                      "CodeArray": [
+                        "using Models.Soils;",
+                        "using Models.Core;",
+                        "using System;",
+                        "",
+                        "namespace Models",
+                        "{",
+                        "    [Serializable]",
+                        "    public class Script : Model",
+                        "    {",
+                        "        //> Links to other Apsim models",
+                        "        [Link] Clock Clock;",
+                        "        [Link] ISummary mySummary;",
+                        "",
+                        "        //> User inputs from properties tab",
+                        "        [Separator(\"Tags used to defined simulation factors\")]",
+                        "        [Description(\"Agent number: \")]",
+                        "        public string AGENT_NO { get; set; }",
+                        "        [Description(\"Latitude: \")]",
+                        "        public string Lat { get; set; }",
+                        "        [Description(\"Longitude: \")]",
+                        "        public string Lon { get; set; }",
+                        "        [Description(\"SoilStamp: \")]",
+                        "        public string SoilStamp { get; set; }",
+                        "        [Description(\"GCM: \")]",
+                        "        public string GCM { get; set; }",
+                        "        [Description(\"RCP: \")]",
+                        "        public string RCP { get; set; }",
+                        "        [Description(\"Time slice: \")]",
+                        "        public string TS { get; set; }",
+                        "",
+                        "        //> Internal variables",
+                        "        private string someVar;",
+                        "        ",
+                        "        [EventSubscribe(\"DoManagementCalculations\")]",
+                        "        private void OnDoManagementCalculations(object sender, EventArgs e)",
+                        "        {",
+                        "            // Sort out time slice classification",
+                        "            if ((Clock.Today.Date.Year <= 2005))",
+                        "            {",
+                        "                TS = \"Baseline\";",
+                        "            }",
+                        "            else",
+                        "            {",
+                        "                TS = \"Future\";",
+                        "            }",
+                        "        }",
+                        "    }",
+                        "}",
+                        ""
+                      ],
+                      "Parameters": [
+                        {
+                          "Key": "AGENT_NO",
+                          "Value": "999"
+                        },
+                        {
+                          "Key": "Lat",
+                          "Value": "999"
+                        },
+                        {
+                          "Key": "Lon",
+                          "Value": "999"
+                        },
+                        {
+                          "Key": "SoilStamp",
+                          "Value": "999"
+                        },
+                        {
+                          "Key": "GCM",
+                          "Value": "GCM"
+                        },
+                        {
+                          "Key": "RCP",
+                          "Value": "RCP"
+                        },
+                        {
+                          "Key": "TS",
+                          "Value": "TS"
+                        }
+                      ],
+                      "Name": "FactorLabels",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
                   "$type": "Models.Report, Models",
                   "VariableNames": [
                     "[Clock].Today as ReportDate",
@@ -249,95 +349,6 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Manager, Models",
-                  "CodeArray": [
-                    "using Models.Soils;",
-                    "using Models.Core;",
-                    "using System;",
-                    "",
-                    "namespace Models",
-                    "{",
-                    "    [Serializable]",
-                    "    public class Script : Model",
-                    "    {",
-                    "        //> Links to other Apsim models",
-                    "        [Link] Clock Clock;",
-                    "        [Link] ISummary mySummary;",
-                    "",
-                    "        //> User inputs from properties tab",
-                    "        [Separator(\"Tags used to defined simulation factors\")]",
-                    "        [Description(\"Agent number: \")]",
-                    "        public string AGENT_NO { get; set; }",
-                    "        [Description(\"Latitude: \")]",
-                    "        public string Lat { get; set; }",
-                    "        [Description(\"Longitude: \")]",
-                    "        public string Lon { get; set; }",
-                    "        [Description(\"SoilStamp: \")]",
-                    "        public string SoilStamp { get; set; }",
-                    "        [Description(\"GCM: \")]",
-                    "        public string GCM { get; set; }",
-                    "        [Description(\"RCP: \")]",
-                    "        public string RCP { get; set; }",
-                    "        [Description(\"Time slice: \")]",
-                    "        public string TS { get; set; }",
-                    "",
-                    "        //> Internal variables",
-                    "        private string someVar;",
-                    "        ",
-                    "        [EventSubscribe(\"DoManagementCalculations\")]",
-                    "        private void OnDoManagementCalculations(object sender, EventArgs e)",
-                    "        {",
-                    "            // Sort out time slice classification",
-                    "            if ((Clock.Today.Date.Year <= 2005))",
-                    "            {",
-                    "                TS = \"Baseline\";",
-                    "            }",
-                    "            else",
-                    "            {",
-                    "                TS = \"Future\";",
-                    "            }",
-                    "        }",
-                    "    }",
-                    "}",
-                    ""
-                  ],
-                  "Parameters": [
-                    {
-                      "Key": "AGENT_NO",
-                      "Value": "999"
-                    },
-                    {
-                      "Key": "Lat",
-                      "Value": "999"
-                    },
-                    {
-                      "Key": "Lon",
-                      "Value": "999"
-                    },
-                    {
-                      "Key": "SoilStamp",
-                      "Value": "999"
-                    },
-                    {
-                      "Key": "GCM",
-                      "Value": "GCM"
-                    },
-                    {
-                      "Key": "RCP",
-                      "Value": "RCP"
-                    },
-                    {
-                      "Key": "TS",
-                      "Value": "TS"
-                    }
-                  ],
-                  "Name": "FactorLabels",
-                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
