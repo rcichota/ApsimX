@@ -662,8 +662,8 @@ namespace Models
             // =========================================
             for (int j = 0; j <= Canopies.Count - 1; j++)
             {
-                if (MathUtilities.FloatsAreEqual(Canopies[j].Canopy.CoverGreen, 1.0, 1E-10))
-                    throw new Exception("Unrealistically high cover value in MicroMet i.e. > 0.999999999");
+                // if (MathUtilities.FloatsAreEqual(Canopies[j].Canopy.CoverGreen, 1.0, 1E-10))
+                    // throw new Exception("Unrealistically high cover value in MicroMet i.e. > 0.999999999");
 
                 Canopies[j].K = MathUtilities.Divide(-Math.Log(1.0 - Canopies[j].Canopy.CoverGreen), Canopies[j].Canopy.LAI, 0.0);
                 Canopies[j].Ktot = MathUtilities.Divide(-Math.Log(1.0 - Canopies[j].Canopy.CoverTotal), Canopies[j].Canopy.LAITotal, 0.0);
