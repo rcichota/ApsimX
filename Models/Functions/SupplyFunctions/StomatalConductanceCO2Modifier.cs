@@ -36,6 +36,7 @@ namespace Models.Functions.SupplyFunctions
         public double Value(int arrayIndex = -1)
         {
             if (MetData.CO2 < 350)
+                return 1.0;
                 throw new Exception("CO2 concentration too low for Stomatal Conductance CO2 Function");
             else if (MetData.CO2 == 350)
                 return 1.0;
