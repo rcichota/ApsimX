@@ -59,8 +59,7 @@ namespace Models.Functions.SupplyFunctions
                     throw new Exception("Average daily temperature too high for RUE CO2 Function");
 
                 if (MetData.CO2 < 300)
-                    // throw new Exception("CO2 concentration too low for RUE CO2 Function");
-                    return 1.0; // Test with low CO2 data FIXME
+                    throw new Exception("CO2 concentration too low for RUE CO2 Function");
                 else if (MetData.CO2 == 350)
                     return 1.0;
                 else
