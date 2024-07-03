@@ -453,9 +453,9 @@ namespace Models.PMF.SimplePlantModels
             thisDero["TrunkWtAtMaxDimension"] += clean(CurrentCropParams["TrunkWtAtMaxDimension"]);
             double relativeAge = MathUtilities.Divide(Double.Parse(clean(CurrentCropParams["AgeAtStartSimulation"])),
                                                      Double.Parse(clean(CurrentCropParams["AgeToMaxDimension"])), 0);
-            double initialTrunkwt = Double.Parse(clean(CurrentCropParams["TrunkWtAtMaxDimension"])) * relativeAge * 0.7; //0.7 assumes we start in winter when trunk has been pruned back below max weight
+            double initialTrunkwt = Double.Parse(clean(CurrentCropParams["TrunkWtAtMaxDimension"])) * relativeAge;
             thisDero["InitialTrunkWt"] += initialTrunkwt.ToString();
-            thisDero["InitialRootWt"] += (200 * relativeAge).ToString();
+            thisDero["InitialRootWt"] += (50 * relativeAge).ToString();
             thisDero["LeafMaxNConc"] += clean(CurrentCropParams["LeafMaxNConc"]);
             thisDero["LeafMinNConc"] += clean(CurrentCropParams["LeafMinNConc"]);
             thisDero["ProductMaxNConc"] += clean(CurrentCropParams["ProductMaxNConc"]);
@@ -502,6 +502,25 @@ namespace Models.PMF.SimplePlantModels
             Regex sWhitespace = new Regex(@"\s+");
             return sWhitespace.Replace(ret, ",");
         }
+
+        /// <summary>
+        /// Method to extract a value from an array of parameter inputs for DEROPAPY.  Inputs as comma seperated string
+        /// </summary>
+        /// <param name="vect"></param>
+        /// <param name="pos"></param>
+        /// <returns>The number you want</returns>
+        public double GetValueFromStringVector(string vect, int pos)
+        {
+            string cleaned = clean(vect);
+            string[] strung = cleaned.Split(',');
+            double[] doubles = new double[strung.Length];
+            for (int i = 0; i < strung.Length; i++) 
+            {
+                doubles[i] = Double.Parse(strung[i]);
+            }
+            return doubles[pos];
+        }
+
         /// <summary>
         /// Base dictionary with DEROPAPY parameters and the locations they map to in the DEROPAPY.json model.
         /// </summary>
