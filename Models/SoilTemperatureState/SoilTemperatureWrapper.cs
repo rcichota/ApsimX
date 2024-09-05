@@ -1,4 +1,5 @@
 using APSIM.Shared.Utilities;
+using CommandLine;
 using Models.Climate;
 using Models.Core;
 using Models.Interfaces;
@@ -20,7 +21,12 @@ namespace Models.Crop2ML;
 class SoilTemperatureWrapper :  Model
 {
     [Link] Clock clock = null;
-    //[Link] Weather weather = null; // other links
+    [Link] Weather weather = null; // other links
+    [Link] IPlant crop = null;
+    [Link] SurfaceOrganicMatter SurfaceOM = null;
+    [Link] IPhysical soilPhysical = null;
+    [Link] Organic soilOrganic = null;
+    [Link] ISoilWater waterBalance = null;
 
     private SoilTemperatureState s;
     private SoilTemperatureState s1;
@@ -141,17 +147,24 @@ class SoilTemperatureWrapper :  Model
     }
 
     /// <summary>
+    /// Gets and sets the initial value for damping depth of soil
+    /// </summary>
+    [Description("Initial value for damping depth of soil")]
+    [Units("m")]
+    public double cDampingDepth { get; set; }
+
+    /// <summary>
     ///  Load parameters of the wrapper of the SoilTemperatureComponent
     /// </summary>
     private void loadParameters()
     {
-        soiltemperatureComponent.cCarbonContent = null; // To be modified
-        soiltemperatureComponent.cAlbedo = null; // To be modified
-        soiltemperatureComponent.cSoilLayerDepth = null; // To be modified
-        soiltemperatureComponent.cFirstDayMeanTemp = null; // To be modified
-        soiltemperatureComponent.cAverageGroundTemperature = null; // To be modified
-        soiltemperatureComponent.cAverageBulkDensity = null; // To be modified
-        soiltemperatureComponent.cDampingDepth = null; // To be modified
+        soiltemperatureComponent.cCarbonContent = soilOrganic.Carbon[0];
+        soiltemperatureComponent.cAlbedo = waterBalance.Salb;
+        soiltemperatureComponent.cSoilLayerDepth = MathUtilities.Divide_Value(soilPhysical.Thickness, 1000.0);
+        soiltemperatureComponent.cFirstDayMeanTemp = weather.MeanT;
+        soiltemperatureComponent.cAverageGroundTemperature = weather.Tav;
+        soiltemperatureComponent.cAverageBulkDensity = MathUtilities.Multiply(soilPhysical.BD, soilPhysical.Thickness).Sum() / soilPhysical.Thickness.Sum();
+        soiltemperatureComponent.cDampingDepth = cDampingDepth;
     }
 
     /// <summary>
@@ -159,15 +172,16 @@ class SoilTemperatureWrapper :  Model
     /// </summary>
     private void setExogenous()
     {
-        ex.iAirTemperatureMax = null; // To be modified
-        ex.iAirTemperatureMin = null; // To be modified
-        ex.iGlobalSolarRadiation = null; // To be modified
-        ex.iRAIN = null; // To be modified
-        ex.iCropResidues = null; // To be modified
-        ex.iPotentialSoilEvaporation = null; // To be modified
-        ex.iLeafAreaIndex = null; // To be modified
+        ex.iAirTemperatureMax = weather.MaxT;
+        ex.iAirTemperatureMin = weather.MinT;
+        ex.iGlobalSolarRadiation = weather.Radn;
+        ex.iRAIN = weather.Rain;
+        ex.iCropResidues = SurfaceOM.Wt;
+        ex.iPotentialSoilEvaporation = waterBalance.Eos;
+        ex.iLeafAreaIndex = (crop as Plant).LAI;
+        ex.iSoilWaterContent = waterBalance.SWmm.Sum();
+
         ex.SoilTempArray = null; // To be modified
-        ex.iSoilWaterContent = null; // To be modified
     }
 
     [EventSubscribe("Crop2MLProcess")]
@@ -177,6 +191,8 @@ class SoilTemperatureWrapper :  Model
         {
             Init();
         }
+
+        setExogenous();
         soiltemperatureComponent.CalculateModel(s,s1, r, a, ex);
     }
 
