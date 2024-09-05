@@ -1,13 +1,25 @@
+using Models.Core;
+using Models.Utilities;
+using System;
+namespace Models.Crop2ML;
+
+/// <summary>
+/// 
+/// </summary>
 public class SoilTemperatureComponent
 {
-    
-        public SoilTemperatureComponent() { }
-    
+     /// <summary>
+     /// 
+     /// </summary>
+     public SoilTemperatureComponent() { }
 
     //Declaration of the associated strategies
     SnowCoverCalculator _SnowCoverCalculator = new SnowCoverCalculator();
     STMPsimCalculator _STMPsimCalculator = new STMPsimCalculator();
 
+    /// <summary>
+    /// 
+    /// </summary>
     public double cCarbonContent
     {
         get
@@ -19,17 +31,23 @@ public class SoilTemperatureComponent
             _SnowCoverCalculator.cCarbonContent = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cAlbedo
     {
         get
         {
-             return _SnowCoverCalculator.cAlbedo; 
+             return _SnowCoverCalculator.Albedo; 
         }
         set
         {
-            _SnowCoverCalculator.cAlbedo = value;
+            _SnowCoverCalculator.Albedo = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double Albedo
     {
         get
@@ -41,6 +59,9 @@ public class SoilTemperatureComponent
             _SnowCoverCalculator.Albedo = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double[] cSoilLayerDepth
     {
         get
@@ -52,6 +73,9 @@ public class SoilTemperatureComponent
             _STMPsimCalculator.cSoilLayerDepth = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cFirstDayMeanTemp
     {
         get
@@ -63,39 +87,51 @@ public class SoilTemperatureComponent
             _STMPsimCalculator.cFirstDayMeanTemp = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cAverageGroundTemperature
     {
         get
         {
-             return _STMPsimCalculator.cAverageGroundTemperature; 
-        }
-        set
-        {
-            _STMPsimCalculator.cAverageGroundTemperature = value;
-        }
-    }
-    public double cAVT
-    {
-        get
-        {
-             return _STMPsimCalculator.cAVT; 
+            return _STMPsimCalculator.cAVT;
         }
         set
         {
             _STMPsimCalculator.cAVT = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    public double cAVT
+    {
+        get
+        {
+             return _STMPsimCalculator.cAVT;
+        }
+        set
+        {
+            _STMPsimCalculator.cAVT = value;
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cAverageBulkDensity
     {
         get
         {
-             return _STMPsimCalculator.cAverageBulkDensity; 
+             return _STMPsimCalculator.cABD; 
         }
         set
         {
-            _STMPsimCalculator.cAverageBulkDensity = value;
+            _STMPsimCalculator.cABD = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cABD
     {
         get
@@ -107,6 +143,9 @@ public class SoilTemperatureComponent
             _STMPsimCalculator.cABD = value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public double cDampingDepth
     {
         get
@@ -119,7 +158,9 @@ public class SoilTemperatureComponent
         }
     }
 
-    public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
+    /// <summary>
+    /// </summary>
+    public void CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         Albedo = cAlbedo;
         ex.iTempMax = ex.iAirTemperatureMax;
@@ -132,7 +173,20 @@ public class SoilTemperatureComponent
         ex.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
         _STMPsimCalculator.CalculateModel(s,s1, r, a, ex);
     }
-    
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
+    {
+        _STMPsimCalculator.Init(s, s1, r, a, ex);
+        _SnowCoverCalculator.Init(s, s1, r, a, ex);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="toCopy"></param>
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
     {
 

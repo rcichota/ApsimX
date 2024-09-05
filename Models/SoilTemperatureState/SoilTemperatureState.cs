@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Models.Core;
 namespace Models.Crop2ML;
 /// <summary>
 ///
 /// </summary>
-[ValidParent(ParentType = typeof(Zone))]
-public class SoilTemperatureState : Model
+public class SoilTemperatureState
 {
     private double[] _rSoilTempArrayRate;
     private double[] _pSoilLayerDepth;
@@ -44,6 +42,7 @@ public class SoilTemperatureState : Model
     SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
     AgeOfSnow = toCopy.AgeOfSnow;
     SoilTempArray = new double[toCopy.SoilTempArray.Length];
+
             for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
             { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
 

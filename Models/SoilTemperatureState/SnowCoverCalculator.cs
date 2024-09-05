@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Models.Core;
 namespace Models.Crop2ML;
 
 /// <summary>
@@ -230,29 +229,12 @@ namespace Models.Crop2ML;
 ///                          ** min : 0.0
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
 /// </summary>
-[ValidParent(ParentType = typeof(Zone))]
-public class SnowCoverCalculator : Model
+public class SnowCoverCalculator
 {
-    [Link(ByName = true)]
-    private SoilTemperatureState s = null;
-
-    //[Link(ByName = true)]
-    //private SoilTemperatureState s1 = null;
-
-    [Link(ByName = true)]
-    private SoilTemperatureRate r = null;
-
-    [Link(ByName = true)]
-    private SoilTemperatureAuxiliary a = null;
-
-    [Link(ByName = true)]
-    private SoilTemperatureExogenous ex = null;
-
     /// <summary>
     ///
     /// </summary>
-    [EventSubscribe("StartOfSimulation")]
-    public void Init()
+    public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         double iTempMax = ex.iTempMax;
         double iTempMin = ex.iTempMin;
@@ -352,8 +334,7 @@ public class SnowCoverCalculator : Model
 
     /// <summary>
     /// </summary>
-    [EventSubscribe("Crop2MLProcess")]
-    public void  CalculateModel()
+    public void CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         double pInternalAlbedo = s.pInternalAlbedo;
         double iTempMax = ex.iTempMax;

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Models.Core;
 namespace Models.Crop2ML;
 /// <summary>
 ///
 /// </summary>
-[ValidParent(ParentType = typeof(Zone))]
-public class SoilTemperatureExogenous : Model
+public class SoilTemperatureExogenous
 {
     private double _iAirTemperatureMax;
     private double _iTempMax;

@@ -130,12 +130,12 @@ namespace Models
         /// <summary>Occurs each day to calculate weather</summary>
         public event EventHandler DoWeather;
 
-        /// <summary>Occurs each day</summary>
+        /// <summary>Occurs each day to calculate Cro2ML stuff</summary>
         public event EventHandler Crop2MLProcess;
 
         /// <summary>Occurs each day to do daily updates to models</summary>
         public event EventHandler DoDailyInitialisation;
-        /// <summary>Occurs each day to make the intial summary</summary>
+        /// <summary>Occurs each day to make the initial summary</summary>
         public event EventHandler DoInitialSummary;
         /// <summary>Occurs each day to do management actions and changes</summary>
         public event EventHandler DoManagement;

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Models.Core;
 namespace Models.Crop2ML;
 /// <summary>
 ///
 /// </summary>
-[ValidParent(ParentType = typeof(Zone))]
 public class SoilTemperatureRate
 {
     private double _rSnowWaterContentRate;
