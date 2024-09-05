@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq;    
+using Models.Core;   
 namespace Models.Crop2ML;
 
 /// <summary>
@@ -12,9 +13,7 @@ namespace Models.Crop2ML;
 ///            * Institution: INRES Pflanzenbau, Uni Bonn
 ///            * ExtendedDescription: as given in the documentation
 ///            * ShortDescription: None
-///
-///
-///    - inputs:
+///- inputs:
 ///            * name: cCarbonContent
 ///                          ** description : Carbon content of upper soil layer
 ///                          ** inputtype : parameter
@@ -29,7 +28,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max :
+///                          ** max : 
 ///                          ** min : 0
 ///                          ** default : 0
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
@@ -49,7 +48,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 1.0
 ///                          ** min : 0.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
 ///            * name: pInternalAlbedo
 ///                          ** description : Albedo privat
@@ -58,7 +57,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 1.0
 ///                          ** min : 0.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
 ///            * name: cSnowIsolationFactorA
 ///                          ** description : Static part of the snow isolation index calculation
@@ -85,7 +84,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 50.0
 ///                          ** min : -40.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: iTempMin
 ///                          ** description : Daily minimum air temperature
@@ -94,7 +93,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 50.0
 ///                          ** min : -40.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: iRadiation
 ///                          ** description : Global Solar radiation
@@ -103,7 +102,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 2000.0
 ///                          ** min : 0.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre
 ///            * name: iRAIN
 ///                          ** description : Rain amount
@@ -121,7 +120,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 20000.0
 ///                          ** min : 0.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre
 ///            * name: iPotentialSoilEvaporation
 ///                          ** description : Potenial Evaporation
@@ -139,17 +138,17 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 10.0
 ///                          ** min : 0.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre
 ///            * name: iSoilTempArray
 ///                          ** description : Soil Temp array of last day
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len :
+///                          ** len : 
 ///                          ** max : 35.0
 ///                          ** min : -15.0
-///                          ** default :
+///                          ** default : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: SnowWaterContent
 ///                          ** description : Snow water content
@@ -174,7 +173,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : INT
-///                          ** max :
+///                          ** max : 
 ///                          ** min : 0
 ///                          ** default : 0
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
@@ -197,7 +196,7 @@ namespace Models.Crop2ML;
 ///                          ** description : Age of snow
 ///                          ** datatype : INT
 ///                          ** variablecategory : state
-///                          ** max :
+///                          ** max : 
 ///                          ** min : 0
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
 ///            * name: rSnowWaterContentRate
@@ -218,8 +217,8 @@ namespace Models.Crop2ML;
 ///                          ** description : daily age of snow change rate
 ///                          ** datatype : INT
 ///                          ** variablecategory : rate
-///                          ** max :
-///                          ** min :
+///                          ** max : 
+///                          ** min : 
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
 ///            * name: SnowIsolationIndex
 ///                          ** description : Snow isolation index
@@ -231,8 +230,9 @@ namespace Models.Crop2ML;
 /// </summary>
 public class SnowCoverCalculator
 {
+
     /// <summary>
-    ///
+    /// initialization of the SnowCoverCalculator component
     /// </summary>
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
@@ -271,70 +271,95 @@ public class SnowCoverCalculator
         s.SoilSurfaceTemperature= SoilSurfaceTemperature;
         s.AgeOfSnow= AgeOfSnow;
     }
+
     private double _cCarbonContent;
-
     /// <summary>
-    ///
+    /// Gets and sets the Carbon content of upper soil layer
     /// </summary>
+    [Description("Carbon content of upper soil layer")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    //[Crop2ML(datatype="DOUBLE", min=0.5, max=20.0, default=0.5, parametercategory=constant, inputtype="parameter")] 
     public double cCarbonContent
-        {
-            get { return this._cCarbonContent; }
-            set { this._cCarbonContent= value; }
-        }
-    private int _cInitialAgeOfSnow;
+    {
+        get { return this._cCarbonContent; }
+        set { this._cCarbonContent= value; } 
+    }
 
+    private int _cInitialAgeOfSnow;
     /// <summary>
-    ///
+    /// Gets and sets the Initial age of snow
     /// </summary>
+    [Description("Initial age of snow")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    //[Crop2ML(datatype="INT", min=0, max=null, default=0, parametercategory=constant, inputtype="parameter")] 
     public int cInitialAgeOfSnow
-        {
-            get { return this._cInitialAgeOfSnow; }
-            set { this._cInitialAgeOfSnow= value; }
-        }
+    {
+        get { return this._cInitialAgeOfSnow; }
+        set { this._cInitialAgeOfSnow= value; } 
+    }
+
     private double _cInitialSnowWaterContent;
     /// <summary>
-    ///
+    /// Gets and sets the Initial snow water content
     /// </summary>
+    [Description("Initial snow water content")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    //[Crop2ML(datatype="DOUBLE", min=0.0, max=1500.0, default=0.0, parametercategory=constant, inputtype="parameter")] 
     public double cInitialSnowWaterContent
-        {
-            get { return this._cInitialSnowWaterContent; }
-            set { this._cInitialSnowWaterContent= value; }
-        }
+    {
+        get { return this._cInitialSnowWaterContent; }
+        set { this._cInitialSnowWaterContent= value; } 
+    }
+
     private double _Albedo;
     /// <summary>
-    ///
+    /// Gets and sets the Albedo
     /// </summary>
+    [Description("Albedo")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    //[Crop2ML(datatype="DOUBLE", min=0.0, max=1.0, default=, parametercategory=constant, inputtype="parameter")] 
     public double Albedo
-        {
-            get { return this._Albedo; }
-            set { this._Albedo= value; }
-        }
+    {
+        get { return this._Albedo; }
+        set { this._Albedo= value; } 
+    }
+
     private double _cSnowIsolationFactorA;
     /// <summary>
-    ///
+    /// Gets and sets the Static part of the snow isolation index calculation
     /// </summary>
+    [Description("Static part of the snow isolation index calculation")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    //[Crop2ML(datatype="DOUBLE", min=0.0, max=10.0, default=2.3, parametercategory=constant, inputtype="parameter")] 
     public double cSnowIsolationFactorA
-        {
-            get { return this._cSnowIsolationFactorA; }
-            set { this._cSnowIsolationFactorA= value; }
-        }
+    {
+        get { return this._cSnowIsolationFactorA; }
+        set { this._cSnowIsolationFactorA= value; } 
+    }
+
     private double _cSnowIsolationFactorB;
     /// <summary>
-    ///
+    /// Gets and sets the Dynamic part of the snow isolation index calculation
     /// </summary>
+    [Description("Dynamic part of the snow isolation index calculation")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    //[Crop2ML(datatype="DOUBLE", min=0.0, max=1.0, default=0.22, parametercategory=constant, inputtype="parameter")] 
     public double cSnowIsolationFactorB
-        {
-            get { return this._cSnowIsolationFactorB; }
-            set { this._cSnowIsolationFactorB= value; }
-        }
-    /// <summary>
-    ///
-    /// </summary>
-    public SnowCoverCalculator() { }
+    {
+        get { return this._cSnowIsolationFactorB; }
+        set { this._cSnowIsolationFactorB= value; } 
+    }
 
+    
     /// <summary>
+    /// Constructor of the SnowCoverCalculator component")
+    /// </summary>  
+    public SnowCoverCalculator() { }
+    
+    /// <summary>
+    /// Algorithm of the SnowCoverCalculator component
     /// </summary>
-    public void CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
+    public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         double pInternalAlbedo = s.pInternalAlbedo;
         double iTempMax = ex.iTempMax;

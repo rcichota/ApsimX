@@ -11,21 +11,16 @@ using System.Linq;
 namespace Models.Crop2ML;
 
 /// <summary>
-/// 
+///  This class encapsulates the SoilTemperatureComponent
 /// </summary>
 [Serializable]
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
-public class SoilTemperatureWrapper : Model
+class SoilTemperatureWrapper :  Model
 {
     [Link] Clock clock = null;
-    [Link] Weather weather = null;
-    [Link] IPlant crop = null;
-    [Link] SurfaceOrganicMatter SurfaceOM = null;
-    [Link] IPhysical soilPhysical = null;
-    [Link] Organic soilOrganic = null;
-    [Link] ISoilWater waterBalance = null;
+    //[Link] Weather weather = null; // other links
 
     private SoilTemperatureState s;
     private SoilTemperatureState s1;
@@ -33,11 +28,9 @@ public class SoilTemperatureWrapper : Model
     private SoilTemperatureAuxiliary a;
     private SoilTemperatureExogenous ex;
     private SoilTemperatureComponent soiltemperatureComponent;
-    private STMPsimCalculator sTMPsimCalculator;
-    private SnowCoverCalculator snowCoverCalculator;
 
     /// <summary>
-    /// 
+    ///  The constructor of the Wrapper of the SoilTemperatureComponent
     /// </summary>
     public SoilTemperatureWrapper()
     {
@@ -47,68 +40,86 @@ public class SoilTemperatureWrapper : Model
         a = new SoilTemperatureAuxiliary();
         ex = new SoilTemperatureExogenous();
         soiltemperatureComponent = new SoilTemperatureComponent();
-        sTMPsimCalculator = new STMPsimCalculator();
-        snowCoverCalculator = new SnowCoverCalculator();
     }
 
     /// <summary>
-    /// Gets and sets the initial value for damping depth of soil
+    ///  The get method of the Snow water content output variable
     /// </summary>
-    [Description("Initial value for damping depth of soil")]
-    [Units("m")]
-    //[Crop2ML(datatype="double", min=1.5, max=20.0, default=6.0, parametercategory="constant", inputtype="parameter")]
-    public double cDampingDepth { get; set; }
+    [Description("Snow water content")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/millimetre")]
+    public double SnowWaterContent{ get { return s.SnowWaterContent;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the Soil surface temperature output variable
     /// </summary>
-    public double[] rSoilTempArrayRate{ get { return s.rSoilTempArrayRate;}}
+    [Description("Soil surface temperature")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
+    public double SoilSurfaceTemperature{ get { return s.SoilSurfaceTemperature;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the Age of snow output variable
     /// </summary>
-    public double SnowWaterContent{ get { return s.SnowWaterContent;}}
+    [Description("Age of snow")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/day")]
+    public int AgeOfSnow{ get { return s.AgeOfSnow;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the Array of daily temperature change output variable
     /// </summary>
-    public double SoilSurfaceTemperature{ get { return s.SoilSurfaceTemperature;}}
+    [Description("Array of daily temperature change")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day")]
+    public double[] rSoilTempArrayRate{ get { return s.rSoilTempArrayRate;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the Array of soil temperatures in layers  output variable
     /// </summary>
-    public int AgeOfSnow{ get { return s.AgeOfSnow;}}
+    [Description("Array of soil temperatures in layers ")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
+    public double[] SoilTempArray{ get { return s.SoilTempArray;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the daily snow water content change rate output variable
     /// </summary>
-    public double[] SoilTempArray{ get { return s.SoilTempArray;}}
+    [Description("daily snow water content change rate")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day")]
+    public double rSnowWaterContentRate{ get { return r.rSnowWaterContentRate;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the daily soil surface temperature change rate output variable
     /// </summary>
-    public double rSnowWaterContentRate{ get { return r.rSnowWaterContentRate;}}
+    [Description("daily soil surface temperature change rate")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day")]
+    public double rSoilSurfaceTemperatureRate{ get { return r.rSoilSurfaceTemperatureRate;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the daily age of snow change rate output variable
     /// </summary>
-    public double rSoilSurfaceTemperatureRate{ get { return r.rSoilSurfaceTemperatureRate;}}
+    [Description("daily age of snow change rate")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")]
+    public int rAgeOfSnowRate{ get { return r.rAgeOfSnowRate;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The get method of the Snow isolation index output variable
     /// </summary>
-    public int rAgeOfSnowRate{ get { return r.rAgeOfSnowRate;}}
+    [Description("Snow isolation index")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")]
+    public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}} 
+     
 
     /// <summary>
-    /// 
+    ///  The Constructor copy of the wrapper of the SoilTemperatureComponent
     /// </summary>
-    public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}}
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public SoilTemperatureWrapper(SoilTemperatureWrapper toCopy, bool copyAll) : this()
+    /// <param name="toCopy"></param>
+    /// <param name="copyAll"></param>
+    public SoilTemperatureWrapper(SoilTemperatureWrapper toCopy, bool copyAll) 
     {
         s = (toCopy.s != null) ? new SoilTemperatureState(toCopy.s, copyAll) : null;
         r = (toCopy.r != null) ? new SoilTemperatureRate(toCopy.r, copyAll) : null;
@@ -121,52 +132,52 @@ public class SoilTemperatureWrapper : Model
     }
 
     /// <summary>
-    /// 
+    ///  The Initialization method of the wrapper of the SoilTemperatureComponent
     /// </summary>
-    private void Init()
-    {
+    public void Init(){
         setExogenous();
-        ex.iSoilTempArray = new double[soilPhysical.Thickness.Length];
         loadParameters();
         soiltemperatureComponent.Init(s, s1, r, a, ex);
     }
 
+    /// <summary>
+    ///  Load parameters of the wrapper of the SoilTemperatureComponent
+    /// </summary>
     private void loadParameters()
     {
-        soiltemperatureComponent.cCarbonContent = soilOrganic.Carbon[0];
-        soiltemperatureComponent.cAlbedo = waterBalance.Salb;
-        soiltemperatureComponent.Albedo = soiltemperatureComponent.cAlbedo;
-        soiltemperatureComponent.cSoilLayerDepth = MathUtilities.Divide_Value(soilPhysical.Thickness, 1000.0);
-        soiltemperatureComponent.cFirstDayMeanTemp = weather.MeanT;
-        soiltemperatureComponent.cAverageGroundTemperature = weather.Tav;
-        soiltemperatureComponent.cAVT = weather.Tav;
-        soiltemperatureComponent.cAverageBulkDensity = MathUtilities.Multiply(soilPhysical.BD, soilPhysical.Thickness).Sum() / soilPhysical.Thickness.Sum();
-        soiltemperatureComponent.cABD = soiltemperatureComponent.cAverageBulkDensity;
-        soiltemperatureComponent.cDampingDepth = cDampingDepth;
+        soiltemperatureComponent.cCarbonContent = null; // To be modified
+        soiltemperatureComponent.cAlbedo = null; // To be modified
+        soiltemperatureComponent.cSoilLayerDepth = null; // To be modified
+        soiltemperatureComponent.cFirstDayMeanTemp = null; // To be modified
+        soiltemperatureComponent.cAverageGroundTemperature = null; // To be modified
+        soiltemperatureComponent.cAverageBulkDensity = null; // To be modified
+        soiltemperatureComponent.cDampingDepth = null; // To be modified
     }
 
+    /// <summary>
+    ///  Set exogenous variables of the wrapper of the SoilTemperatureComponent
+    /// </summary>
     private void setExogenous()
     {
-        ex.iAirTemperatureMax = weather.MaxT;
-        ex.iAirTemperatureMin = weather.MinT;
-        ex.iGlobalSolarRadiation = weather.Radn;
-        ex.iRAIN = weather.Rain;
-        ex.iCropResidues = SurfaceOM.Wt;
-        ex.iPotentialSoilEvaporation = waterBalance.Eos;
-        ex.iLeafAreaIndex = (crop as Plant).LAI;
-        ex.iSoilWaterContent = waterBalance.SWmm.Sum();
+        ex.iAirTemperatureMax = null; // To be modified
+        ex.iAirTemperatureMin = null; // To be modified
+        ex.iGlobalSolarRadiation = null; // To be modified
+        ex.iRAIN = null; // To be modified
+        ex.iCropResidues = null; // To be modified
+        ex.iPotentialSoilEvaporation = null; // To be modified
+        ex.iLeafAreaIndex = null; // To be modified
+        ex.SoilTempArray = null; // To be modified
+        ex.iSoilWaterContent = null; // To be modified
     }
 
     [EventSubscribe("Crop2MLProcess")]
-    private void CalculateModel(object sender, EventArgs e)
+    public void CalculateModel(object sender, EventArgs e)
     {
         if (clock.Today == clock.StartDate)
         {
             Init();
         }
-
-        setExogenous();
-        soiltemperatureComponent.CalculateModel(s, s1, r, a, ex);
+        soiltemperatureComponent.CalculateModel(s,s1, r, a, ex);
     }
 
 }
