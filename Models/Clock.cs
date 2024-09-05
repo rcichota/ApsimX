@@ -127,8 +127,12 @@ namespace Models
 
         /// <summary>Occurs first each day to allow yesterdays values to be caught</summary>
         public event EventHandler DoCatchYesterday;
-        /// <summary>Occurs each day to calculuate weather</summary>
+        /// <summary>Occurs each day to calculate weather</summary>
         public event EventHandler DoWeather;
+
+        /// <summary>Occurs each day</summary>
+        public event EventHandler Crop2MLProcess;
+
         /// <summary>Occurs each day to do daily updates to models</summary>
         public event EventHandler DoDailyInitialisation;
         /// <summary>Occurs each day to make the intial summary</summary>
@@ -339,6 +343,9 @@ namespace Models
 
                 if (DoWeather != null)
                     DoWeather.Invoke(this, args);
+
+                if (Crop2MLProcess != null)
+                    Crop2MLProcess.Invoke(this, args);
 
                 if (DoDailyInitialisation != null)
                     DoDailyInitialisation.Invoke(this, args);

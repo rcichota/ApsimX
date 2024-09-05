@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
-
-public class SoilTemperatureExogenous 
+using Models.Core;
+namespace Models.Crop2ML;
+/// <summary>
+///
+/// </summary>
+[ValidParent(ParentType = typeof(Zone))]
+public class SoilTemperatureExogenous : Model
 {
     private double _iAirTemperatureMax;
     private double _iTempMax;
@@ -17,15 +22,22 @@ public class SoilTemperatureExogenous
     private double[] _iSoilTempArray;
     private double _iSoilWaterContent;
     private double _iSoilSurfaceTemperature;
-    
-        public SoilTemperatureExogenous() { }
-    
-    
-    public SoilTemperatureExogenous(SoilTemperatureExogenous toCopy, bool copyAll) // copy constructor 
+
+    /// <summary>
+    ///
+    /// </summary>
+    public SoilTemperatureExogenous() { }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="toCopy"></param>
+    /// <param name="copyAll"></param>
+    public SoilTemperatureExogenous(SoilTemperatureExogenous toCopy, bool copyAll) // copy constructor
     {
     if (copyAll)
     {
-    
+
     iAirTemperatureMax = toCopy.iAirTemperatureMax;
     iTempMax = toCopy.iTempMax;
     iAirTemperatureMin = toCopy.iAirTemperatureMin;
@@ -39,83 +51,125 @@ public class SoilTemperatureExogenous
     SoilTempArray = new double[toCopy.SoilTempArray.Length];
             for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
             { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
-    
+
     iSoilTempArray = new double[toCopy.iSoilTempArray.Length];
             for (int i = 0; i < toCopy.iSoilTempArray.Length; i++)
             { iSoilTempArray[i] = toCopy.iSoilTempArray[i]; }
-    
+
     iSoilWaterContent = toCopy.iSoilWaterContent;
     iSoilSurfaceTemperature = toCopy.iSoilSurfaceTemperature;
     }
     }
+    /// <summary>
+    ///
+    /// </summary>
     public double iAirTemperatureMax
         {
             get { return this._iAirTemperatureMax; }
-            set { this._iAirTemperatureMax= value; } 
+            set { this._iAirTemperatureMax= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iTempMax
         {
             get { return this._iTempMax; }
-            set { this._iTempMax= value; } 
+            set { this._iTempMax= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iAirTemperatureMin
         {
             get { return this._iAirTemperatureMin; }
-            set { this._iAirTemperatureMin= value; } 
+            set { this._iAirTemperatureMin= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iTempMin
         {
             get { return this._iTempMin; }
-            set { this._iTempMin= value; } 
+            set { this._iTempMin= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iGlobalSolarRadiation
         {
             get { return this._iGlobalSolarRadiation; }
-            set { this._iGlobalSolarRadiation= value; } 
+            set { this._iGlobalSolarRadiation= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iRadiation
         {
             get { return this._iRadiation; }
-            set { this._iRadiation= value; } 
+            set { this._iRadiation= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iRAIN
         {
             get { return this._iRAIN; }
-            set { this._iRAIN= value; } 
+            set { this._iRAIN= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iCropResidues
         {
             get { return this._iCropResidues; }
-            set { this._iCropResidues= value; } 
+            set { this._iCropResidues= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iPotentialSoilEvaporation
         {
             get { return this._iPotentialSoilEvaporation; }
-            set { this._iPotentialSoilEvaporation= value; } 
+            set { this._iPotentialSoilEvaporation= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iLeafAreaIndex
         {
             get { return this._iLeafAreaIndex; }
-            set { this._iLeafAreaIndex= value; } 
+            set { this._iLeafAreaIndex= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double[] SoilTempArray
         {
             get { return this._SoilTempArray; }
-            set { this._SoilTempArray= value; } 
+            set { this._SoilTempArray= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double[] iSoilTempArray
         {
             get { return this._iSoilTempArray; }
-            set { this._iSoilTempArray= value; } 
+            set { this._iSoilTempArray= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iSoilWaterContent
         {
             get { return this._iSoilWaterContent; }
-            set { this._iSoilWaterContent= value; } 
+            set { this._iSoilWaterContent= value; }
         }
+    /// <summary>
+    ///
+    /// </summary>
     public double iSoilSurfaceTemperature
         {
             get { return this._iSoilSurfaceTemperature; }
-            set { this._iSoilSurfaceTemperature= value; } 
+            set { this._iSoilSurfaceTemperature= value; }
         }
 }
