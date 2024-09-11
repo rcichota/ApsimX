@@ -194,10 +194,10 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     {
         soiltemperatureComponent.cCarbonContent = soilOrganic.Carbon[0];
         soiltemperatureComponent.cAlbedo = waterBalance.Salb;
-        soiltemperatureComponent.cSoilLayerDepth = MathUtilities.Divide_Value(soilPhysical.Thickness, 1000.0);
-        soiltemperatureComponent.cFirstDayMeanTemp = weather.MeanT;
+        soiltemperatureComponent.cSoilLayerDepth = MathUtilities.Divide_Value(soilPhysical.ThicknessCumulative, 1000.0);
+        soiltemperatureComponent.cFirstDayMeanTemp = weather.Tav;
         soiltemperatureComponent.cAverageGroundTemperature = weather.Tav;
-        soiltemperatureComponent.cAverageBulkDensity = MathUtilities.Multiply(soilPhysical.BD, soilPhysical.Thickness).Sum() / soilPhysical.Thickness.Sum();
+        soiltemperatureComponent.cAverageBulkDensity = (double)simulation.Get("[TreatmentApply].Script.profileDensity");
         soiltemperatureComponent.cDampingDepth = cDampingDepth / 1000.0;
     }
 
@@ -209,11 +209,15 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
         ex.iAirTemperatureMax = weather.MaxT;
         ex.iAirTemperatureMin = weather.MinT;
         ex.iGlobalSolarRadiation = weather.Radn;
+        ex.iTempMax = ex.iAirTemperatureMax;
+        ex.iTempMin = ex.iAirTemperatureMin;
+        ex.iRadiation = ex.iGlobalSolarRadiation;
         ex.iRAIN = weather.Rain;
         ex.iCropResidues = SurfaceOM.Wt;
-        ex.iPotentialSoilEvaporation = waterBalance.Eos;
+        ex.iPotentialSoilEvaporation = (double)simulation.Get("[ReadWTHFile].Script.PotEvaporation");
+        //ex.iPotentialSoilEvaporation = waterBalance.Eos;
         double totalLAI = 0.0;
-        if (canopies != null)
+        if (canopies.Count() > 0)
         {
             for (int i = 0; i < canopies.Count; i++)
                 totalLAI += canopies[i].LAITotal;
