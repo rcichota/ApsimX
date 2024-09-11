@@ -1,0 +1,4 @@
+Weather station ID	Site name	Country	Latitude	Longitude	Amplitude of temperature	Average annual temperature
+text	text	text	degrees(°)	degrees(°)	°C	°C
+WST_ID	SITE_NAME	FL_LOC_1	XLAT	XLONG	TAMP	TAV
+USGA	Gainesville	USA	       29.652	-82.325	21.8	15.8

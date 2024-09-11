@@ -1,0 +1,4 @@
+Soil ID	Surface albedo	number of soil layers	soil profile depth	soil bulk density
+text	fraction	integer	cm	g/cm3
+SOIL_ID	SALB	NLAYR	SLDP	SABDM
+SICL	0.11	10	210	1.36
