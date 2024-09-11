@@ -128,9 +128,7 @@ public class Soil_tempWrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature => SoilUtilities.MapConcentration(temp_profile.ToArray(),
-                         Enumerable.Repeat(10.0, temp_profile.Count()).ToArray(),
-                         physical.Thickness, double.NaN);
+    public double[] AverageSoilTemperature => layer_temp.ToArray();
 
     /// <summary>
     ///
@@ -188,8 +186,8 @@ public class Soil_tempWrapper :  Model, ISoilTemperature
         ex.min_temp = weather.MinT;
         ex.max_temp = weather.MaxT;
         ex.min_air_temp = weather.MinT;
-        ex.min_canopy_temp = 0;
-        ex.max_canopy_temp = 0;
+        ex.min_canopy_temp = weather.MinT;
+        ex.max_canopy_temp = weather.MaxT;
     }
 
     /// <summary>

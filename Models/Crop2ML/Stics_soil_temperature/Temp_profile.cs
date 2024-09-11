@@ -144,16 +144,16 @@ public class Temp_profile
         List<double> prev_temp_profile = s.prev_temp_profile;
         double prev_canopy_temp = s.prev_canopy_temp;
         double min_air_temp = ex.min_air_temp;
-        List<double> temp_profile = new List<double>();
+        double[] temp_profile;
         int z;
         int n;
-        List<double> vexp = new List<double>();
+        double[] vexp;
         double therm_diff = 5.37e-3;
         double temp_freq = 7.272e-5;
         double therm_amp;
         n = prev_temp_profile.Count;
-        temp_profile = new List<double>(n);
-        vexp = new List<double>(n);
+        temp_profile = new double[n];
+        vexp = new double[n];
         therm_amp = Math.Sqrt(temp_freq / 2 / therm_diff);
         for (z=1 ; z!=n + 1 ; z+=1)
         {
@@ -163,6 +163,6 @@ public class Temp_profile
         {
             temp_profile[z - 1] = prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.1 * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2);
         }
-        s.temp_profile= temp_profile;
+        s.temp_profile= temp_profile.ToList();
     }
 }

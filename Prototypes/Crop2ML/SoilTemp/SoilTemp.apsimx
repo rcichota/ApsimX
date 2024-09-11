@@ -41,7 +41,7 @@
               "Children": [
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[TreatmentApply].Script.Site=USGA,DEMU,COCA,FRLU,USMA,FRMO,CAQC",
+                  "Specification": "[TreatmentApply].Script.Site=USGA, DEMU, COCA, FRLU, USMA, FRMO, CAQC",
                   "Name": "Location",
                   "ResourceName": null,
                   "Children": [],
@@ -2791,7 +2791,7 @@
                 },
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[TreatmentApply].Script.PAW=0, 0.25, 0.5, 0.75, 1.0",
+                  "Specification": "[TreatmentApply].Script.PAW=0.0, 0.25, 0.5, 0.75, 1.0",
                   "Name": "PAW",
                   "ResourceName": null,
                   "Children": [],
@@ -3118,13 +3118,15 @@
                 "            if (rowIndex != -1)",
                 "            {",
                 "               weather.Rain = Convert.ToDouble(data.Rows[rowIndex][\"RAIN\"]);",
+                "               weather.MeanT = Convert.ToDouble(data.Rows[rowIndex][\"T2M\"]);",
                 "               weather.MaxT = Convert.ToDouble(data.Rows[rowIndex][\"TMAX\"]);",
                 "               weather.MinT = Convert.ToDouble(data.Rows[rowIndex][\"TMIN\"]);",
                 "               weather.Radn = Convert.ToDouble(data.Rows[rowIndex][\"SRAD\"]);",
                 "            }",
                 "        }",
                 "    }",
-                "}"
+                "}",
+                ""
               ],
               "Parameters": [
                 {

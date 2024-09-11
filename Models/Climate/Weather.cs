@@ -237,12 +237,26 @@ namespace Models.Climate
         [Units("°C")]
         public double MinT { get; set; }
 
+        double avgT = -9999;
+
         /// <summary>
         /// Daily Mean temperature (oC)
         /// </summary>
         [Units("°C")]
         [JsonIgnore]
-        public double MeanT { get { return (MaxT + MinT) / 2; } }
+        public double MeanT
+        {
+            get
+            {
+                if (avgT < -999)
+                    return (MaxT + MinT) / 2.0;
+                else
+                    return avgT;
+            }
+            set { avgT = value; }
+        }
+
+        //public double MeanT { get { return (MaxT + MinT) / 2; } }
 
         /// <summary>
         /// Daily mean VPD (hPa)
