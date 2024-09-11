@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 /// </summary>
@@ -18,7 +19,7 @@ public class Soil_tempAuxiliary
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public Soil_tempAuxiliary(Soil_tempAuxiliary toCopy, bool copyAll) // copy constructor 
+    public Soil_tempAuxiliary(Soil_tempAuxiliary toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {

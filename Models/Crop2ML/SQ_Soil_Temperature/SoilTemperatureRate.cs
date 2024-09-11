@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
 
 /// <summary>
 /// rate variables class of the SoilTemperature component

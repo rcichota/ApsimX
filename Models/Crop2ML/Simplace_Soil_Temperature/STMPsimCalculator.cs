@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Simplace_Soil_Temperature;
 
 /// <summary>
 ///- Name: STMPsimCalculator -Version: 001, -Time step: 1
@@ -19,10 +20,10 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 20.0
 ///                          ** min : 0.03
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
 ///            * name: cFirstDayMeanTemp
 ///                          ** description : Mean air temperature on first day
@@ -31,7 +32,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 50.0
 ///                          ** min : -40.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: cAVT
 ///                          ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
@@ -40,7 +41,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 20.0
 ///                          ** min : -10.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: cABD
 ///                          ** description : Mean bulk density
@@ -76,44 +77,44 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 20.0
 ///                          ** min : 1.5
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: SoilTempArray
-///                          ** description : Array of soil temperatures in layers 
+///                          ** description : Array of soil temperatures in layers
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 50.0
 ///                          ** min : -40.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
 ///            * name: rSoilTempArrayRate
 ///                          ** description : Array of daily temperature change
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 20
 ///                          ** min : -20
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
 ///            * name: pSoilLayerDepth
 ///                          ** description : Depth of soil layer plus additional depth
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 20.0
 ///                          ** min : 0.03
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
 ///- outputs:
 ///            * name: SoilTempArray
-///                          ** description : Array of soil temperatures in layers 
+///                          ** description : Array of soil temperatures in layers
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 50.0
 ///                          ** min : -40.0
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
@@ -121,7 +122,7 @@ namespace Models.Crop2ML;
 ///                          ** description : Array of daily temperature change
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 20
 ///                          ** min : -20
 ///                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -180,73 +181,73 @@ public class STMPsimCalculator
     /// <summary>
     /// Gets and sets the Depth of soil layer
     /// </summary>
-    [Description("Depth of soil layer")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=0.03, max=20.0, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Depth of soil layer")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=0.03, max=20.0, default=, parametercategory=constant, inputtype="parameter")]
     public double[] cSoilLayerDepth
     {
         get { return this._cSoilLayerDepth; }
-        set { this._cSoilLayerDepth= value; } 
+        set { this._cSoilLayerDepth= value; }
     }
 
     private double _cFirstDayMeanTemp;
     /// <summary>
     /// Gets and sets the Mean air temperature on first day
     /// </summary>
-    [Description("Mean air temperature on first day")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
-    //[Crop2ML(datatype="DOUBLE", min=-40.0, max=50.0, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Mean air temperature on first day")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
+    //[Crop2ML(datatype="DOUBLE", min=-40.0, max=50.0, default=, parametercategory=constant, inputtype="parameter")]
     public double cFirstDayMeanTemp
     {
         get { return this._cFirstDayMeanTemp; }
-        set { this._cFirstDayMeanTemp= value; } 
+        set { this._cFirstDayMeanTemp= value; }
     }
 
     private double _cAVT;
     /// <summary>
     /// Gets and sets the Constant Temperature of deepest soil layer - use long term mean air temperature
     /// </summary>
-    [Description("Constant Temperature of deepest soil layer - use long term mean air temperature")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
-    //[Crop2ML(datatype="DOUBLE", min=-10.0, max=20.0, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Constant Temperature of deepest soil layer - use long term mean air temperature")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
+    //[Crop2ML(datatype="DOUBLE", min=-10.0, max=20.0, default=, parametercategory=constant, inputtype="parameter")]
     public double cAVT
     {
         get { return this._cAVT; }
-        set { this._cAVT= value; } 
+        set { this._cAVT= value; }
     }
 
     private double _cABD;
     /// <summary>
     /// Gets and sets the Mean bulk density
     /// </summary>
-    [Description("Mean bulk density")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre")] 
-    //[Crop2ML(datatype="DOUBLE", min=1.0, max=4.0, default=2.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("Mean bulk density")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre")]
+    //[Crop2ML(datatype="DOUBLE", min=1.0, max=4.0, default=2.0, parametercategory=constant, inputtype="parameter")]
     public double cABD
     {
         get { return this._cABD; }
-        set { this._cABD= value; } 
+        set { this._cABD= value; }
     }
 
     private double _cDampingDepth;
     /// <summary>
     /// Gets and sets the Initial value for damping depth of soil
     /// </summary>
-    [Description("Initial value for damping depth of soil")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")] 
-    //[Crop2ML(datatype="DOUBLE", min=1.5, max=20.0, default=6.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("Initial value for damping depth of soil")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")]
+    //[Crop2ML(datatype="DOUBLE", min=1.5, max=20.0, default=6.0, parametercategory=constant, inputtype="parameter")]
     public double cDampingDepth
     {
         get { return this._cDampingDepth; }
-        set { this._cDampingDepth= value; } 
+        set { this._cDampingDepth= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the STMPsimCalculator component")
-    /// </summary>  
+    /// </summary>
     public STMPsimCalculator() { }
-    
+
     /// <summary>
     /// Algorithm of the STMPsimCalculator component
     /// </summary>

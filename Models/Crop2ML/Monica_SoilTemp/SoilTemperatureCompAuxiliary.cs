@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.Monica_SoilTemp;
 
 /// <summary>
 /// </summary>
@@ -18,7 +19,7 @@ public class SoilTemperatureCompAuxiliary
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SoilTemperatureCompAuxiliary(SoilTemperatureCompAuxiliary toCopy, bool copyAll) // copy constructor 
+    public SoilTemperatureCompAuxiliary(SoilTemperatureCompAuxiliary toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {

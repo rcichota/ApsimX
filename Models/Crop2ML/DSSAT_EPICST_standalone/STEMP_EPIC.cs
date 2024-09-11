@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.DSSAT_EPICST_standalone;
 
 /// <summary>
 ///- Name: STEMP_EPIC -Version:  1.0, -Time step:  1
 ///- Description:
 ///            * Title: Model of STEMP_EPIC
-///            * Authors: Kenneth N. Potter , Jimmy R. Williams 
+///            * Authors: Kenneth N. Potter , Jimmy R. Williams
 ///            * Reference: https://doi.org/10.2134/agronj1994.00021962008600060014x
 ///            * Institution: USDA-ARS, USDA-ARS
 ///            * ExtendedDescription: None
@@ -19,17 +20,17 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : dimensionless
 ///            * name: ISWWAT
 ///                          ** description : Water simulation control switch (Y or N)
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : STRING
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : Y
 ///                          ** unit : dimensionless
 ///            * name: BD
@@ -38,9 +39,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : soil
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : g [soil] / cm3 [soil]
 ///            * name: DLAYR
 ///                          ** description : Thickness of soil layer NL
@@ -48,9 +49,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///            * name: DS
 ///                          ** description : Cumulative depth in soil layer NL
@@ -58,9 +59,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : soil
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///            * name: DUL
 ///                          ** description : Volumetric soil water content at Drained Upper Limit in soil layer L
@@ -68,9 +69,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : soil
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm3[water]/cm3[soil]
 ///            * name: LL
 ///                          ** description : Volumetric soil water content in soil layer NL at lower limit
@@ -78,36 +79,36 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : soil
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm3 [water] / cm3 [soil]
 ///            * name: NLAYR
 ///                          ** description : Actual number of soil layers
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : dimensionless
 ///            * name: TAMP
 ///                          ** description : Annual amplitude of the average air temperature
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: RAIN
 ///                          ** description : daily rainfall
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : mm
 ///            * name: SW
 ///                          ** description : Volumetric soil water content in layer NL
@@ -115,54 +116,54 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : soil
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm3 [water] / cm3 [soil]
 ///            * name: TAVG
 ///                          ** description : Average daily temperature
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: TMAX
 ///                          ** description : Maximum daily temperature
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: TMIN
 ///                          ** description : Minimum Temperature
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: TAV
 ///                          ** description : Average annual soil temperature, used with TAMP to calculate soil temperature.
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: CUMDPT
 ///                          ** description : Cumulative depth of soil profile
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : mm
 ///            * name: DSMID
 ///                          ** description : Depth to midpoint of soil layer NL
@@ -170,18 +171,18 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///            * name: TDL
 ///                          ** description : Total water content of soil at drained upper limit
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///            * name: TMA
 ///                          ** description : Array of previous 5 days of average soil temperatures.
@@ -189,18 +190,18 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : 5
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: NDays
 ///                          ** description : Number of days ...
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : day
 ///            * name: WetDay
 ///                          ** description : Wet Days
@@ -208,27 +209,27 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : INTARRAY
 ///                          ** len : 30
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : day
 ///            * name: X2_PREV
 ///                          ** description : Temperature of soil surface at precedent timestep
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: SRFTEMP
 ///                          ** description : Temperature of soil surface litter
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: ST
 ///                          ** description : Soil temperature in soil layer NL
@@ -236,113 +237,113 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: DEPIR
 ///                          ** description : Depth of irrigation
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : mm
 ///            * name: BIOMAS
 ///                          ** description : Biomass
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : kg/ha
 ///            * name: MULCHMASS
 ///                          ** description : Mulch Mass
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : kg/ha
 ///            * name: SNOW
 ///                          ** description : Snow cover
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : mm
 ///- outputs:
 ///            * name: CUMDPT
 ///                          ** description : Cumulative depth of soil profile
 ///                          ** datatype : DOUBLE
 ///                          ** variablecategory : state
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : mm
 ///            * name: DSMID
 ///                          ** description : Depth to midpoint of soil layer NL
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : cm
 ///            * name: TDL
 ///                          ** description : Total water content of soil at drained upper limit
 ///                          ** datatype : DOUBLE
 ///                          ** variablecategory : state
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : cm
 ///            * name: TMA
 ///                          ** description : Array of previous 5 days of average soil temperatures.
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
 ///                          ** len : 5
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : degC
 ///            * name: NDays
 ///                          ** description : Number of days ...
 ///                          ** datatype : INT
 ///                          ** variablecategory : state
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : day
 ///            * name: WetDay
 ///                          ** description : Wet Days
 ///                          ** datatype : INTARRAY
 ///                          ** variablecategory : state
 ///                          ** len : 30
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : day
 ///            * name: X2_PREV
 ///                          ** description : Temperature of soil surface at precedent timestep
 ///                          ** datatype : DOUBLE
 ///                          ** variablecategory : state
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : degC
 ///            * name: SRFTEMP
 ///                          ** description : Temperature of soil surface litter
 ///                          ** datatype : DOUBLE
 ///                          ** variablecategory : state
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : degC
 ///            * name: ST
 ///                          ** description : Soil temperature in soil layer NL
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
 ///                          ** len : NL
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : degC
 /// </summary>
 public class STEMP_EPIC
@@ -462,125 +463,125 @@ public class STEMP_EPIC
     /// <summary>
     /// Gets and sets the Number of soil layers
     /// </summary>
-    [Description("Number of soil layers")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="INT", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Number of soil layers")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="INT", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public int NL
     {
         get { return this._NL; }
-        set { this._NL= value; } 
+        set { this._NL= value; }
     }
 
     private string _ISWWAT;
     /// <summary>
     /// Gets and sets the Water simulation control switch (Y or N)
     /// </summary>
-    [Description("Water simulation control switch (Y or N)")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="STRING", min=null, max=null, default=Y, parametercategory=constant, inputtype="parameter")] 
+    [Description("Water simulation control switch (Y or N)")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="STRING", min=null, max=null, default=Y, parametercategory=constant, inputtype="parameter")]
     public string ISWWAT
     {
         get { return this._ISWWAT; }
-        set { this._ISWWAT= value; } 
+        set { this._ISWWAT= value; }
     }
 
     private double[] _BD;
     /// <summary>
     /// Gets and sets the Bulk density, soil layer NL
     /// </summary>
-    [Description("Bulk density, soil layer NL")] 
-    [Units("g [soil] / cm3 [soil]")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")] 
+    [Description("Bulk density, soil layer NL")]
+    [Units("g [soil] / cm3 [soil]")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")]
     public double[] BD
     {
         get { return this._BD; }
-        set { this._BD= value; } 
+        set { this._BD= value; }
     }
 
     private double[] _DLAYR;
     /// <summary>
     /// Gets and sets the Thickness of soil layer NL
     /// </summary>
-    [Description("Thickness of soil layer NL")] 
-    [Units("cm")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Thickness of soil layer NL")]
+    [Units("cm")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] DLAYR
     {
         get { return this._DLAYR; }
-        set { this._DLAYR= value; } 
+        set { this._DLAYR= value; }
     }
 
     private double[] _DS;
     /// <summary>
     /// Gets and sets the Cumulative depth in soil layer NL
     /// </summary>
-    [Description("Cumulative depth in soil layer NL")] 
-    [Units("cm")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")] 
+    [Description("Cumulative depth in soil layer NL")]
+    [Units("cm")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")]
     public double[] DS
     {
         get { return this._DS; }
-        set { this._DS= value; } 
+        set { this._DS= value; }
     }
 
     private double[] _DUL;
     /// <summary>
     /// Gets and sets the Volumetric soil water content at Drained Upper Limit in soil layer L
     /// </summary>
-    [Description("Volumetric soil water content at Drained Upper Limit in soil layer L")] 
-    [Units("cm3[water]/cm3[soil]")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")] 
+    [Description("Volumetric soil water content at Drained Upper Limit in soil layer L")]
+    [Units("cm3[water]/cm3[soil]")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")]
     public double[] DUL
     {
         get { return this._DUL; }
-        set { this._DUL= value; } 
+        set { this._DUL= value; }
     }
 
     private double[] _LL;
     /// <summary>
     /// Gets and sets the Volumetric soil water content in soil layer NL at lower limit
     /// </summary>
-    [Description("Volumetric soil water content in soil layer NL at lower limit")] 
-    [Units("cm3 [water] / cm3 [soil]")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")] 
+    [Description("Volumetric soil water content in soil layer NL at lower limit")]
+    [Units("cm3 [water] / cm3 [soil]")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")]
     public double[] LL
     {
         get { return this._LL; }
-        set { this._LL= value; } 
+        set { this._LL= value; }
     }
 
     private int _NLAYR;
     /// <summary>
     /// Gets and sets the Actual number of soil layers
     /// </summary>
-    [Description("Actual number of soil layers")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="INT", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("Actual number of soil layers")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="INT", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public int NLAYR
     {
         get { return this._NLAYR; }
-        set { this._NLAYR= value; } 
+        set { this._NLAYR= value; }
     }
 
     private double[] _SW;
     /// <summary>
     /// Gets and sets the Volumetric soil water content in layer NL
     /// </summary>
-    [Description("Volumetric soil water content in layer NL")] 
-    [Units("cm3 [water] / cm3 [soil]")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")] 
+    [Description("Volumetric soil water content in layer NL")]
+    [Units("cm3 [water] / cm3 [soil]")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=soil, inputtype="parameter")]
     public double[] SW
     {
         get { return this._SW; }
-        set { this._SW= value; } 
+        set { this._SW= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the STEMP_EPIC component")
-    /// </summary>  
+    /// </summary>
     public STEMP_EPIC() { }
-    
+
     /// <summary>
     /// Algorithm of the STEMP_EPIC component
     /// </summary>
@@ -683,7 +684,7 @@ public class STEMP_EPIC
         s.ST= ST;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static void  SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, double[] DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, ref double[] TMA, ref double[] ST, ref double X2_PREV, out double SRFTEMP, out double X2_AVG)
     {

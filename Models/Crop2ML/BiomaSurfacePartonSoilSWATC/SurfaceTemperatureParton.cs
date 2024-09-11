@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.BiomaSurfacePartonSoilSWATC;
 
 /// <summary>
 ///- Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
@@ -31,7 +32,7 @@ namespace Models.Crop2ML;
 ///                          ** max : 60
 ///                          ** min : -40
 ///                          ** default : 15
-///                          ** unit : 
+///                          ** unit :
 ///            * name: AirTemperatureMinimum
 ///                          ** description : Minimum daily air temperature
 ///                          ** inputtype : variable
@@ -40,7 +41,7 @@ namespace Models.Crop2ML;
 ///                          ** max : 50
 ///                          ** min : -60
 ///                          ** default : 5
-///                          ** unit : 
+///                          ** unit :
 ///            * name: AboveGroundBiomass
 ///                          ** description : Above ground biomass
 ///                          ** inputtype : variable
@@ -85,12 +86,12 @@ namespace Models.Crop2ML;
 public class SurfaceTemperatureParton
 {
 
-    
+
     /// <summary>
     /// Constructor of the SurfaceTemperatureParton component")
-    /// </summary>  
+    /// </summary>
     public SurfaceTemperatureParton() { }
-    
+
     /// <summary>
     /// Algorithm of the SurfaceTemperatureParton component
     /// </summary>

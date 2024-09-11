@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 /// exogenous variables class of the soil_temp component
@@ -24,7 +25,7 @@ public class Soil_tempExogenous
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public Soil_tempExogenous(Soil_tempExogenous toCopy, bool copyAll) // copy constructor 
+    public Soil_tempExogenous(Soil_tempExogenous toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
@@ -39,56 +40,56 @@ public class Soil_tempExogenous
     /// <summary>
     /// Gets and sets the current minimum temperature
     /// </summary>
-    [Description("current minimum temperature")] 
-    [Units("degC")] 
+    [Description("current minimum temperature")]
+    [Units("degC")]
     public double min_temp
     {
         get { return this._min_temp; }
-        set { this._min_temp= value; } 
+        set { this._min_temp= value; }
     }
 
     /// <summary>
     /// Gets and sets the current maximum temperature
     /// </summary>
-    [Description("current maximum temperature")] 
-    [Units("degC")] 
+    [Description("current maximum temperature")]
+    [Units("degC")]
     public double max_temp
     {
         get { return this._max_temp; }
-        set { this._max_temp= value; } 
+        set { this._max_temp= value; }
     }
 
     /// <summary>
     /// Gets and sets the current minimum air temperature
     /// </summary>
-    [Description("current minimum air temperature")] 
-    [Units("degC")] 
+    [Description("current minimum air temperature")]
+    [Units("degC")]
     public double min_air_temp
     {
         get { return this._min_air_temp; }
-        set { this._min_air_temp= value; } 
+        set { this._min_air_temp= value; }
     }
 
     /// <summary>
     /// Gets and sets the current minimum temperature
     /// </summary>
-    [Description("current minimum temperature")] 
-    [Units("degC")] 
+    [Description("current minimum temperature")]
+    [Units("degC")]
     public double min_canopy_temp
     {
         get { return this._min_canopy_temp; }
-        set { this._min_canopy_temp= value; } 
+        set { this._min_canopy_temp= value; }
     }
 
     /// <summary>
     /// Gets and sets the current maximum temperature
     /// </summary>
-    [Description("current maximum temperature")] 
-    [Units("degC")] 
+    [Description("current maximum temperature")]
+    [Units("degC")]
     public double max_canopy_temp
     {
         get { return this._max_canopy_temp; }
-        set { this._max_canopy_temp= value; } 
+        set { this._max_canopy_temp= value; }
     }
 
 }

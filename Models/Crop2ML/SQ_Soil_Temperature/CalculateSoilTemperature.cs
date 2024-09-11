@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
 
 /// <summary>
 ///- Name: CalculateSoilTemperature -Version: 001, -Time step: 1
@@ -121,21 +122,21 @@ public class CalculateSoilTemperature
     /// <summary>
     /// Gets and sets the Latente heat of water vaporization at 20Â°C
     /// </summary>
-    [Description("Latente heat of water vaporization at 20Â°C")] 
-    [Units("MJ.kg-1")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=2.454, parametercategory=constant, inputtype="parameter")] 
+    [Description("Latente heat of water vaporization at 20Â°C")]
+    [Units("MJ.kg-1")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=2.454, parametercategory=constant, inputtype="parameter")]
     public double lambda_
     {
         get { return this._lambda_; }
-        set { this._lambda_= value; } 
+        set { this._lambda_= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the CalculateSoilTemperature component")
-    /// </summary>  
+    /// </summary>
     public CalculateSoilTemperature() { }
-    
+
     /// <summary>
     /// Algorithm of the CalculateSoilTemperature component
     /// </summary>
@@ -168,14 +169,14 @@ public class CalculateSoilTemperature
         s.maxTSoil= maxTSoil;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double SoilTempB(double weatherMinTemp, double deepTemperature)
     {
         return (weatherMinTemp + deepTemperature) / 2.0;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double SoilTempA(double weatherMaxTemp, double weatherMeanTemp, double soilHeatFlux, double lambda_)
     {
@@ -188,41 +189,21 @@ public class CalculateSoilTemperature
         return result;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double SoilMinimumTemperature(double weatherMaxTemp, double weatherMeanTemp, double weatherMinTemp, double soilHeatFlux, double lambda_, double deepTemperature)
     {
         return Math.Min(SoilTempA(weatherMaxTemp, weatherMeanTemp, soilHeatFlux, lambda_), SoilTempB(weatherMinTemp, deepTemperature));
     }
     /// <summary>
-    /// 
-    /// </summary>
-    public static double SoilTempB(double weatherMinTemp, double deepTemperature)
-    {
-        return (weatherMinTemp + deepTemperature) / 2.0;
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public static double SoilTempA(double weatherMaxTemp, double weatherMeanTemp, double soilHeatFlux, double lambda_)
-    {
-        double TempAdjustment;
-        double SoilAvailableEnergy;
-        TempAdjustment = weatherMeanTemp < 8.0 ? -0.5 * weatherMeanTemp + 4.0 : (double)(0);
-        SoilAvailableEnergy = soilHeatFlux * lambda_ / 1000;
-        double result;
-        result = weatherMaxTemp + (11.2 * (1.0 - Math.Exp(-0.07 * (SoilAvailableEnergy - 5.5)))) + TempAdjustment;
-        return result;
-    }
-    /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double SoilMaximumTemperature(double weatherMaxTemp, double weatherMeanTemp, double weatherMinTemp, double soilHeatFlux, double lambda_, double deepTemperature)
     {
         return Math.Max(SoilTempA(weatherMaxTemp, weatherMeanTemp, soilHeatFlux, lambda_), SoilTempB(weatherMinTemp, deepTemperature));
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double UpdateTemperature(double minSoilTemp, double maxSoilTemp, double Temperature)
     {

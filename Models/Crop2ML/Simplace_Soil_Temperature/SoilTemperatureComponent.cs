@@ -1,13 +1,14 @@
 using Models.Core;
 using Models.Utilities;
-using System; 
-namespace Models.Crop2ML;
-     
+using System;
+
+namespace Models.Crop2ML.Simplace_Soil_Temperature;
+
 
 /// <summary>
 ///  SoilTemperature component
 /// </summary>
-public class SoilTemperatureComponent 
+public class SoilTemperatureComponent
 {
 
     /// <summary>
@@ -22,13 +23,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Carbon content of upper soil layer
     /// </summary>
-    [Description("Carbon content of upper soil layer")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    [Description("Carbon content of upper soil layer")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")]
     public double cCarbonContent
     {
         get
         {
-             return _SnowCoverCalculator.cCarbonContent; 
+             return _SnowCoverCalculator.cCarbonContent;
         }
         set
         {
@@ -39,13 +40,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Albedo
     /// </summary>
-    [Description("Albedo")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    [Description("Albedo")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")]
     public double cAlbedo
     {
         get
         {
-             return _SnowCoverCalculator.Albedo; 
+             return _SnowCoverCalculator.Albedo;
         }
         set
         {
@@ -56,13 +57,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Depth of soil layer
     /// </summary>
-    [Description("Depth of soil layer")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")] 
+    [Description("Depth of soil layer")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")]
     public double[] cSoilLayerDepth
     {
         get
         {
-             return _STMPsimCalculator.cSoilLayerDepth; 
+             return _STMPsimCalculator.cSoilLayerDepth;
         }
         set
         {
@@ -73,13 +74,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Mean air temperature on first day
     /// </summary>
-    [Description("Mean air temperature on first day")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
+    [Description("Mean air temperature on first day")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
     public double cFirstDayMeanTemp
     {
         get
         {
-             return _STMPsimCalculator.cFirstDayMeanTemp; 
+             return _STMPsimCalculator.cFirstDayMeanTemp;
         }
         set
         {
@@ -90,13 +91,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Constant Temperature of deepest soil layer - use long term mean air temperature
     /// </summary>
-    [Description("Constant Temperature of deepest soil layer - use long term mean air temperature")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
+    [Description("Constant Temperature of deepest soil layer - use long term mean air temperature")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")]
     public double cAverageGroundTemperature
     {
         get
         {
-             return _STMPsimCalculator.cAVT; 
+             return _STMPsimCalculator.cAVT;
         }
         set
         {
@@ -107,13 +108,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Mean bulk density
     /// </summary>
-    [Description("Mean bulk density")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre")] 
+    [Description("Mean bulk density")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre")]
     public double cAverageBulkDensity
     {
         get
         {
-             return _STMPsimCalculator.cABD; 
+             return _STMPsimCalculator.cABD;
         }
         set
         {
@@ -124,13 +125,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Initial value for damping depth of soil
     /// </summary>
-    [Description("Initial value for damping depth of soil")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")] 
+    [Description("Initial value for damping depth of soil")]
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/metre")]
     public double cDampingDepth
     {
         get
         {
-             return _STMPsimCalculator.cDampingDepth; 
+             return _STMPsimCalculator.cDampingDepth;
         }
         set
         {
@@ -165,14 +166,14 @@ public class SoilTemperatureComponent
     /// constructor copy of SoilTemperature component
     /// </summary>
     /// <param name="toCopy"></param>
-    public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
+    public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor
     {
         cCarbonContent = toCopy.cCarbonContent;
         cAlbedo = toCopy.cAlbedo;
-        
+
         for (int i = 0; i < toCopy.cSoilLayerDepth.Length; i++)
         { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
-    
+
         cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
         cAverageGroundTemperature = toCopy.cAverageGroundTemperature;
         cAverageBulkDensity = toCopy.cAverageBulkDensity;

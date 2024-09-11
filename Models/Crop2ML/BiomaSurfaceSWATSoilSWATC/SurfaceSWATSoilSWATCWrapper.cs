@@ -5,10 +5,13 @@ using Models.Interfaces;
 using Models.PMF;
 using Models.Soils;
 using Models.Surface;
+using Models.WaterModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Models.Crop2ML;
+using Models.Factorial;
+
+namespace Models.Crop2ML.BiomaSurfaceSWATSoilSWATC;
 
 /// <summary>
 ///  This class encapsulates the SurfaceSWATSoilSWATCComponent
@@ -17,10 +20,15 @@ namespace Models.Crop2ML;
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
-class SurfaceSWATSoilSWATCWrapper :  Model
+[ValidParent(ParentType = typeof(CompositeFactor))]
+
+public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
 {
     [Link] Clock clock = null;
-    //[Link] Weather weather = null; // other links
+    [Link] Weather weather = null;
+    [Link] Physical physical = null;
+    [Link] Water water = null;
+    [Link] WaterBalance waterBalance = null;
 
     private SurfaceSWATSoilSWATCState s;
     private SurfaceSWATSoilSWATCState s1;
@@ -28,6 +36,9 @@ class SurfaceSWATSoilSWATCWrapper :  Model
     private SurfaceSWATSoilSWATCAuxiliary a;
     private SurfaceSWATSoilSWATCExogenous ex;
     private SurfaceSWATSoilSWATCComponent surfaceswatsoilswatcComponent;
+
+    /// <summary>Event invoke when the soil temperature has changed</summary>
+    public event EventHandler SoilTemperatureChanged;
 
     /// <summary>
     ///  The constructor of the Wrapper of the SurfaceSWATSoilSWATCComponent
@@ -47,23 +58,56 @@ class SurfaceSWATSoilSWATCWrapper :  Model
     /// </summary>
     [Description("Soil temperature of each layer")]
     [Units("degC")]
-    public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
-     
+    public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}}
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double AverageSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MinimumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MaximumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MinimumSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
 
     /// <summary>
     ///  The get method of the Average surface soil temperature output variable
     /// </summary>
     [Description("Average surface soil temperature")]
     [Units("degC")]
-    public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}} 
-     
+    public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}}
+
+    /// <summary>
+    ///  The get method of the Soil temperature of each layer output variable
+    /// </summary>
+    public double[] Value{ get { return s.SoilTemperatureByLayers;}}
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SurfaceSWATSoilSWATCComponent
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SurfaceSWATSoilSWATCWrapper(SurfaceSWATSoilSWATCWrapper toCopy, bool copyAll) 
+    public SurfaceSWATSoilSWATCWrapper(SurfaceSWATSoilSWATCWrapper toCopy, bool copyAll)
     {
         s = (toCopy.s != null) ? new SurfaceSWATSoilSWATCState(toCopy.s, copyAll) : null;
         r = (toCopy.r != null) ? new SurfaceSWATSoilSWATCRate(toCopy.r, copyAll) : null;
@@ -89,11 +133,11 @@ class SurfaceSWATSoilSWATCWrapper :  Model
     /// </summary>
     private void loadParameters()
     {
-        surfaceswatsoilswatcComponent.BulkDensity = null; // To be modified
-        surfaceswatsoilswatcComponent.AirTemperatureAnnualAverage = null; // To be modified
-        surfaceswatsoilswatcComponent.SoilProfileDepth = null; // To be modified
-        surfaceswatsoilswatcComponent.LagCoefficient = null; // To be modified
-        surfaceswatsoilswatcComponent.LayerThickness = null; // To be modified
+        surfaceswatsoilswatcComponent.BulkDensity = physical.BD;
+        surfaceswatsoilswatcComponent.AirTemperatureAnnualAverage = weather.Tav;
+        surfaceswatsoilswatcComponent.SoilProfileDepth = physical.Thickness.Sum();
+        surfaceswatsoilswatcComponent.LagCoefficient = 0.8;
+        surfaceswatsoilswatcComponent.LayerThickness = physical.Thickness;
     }
 
     /// <summary>
@@ -101,14 +145,19 @@ class SurfaceSWATSoilSWATCWrapper :  Model
     /// </summary>
     private void setExogenous()
     {
-        ex.AirTemperatureMaximum = null; // To be modified
-        ex.AirTemperatureMinimum = null; // To be modified
-        ex.GlobalSolarRadiation = null; // To be modified
-        ex.WaterEquivalentOfSnowPack = null; // To be modified
-        ex.Albedo = null; // To be modified
-        ex.VolumetricWaterContent = null; // To be modified
+        ex.AirTemperatureMaximum = weather.MaxT;
+        ex.AirTemperatureMinimum = weather.MinT;
+        ex.GlobalSolarRadiation = weather.Radn;
+        ex.WaterEquivalentOfSnowPack = 10;
+        ex.Albedo = waterBalance.Salb;
+        ex.VolumetricWaterContent = water.Volumetric;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     [EventSubscribe("Crop2MLProcess")]
     public void CalculateModel(object sender, EventArgs e)
     {
@@ -116,8 +165,10 @@ class SurfaceSWATSoilSWATCWrapper :  Model
         {
             Init();
         }
+
         setExogenous();
         surfaceswatsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
+        SoilTemperatureChanged?.Invoke(this, EventArgs.Empty);
     }
 
 }

@@ -4,11 +4,14 @@ using Models.Core;
 using Models.Interfaces;
 using Models.PMF;
 using Models.Soils;
+using Models.WaterModel;
 using Models.Surface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Models.Crop2ML;
+using Models.Factorial;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
 
 /// <summary>
 ///  This class encapsulates the SoilTemperatureComponent
@@ -17,10 +20,13 @@ namespace Models.Crop2ML;
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
-class SoilTemperatureWrapper :  Model
+[ValidParent(ParentType = typeof(CompositeFactor))]
+
+public class SoilTemperatureWrapper :  Model, ISoilTemperature
 {
     [Link] Clock clock = null;
-    //[Link] Weather weather = null; // other links
+    [Link] Weather weather = null;
+    [Link] Physical physical = null;
 
     private SoilTemperatureState s;
     private SoilTemperatureState s1;
@@ -28,6 +34,9 @@ class SoilTemperatureWrapper :  Model
     private SoilTemperatureAuxiliary a;
     private SoilTemperatureExogenous ex;
     private SoilTemperatureComponent soiltemperatureComponent;
+
+    /// <summary>Event invoke when the soil temperature has changed</summary>
+    public event EventHandler SoilTemperatureChanged;
 
     /// <summary>
     ///  The constructor of the Wrapper of the SoilTemperatureComponent
@@ -47,39 +56,80 @@ class SoilTemperatureWrapper :  Model
     /// </summary>
     [Description("Minimum Soil Temperature")]
     [Units("Â°C")]
-    public double minTSoil{ get { return s.minTSoil;}} 
-     
+    public double minTSoil{ get { return s.minTSoil;}}
+
 
     /// <summary>
     ///  The get method of the Temperature of the last soil layer output variable
     /// </summary>
     [Description("Temperature of the last soil layer")]
     [Units("Â°C")]
-    public double deepLayerT{ get { return s.deepLayerT;}} 
-     
+    public double deepLayerT{ get { return s.deepLayerT;}}
+
 
     /// <summary>
     ///  The get method of the Maximum Soil Temperature output variable
     /// </summary>
     [Description("Maximum Soil Temperature")]
     [Units("Â°C")]
-    public double maxTSoil{ get { return s.maxTSoil;}} 
-     
+    public double maxTSoil{ get { return s.maxTSoil;}}
+
 
     /// <summary>
     ///  The get method of the Hourly Soil Temperature output variable
     /// </summary>
     [Description("Hourly Soil Temperature")]
     [Units("Â°C")]
-    public double[] hourlySoilT{ get { return s.hourlySoilT;}} 
-     
+    public double[] hourlySoilT{ get { return s.hourlySoilT;}}
+
+    /// <summary>
+    /// Soil temperature by layer
+    /// </summary>
+    public double[] Value => Enumerable.Repeat(deepLayerT, physical.Thickness.Length).ToArray();
+
+    /// <summary>
+    /// Surface soil temperature.
+    /// </summary>
+    public double SurfaceSoilTemperature => deepLayerT;
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double AverageSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MinimumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MaximumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MinimumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SoilTemperatureComponent
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SoilTemperatureWrapper(SoilTemperatureWrapper toCopy, bool copyAll) 
+    public SoilTemperatureWrapper(SoilTemperatureWrapper toCopy, bool copyAll)
     {
         s = (toCopy.s != null) ? new SoilTemperatureState(toCopy.s, copyAll) : null;
         r = (toCopy.r != null) ? new SoilTemperatureRate(toCopy.r, copyAll) : null;
@@ -105,10 +155,10 @@ class SoilTemperatureWrapper :  Model
     /// </summary>
     private void loadParameters()
     {
-        soiltemperatureComponent.lambda_ = null; // To be modified
-        soiltemperatureComponent.b = null; // To be modified
-        soiltemperatureComponent.c = null; // To be modified
-        soiltemperatureComponent.a = null; // To be modified
+        soiltemperatureComponent.lambda_ = 2.454;
+        soiltemperatureComponent.b = 1.81;
+        soiltemperatureComponent.c = 0.49;
+        soiltemperatureComponent.a = 0.5;
     }
 
     /// <summary>
@@ -116,13 +166,18 @@ class SoilTemperatureWrapper :  Model
     /// </summary>
     private void setExogenous()
     {
-        ex.meanTAir = null; // To be modified
-        ex.minTAir = null; // To be modified
-        ex.meanAnnualAirTemp = null; // To be modified
-        ex.maxTAir = null; // To be modified
-        ex.dayLength = null; // To be modified
+        ex.meanTAir = weather.MeanT;
+        ex.minTAir = weather.MinT;
+        ex.meanAnnualAirTemp = weather.Tav;
+        ex.maxTAir = weather.MaxT;
+        ex.dayLength = weather.DayLength;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     [EventSubscribe("Crop2MLProcess")]
     public void CalculateModel(object sender, EventArgs e)
     {
@@ -130,8 +185,10 @@ class SoilTemperatureWrapper :  Model
         {
             Init();
         }
+
         setExogenous();
         soiltemperatureComponent.CalculateModel(s,s1, r, a, ex);
+        SoilTemperatureChanged?.Invoke(this, EventArgs.Empty);
     }
 
 }

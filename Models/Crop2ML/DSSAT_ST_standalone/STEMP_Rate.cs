@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.DSSAT_ST_standalone;
 
 /// <summary>
 /// </summary>
@@ -18,7 +19,7 @@ public class STEMP_Rate
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public STEMP_Rate(STEMP_Rate toCopy, bool copyAll) // copy constructor 
+    public STEMP_Rate(STEMP_Rate toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {

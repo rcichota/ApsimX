@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.DSSAT_ST_standalone;
 
 /// <summary>
 /// exogenous variables class of the STEMP_ component
@@ -25,7 +26,7 @@ public class STEMP_Exogenous
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public STEMP_Exogenous(STEMP_Exogenous toCopy, bool copyAll) // copy constructor 
+    public STEMP_Exogenous(STEMP_Exogenous toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
@@ -41,67 +42,67 @@ public class STEMP_Exogenous
     /// <summary>
     /// Gets and sets the Maximum daily temperature
     /// </summary>
-    [Description("Maximum daily temperature")] 
-    [Units("degC")] 
+    [Description("Maximum daily temperature")]
+    [Units("degC")]
     public double TMAX
     {
         get { return this._TMAX; }
-        set { this._TMAX= value; } 
+        set { this._TMAX= value; }
     }
 
     /// <summary>
     /// Gets and sets the Solar radiation
     /// </summary>
-    [Description("Solar radiation")] 
-    [Units("MJ/m2-d")] 
+    [Description("Solar radiation")]
+    [Units("MJ/m2-d")]
     public double SRAD
     {
         get { return this._SRAD; }
-        set { this._SRAD= value; } 
+        set { this._SRAD= value; }
     }
 
     /// <summary>
     /// Gets and sets the Amplitude of temperature function used to calculate soil temperatures
     /// </summary>
-    [Description("Amplitude of temperature function used to calculate soil temperatures")] 
-    [Units("degC")] 
+    [Description("Amplitude of temperature function used to calculate soil temperatures")]
+    [Units("degC")]
     public double TAMP
     {
         get { return this._TAMP; }
-        set { this._TAMP= value; } 
+        set { this._TAMP= value; }
     }
 
     /// <summary>
     /// Gets and sets the Average daily temperature
     /// </summary>
-    [Description("Average daily temperature")] 
-    [Units("degC")] 
+    [Description("Average daily temperature")]
+    [Units("degC")]
     public double TAVG
     {
         get { return this._TAVG; }
-        set { this._TAVG= value; } 
+        set { this._TAVG= value; }
     }
 
     /// <summary>
     /// Gets and sets the Average annual soil temperature, used with TAMP to calculate soil temperature.
     /// </summary>
-    [Description("Average annual soil temperature, used with TAMP to calculate soil temperature.")] 
-    [Units("degC")] 
+    [Description("Average annual soil temperature, used with TAMP to calculate soil temperature.")]
+    [Units("degC")]
     public double TAV
     {
         get { return this._TAV; }
-        set { this._TAV= value; } 
+        set { this._TAV= value; }
     }
 
     /// <summary>
     /// Gets and sets the Current day of simulation
     /// </summary>
-    [Description("Current day of simulation")] 
-    [Units("d")] 
+    [Description("Current day of simulation")]
+    [Units("d")]
     public int DOY
     {
         get { return this._DOY; }
-        set { this._DOY= value; } 
+        set { this._DOY= value; }
     }
 
 }

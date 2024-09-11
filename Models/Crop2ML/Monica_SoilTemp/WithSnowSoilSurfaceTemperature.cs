@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Monica_SoilTemp;
 
 /// <summary>
 ///- Name: WithSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
@@ -13,15 +14,15 @@ namespace Models.Crop2ML;
 ///            * Institution: ZALF e.V.
 ///            * ExtendedDescription: None
 ///            * ShortDescription: It calculates the soil surface temperature taking a potential snow cover into account
-///        
+///
 ///- inputs:
 ///            * name: noSnowSoilSurfaceTemperature
 ///                          ** description : soilSurfaceTemperature without snow
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 0.0
 ///                          ** unit : °C
 ///            * name: soilSurfaceTemperatureBelowSnow
@@ -29,8 +30,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 0.0
 ///                          ** unit : °C
 ///            * name: hasSnowCover
@@ -38,8 +39,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : BOOLEAN
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : false
 ///                          ** unit : dimensionless
 ///- outputs:
@@ -47,19 +48,19 @@ namespace Models.Crop2ML;
 ///                          ** description : soilSurfaceTemperature
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : °C
 /// </summary>
 public class WithSnowSoilSurfaceTemperature
 {
 
-    
+
     /// <summary>
     /// Constructor of the WithSnowSoilSurfaceTemperature component")
-    /// </summary>  
+    /// </summary>
     public WithSnowSoilSurfaceTemperature() { }
-    
+
     /// <summary>
     /// Algorithm of the WithSnowSoilSurfaceTemperature component
     /// </summary>

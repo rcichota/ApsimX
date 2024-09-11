@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.BiomaSurfaceSWATSoilSWATC;
 
 /// <summary>
 /// state variables class of the SurfaceSWATSoilSWATC component
@@ -20,26 +21,26 @@ public class SurfaceSWATSoilSWATCState
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SurfaceSWATSoilSWATCState(SurfaceSWATSoilSWATCState toCopy, bool copyAll) // copy constructor 
+    public SurfaceSWATSoilSWATCState(SurfaceSWATSoilSWATCState toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
             SoilTemperatureByLayers = new double[toCopy.SoilTemperatureByLayers.Length];
             for (int i = 0; i < toCopy.SoilTemperatureByLayers.Length; i++)
                 { SoilTemperatureByLayers[i] = toCopy.SoilTemperatureByLayers[i]; }
-    
+
         }
     }
 
     /// <summary>
     /// Gets and sets the Soil temperature of each layer
     /// </summary>
-    [Description("Soil temperature of each layer")] 
-    [Units("degC")] 
+    [Description("Soil temperature of each layer")]
+    [Units("degC")]
     public double[] SoilTemperatureByLayers
     {
         get { return this._SoilTemperatureByLayers; }
-        set { this._SoilTemperatureByLayers= value; } 
+        set { this._SoilTemperatureByLayers= value; }
     }
 
 }

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 ///- Name: canopy_temp_avg -Version: 1.0, -Time step: 1
@@ -44,12 +45,12 @@ namespace Models.Crop2ML;
 public class Canopy_temp_avg
 {
 
-    
+
     /// <summary>
     /// Constructor of the Canopy_temp_avg component")
-    /// </summary>  
+    /// </summary>
     public Canopy_temp_avg() { }
-    
+
     /// <summary>
     /// Algorithm of the Canopy_temp_avg component
     /// </summary>

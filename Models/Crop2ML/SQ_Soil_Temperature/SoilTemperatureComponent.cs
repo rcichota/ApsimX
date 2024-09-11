@@ -1,13 +1,14 @@
 using Models.Core;
 using Models.Utilities;
-using System; 
-namespace Models.Crop2ML;
-     
+using System;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
+
 
 /// <summary>
 ///  SoilTemperature component
 /// </summary>
-public class SoilTemperatureComponent 
+public class SoilTemperatureComponent
 {
 
     /// <summary>
@@ -22,13 +23,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Latente heat of water vaporization at 20Â°C
     /// </summary>
-    [Description("Latente heat of water vaporization at 20Â°C")] 
-    [Units("MJ.kg-1")] 
+    [Description("Latente heat of water vaporization at 20Â°C")]
+    [Units("MJ.kg-1")]
     public double lambda_
     {
         get
         {
-             return _CalculateSoilTemperature.lambda_; 
+             return _CalculateSoilTemperature.lambda_;
         }
         set
         {
@@ -39,13 +40,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Delay between sunrise and time when minimum temperature is reached
     /// </summary>
-    [Description("Delay between sunrise and time when minimum temperature is reached")] 
-    [Units("Hour")] 
+    [Description("Delay between sunrise and time when minimum temperature is reached")]
+    [Units("Hour")]
     public double b
     {
         get
         {
-             return _CalculateHourlySoilTemperature.b; 
+             return _CalculateHourlySoilTemperature.b;
         }
         set
         {
@@ -56,13 +57,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Nighttime temperature coefficient
     /// </summary>
-    [Description("Nighttime temperature coefficient")] 
-    [Units("Dpmensionless")] 
+    [Description("Nighttime temperature coefficient")]
+    [Units("Dpmensionless")]
     public double c
     {
         get
         {
-             return _CalculateHourlySoilTemperature.c; 
+             return _CalculateHourlySoilTemperature.c;
         }
         set
         {
@@ -73,13 +74,13 @@ public class SoilTemperatureComponent
     /// <summary>
     /// Gets and sets the Delay between sunset and time when maximum temperature is reached
     /// </summary>
-    [Description("Delay between sunset and time when maximum temperature is reached")] 
-    [Units("Hour")] 
+    [Description("Delay between sunset and time when maximum temperature is reached")]
+    [Units("Hour")]
     public double a
     {
         get
         {
-             return _CalculateHourlySoilTemperature.a; 
+             return _CalculateHourlySoilTemperature.a;
         }
         set
         {
@@ -108,7 +109,7 @@ public class SoilTemperatureComponent
     /// constructor copy of SoilTemperature component
     /// </summary>
     /// <param name="toCopy"></param>
-    public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
+    public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor
     {
             lambda_ = toCopy.lambda_;
             b = toCopy.b;

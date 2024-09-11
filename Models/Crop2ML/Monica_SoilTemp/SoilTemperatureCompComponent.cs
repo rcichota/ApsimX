@@ -1,13 +1,14 @@
 using Models.Core;
 using Models.Utilities;
-using System; 
-namespace Models.Crop2ML;
-     
+using System;
+
+namespace Models.Crop2ML.Monica_SoilTemp;
+
 
 /// <summary>
 ///  SoilTemperatureComp component
 /// </summary>
-public class SoilTemperatureCompComponent 
+public class SoilTemperatureCompComponent
 {
 
     /// <summary>
@@ -23,13 +24,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the dampingFactor
     /// </summary>
-    [Description("dampingFactor")] 
-    [Units("dimensionless")] 
+    [Description("dampingFactor")]
+    [Units("dimensionless")]
     public double dampingFactor
     {
         get
         {
-             return _NoSnowSoilSurfaceTemperature.dampingFactor; 
+             return _NoSnowSoilSurfaceTemperature.dampingFactor;
         }
         set
         {
@@ -40,13 +41,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the timeStep
     /// </summary>
-    [Description("timeStep")] 
-    [Units("dimensionless")] 
+    [Description("timeStep")]
+    [Units("dimensionless")]
     public double timeStep
     {
         get
         {
-             return _SoilTemperature.timeStep; 
+             return _SoilTemperature.timeStep;
         }
         set
         {
@@ -57,13 +58,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the constant soilmoisture during the model run
     /// </summary>
-    [Description("constant soilmoisture during the model run")] 
-    [Units("m**3/m**3")] 
+    [Description("constant soilmoisture during the model run")]
+    [Units("m**3/m**3")]
     public double[] soilMoistureConst
     {
         get
         {
-             return _SoilTemperature.soilMoistureConst; 
+             return _SoilTemperature.soilMoistureConst;
         }
         set
         {
@@ -74,13 +75,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the baseTemperature
     /// </summary>
-    [Description("baseTemperature")] 
-    [Units("°C")] 
+    [Description("baseTemperature")]
+    [Units("°C")]
     public double baseTemp
     {
         get
         {
-             return _SoilTemperature.baseTemp; 
+             return _SoilTemperature.baseTemp;
         }
         set
         {
@@ -91,13 +92,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the initialSurfaceTemperature
     /// </summary>
-    [Description("initialSurfaceTemperature")] 
-    [Units("°C")] 
+    [Description("initialSurfaceTemperature")]
+    [Units("°C")]
     public double initialSurfaceTemp
     {
         get
         {
-             return _SoilTemperature.initialSurfaceTemp; 
+             return _SoilTemperature.initialSurfaceTemp;
         }
         set
         {
@@ -108,13 +109,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the DensityAir
     /// </summary>
-    [Description("DensityAir")] 
-    [Units("kg/m**3")] 
+    [Description("DensityAir")]
+    [Units("kg/m**3")]
     public double densityAir
     {
         get
         {
-             return _SoilTemperature.densityAir; 
+             return _SoilTemperature.densityAir;
         }
         set
         {
@@ -125,13 +126,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityAir
     /// </summary>
-    [Description("SpecificHeatCapacityAir")] 
-    [Units("J/kg/K")] 
+    [Description("SpecificHeatCapacityAir")]
+    [Units("J/kg/K")]
     public double specificHeatCapacityAir
     {
         get
         {
-             return _SoilTemperature.specificHeatCapacityAir; 
+             return _SoilTemperature.specificHeatCapacityAir;
         }
         set
         {
@@ -142,13 +143,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the DensityHumus
     /// </summary>
-    [Description("DensityHumus")] 
-    [Units("kg/m**3")] 
+    [Description("DensityHumus")]
+    [Units("kg/m**3")]
     public double densityHumus
     {
         get
         {
-             return _SoilTemperature.densityHumus; 
+             return _SoilTemperature.densityHumus;
         }
         set
         {
@@ -159,13 +160,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityHumus
     /// </summary>
-    [Description("SpecificHeatCapacityHumus")] 
-    [Units("J/kg/K")] 
+    [Description("SpecificHeatCapacityHumus")]
+    [Units("J/kg/K")]
     public double specificHeatCapacityHumus
     {
         get
         {
-             return _SoilTemperature.specificHeatCapacityHumus; 
+             return _SoilTemperature.specificHeatCapacityHumus;
         }
         set
         {
@@ -176,13 +177,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the DensityWater
     /// </summary>
-    [Description("DensityWater")] 
-    [Units("kg/m**3")] 
+    [Description("DensityWater")]
+    [Units("kg/m**3")]
     public double densityWater
     {
         get
         {
-             return _SoilTemperature.densityWater; 
+             return _SoilTemperature.densityWater;
         }
         set
         {
@@ -193,13 +194,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityWater
     /// </summary>
-    [Description("SpecificHeatCapacityWater")] 
-    [Units("J/kg/K")] 
+    [Description("SpecificHeatCapacityWater")]
+    [Units("J/kg/K")]
     public double specificHeatCapacityWater
     {
         get
         {
-             return _SoilTemperature.specificHeatCapacityWater; 
+             return _SoilTemperature.specificHeatCapacityWater;
         }
         set
         {
@@ -210,13 +211,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the QuartzRawDensity
     /// </summary>
-    [Description("QuartzRawDensity")] 
-    [Units("kg/m**3")] 
+    [Description("QuartzRawDensity")]
+    [Units("kg/m**3")]
     public double quartzRawDensity
     {
         get
         {
-             return _SoilTemperature.quartzRawDensity; 
+             return _SoilTemperature.quartzRawDensity;
         }
         set
         {
@@ -227,13 +228,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityQuartz
     /// </summary>
-    [Description("SpecificHeatCapacityQuartz")] 
-    [Units("J/kg/K")] 
+    [Description("SpecificHeatCapacityQuartz")]
+    [Units("J/kg/K")]
     public double specificHeatCapacityQuartz
     {
         get
         {
-             return _SoilTemperature.specificHeatCapacityQuartz; 
+             return _SoilTemperature.specificHeatCapacityQuartz;
         }
         set
         {
@@ -244,13 +245,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the NTau
     /// </summary>
-    [Description("NTau")] 
-    [Units("?")] 
+    [Description("NTau")]
+    [Units("?")]
     public double nTau
     {
         get
         {
-             return _SoilTemperature.nTau; 
+             return _SoilTemperature.nTau;
         }
         set
         {
@@ -261,13 +262,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the noOfTempLayers=noOfSoilLayers+2
     /// </summary>
-    [Description("noOfTempLayers=noOfSoilLayers+2")] 
-    [Units("dimensionless")] 
+    [Description("noOfTempLayers=noOfSoilLayers+2")]
+    [Units("dimensionless")]
     public int noOfTempLayers
     {
         get
         {
-             return _SoilTemperature.noOfTempLayers; 
+             return _SoilTemperature.noOfTempLayers;
         }
         set
         {
@@ -278,13 +279,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the for matrixSecondaryDiagonal
     /// </summary>
-    [Description("for matrixSecondaryDiagonal")] 
-    [Units("dimensionless")] 
+    [Description("for matrixSecondaryDiagonal")]
+    [Units("dimensionless")]
     public int noOfTempLayersPlus1
     {
         get
         {
-             return _SoilTemperature.noOfTempLayersPlus1; 
+             return _SoilTemperature.noOfTempLayersPlus1;
         }
         set
         {
@@ -295,13 +296,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the noOfSoilLayers
     /// </summary>
-    [Description("noOfSoilLayers")] 
-    [Units("dimensionless")] 
+    [Description("noOfSoilLayers")]
+    [Units("dimensionless")]
     public int noOfSoilLayers
     {
         get
         {
-             return _SoilTemperature.noOfSoilLayers; 
+             return _SoilTemperature.noOfSoilLayers;
         }
         set
         {
@@ -312,13 +313,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the layerThickness
     /// </summary>
-    [Description("layerThickness")] 
-    [Units("m")] 
+    [Description("layerThickness")]
+    [Units("m")]
     public double[] layerThickness
     {
         get
         {
-             return _SoilTemperature.layerThickness; 
+             return _SoilTemperature.layerThickness;
         }
         set
         {
@@ -329,13 +330,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the bulkDensity
     /// </summary>
-    [Description("bulkDensity")] 
-    [Units("kg/m**3")] 
+    [Description("bulkDensity")]
+    [Units("kg/m**3")]
     public double[] soilBulkDensity
     {
         get
         {
-             return _SoilTemperature.soilBulkDensity; 
+             return _SoilTemperature.soilBulkDensity;
         }
         set
         {
@@ -346,13 +347,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the saturation
     /// </summary>
-    [Description("saturation")] 
-    [Units("m**3/m**3")] 
+    [Description("saturation")]
+    [Units("m**3/m**3")]
     public double[] saturation
     {
         get
         {
-             return _SoilTemperature.saturation; 
+             return _SoilTemperature.saturation;
         }
         set
         {
@@ -363,13 +364,13 @@ public class SoilTemperatureCompComponent
     /// <summary>
     /// Gets and sets the soilOrganicMatter
     /// </summary>
-    [Description("soilOrganicMatter")] 
-    [Units("m**3/m**3")] 
+    [Description("soilOrganicMatter")]
+    [Units("m**3/m**3")]
     public double[] soilOrganicMatter
     {
         get
         {
-             return _SoilTemperature.soilOrganicMatter; 
+             return _SoilTemperature.soilOrganicMatter;
         }
         set
         {
@@ -400,14 +401,14 @@ public class SoilTemperatureCompComponent
     /// constructor copy of SoilTemperatureComp component
     /// </summary>
     /// <param name="toCopy"></param>
-    public SoilTemperatureCompComponent(SoilTemperatureCompComponent toCopy): this() // copy constructor 
+    public SoilTemperatureCompComponent(SoilTemperatureCompComponent toCopy): this() // copy constructor
     {
             dampingFactor = toCopy.dampingFactor;
             timeStep = toCopy.timeStep;
-            
+
             for (int i = 0; i < noOfSoilLayers; i++)
                 { soilMoistureConst[i] = toCopy.soilMoistureConst[i]; }
-    
+
             baseTemp = toCopy.baseTemp;
             initialSurfaceTemp = toCopy.initialSurfaceTemp;
             densityAir = toCopy.densityAir;
@@ -422,21 +423,21 @@ public class SoilTemperatureCompComponent
             noOfTempLayers = toCopy.noOfTempLayers;
             noOfTempLayersPlus1 = toCopy.noOfTempLayersPlus1;
             noOfSoilLayers = toCopy.noOfSoilLayers;
-            
+
             for (int i = 0; i < noOfTempLayers; i++)
                 { layerThickness[i] = toCopy.layerThickness[i]; }
-    
-            
+
+
             for (int i = 0; i < noOfSoilLayers; i++)
                 { soilBulkDensity[i] = toCopy.soilBulkDensity[i]; }
-    
-            
+
+
             for (int i = 0; i < noOfSoilLayers; i++)
                 { saturation[i] = toCopy.saturation[i]; }
-    
-            
+
+
             for (int i = 0; i < noOfSoilLayers; i++)
                 { soilOrganicMatter[i] = toCopy.soilOrganicMatter[i]; }
-    
+
     }
 }

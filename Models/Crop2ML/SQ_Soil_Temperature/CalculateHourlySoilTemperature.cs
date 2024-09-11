@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
 
 /// <summary>
 ///- Name: CalculateHourlySoilTemperature -Version: 001, -Time step: 1
@@ -85,47 +86,47 @@ public class CalculateHourlySoilTemperature
     /// <summary>
     /// Gets and sets the Delay between sunrise and time when minimum temperature is reached
     /// </summary>
-    [Description("Delay between sunrise and time when minimum temperature is reached")] 
-    [Units("Hour")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=1.81, parametercategory=constant, inputtype="parameter")] 
+    [Description("Delay between sunrise and time when minimum temperature is reached")]
+    [Units("Hour")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=1.81, parametercategory=constant, inputtype="parameter")]
     public double b
     {
         get { return this._b; }
-        set { this._b= value; } 
+        set { this._b= value; }
     }
 
     private double _a;
     /// <summary>
     /// Gets and sets the Delay between sunset and time when maximum temperature is reached
     /// </summary>
-    [Description("Delay between sunset and time when maximum temperature is reached")] 
-    [Units("Hour")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=0.5, parametercategory=constant, inputtype="parameter")] 
+    [Description("Delay between sunset and time when maximum temperature is reached")]
+    [Units("Hour")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=0.5, parametercategory=constant, inputtype="parameter")]
     public double a
     {
         get { return this._a; }
-        set { this._a= value; } 
+        set { this._a= value; }
     }
 
     private double _c;
     /// <summary>
     /// Gets and sets the Nighttime temperature coefficient
     /// </summary>
-    [Description("Nighttime temperature coefficient")] 
-    [Units("Dpmensionless")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=0.49, parametercategory=constant, inputtype="parameter")] 
+    [Description("Nighttime temperature coefficient")]
+    [Units("Dpmensionless")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=10, default=0.49, parametercategory=constant, inputtype="parameter")]
     public double c
     {
         get { return this._c; }
-        set { this._c= value; } 
+        set { this._c= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the CalculateHourlySoilTemperature component")
-    /// </summary>  
+    /// </summary>
     public CalculateHourlySoilTemperature() { }
-    
+
     /// <summary>
     /// Algorithm of the CalculateHourlySoilTemperature component
     /// </summary>
@@ -153,12 +154,12 @@ public class CalculateHourlySoilTemperature
             {
                 hourlySoilT[i] = 0.0;
             }
-            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c);
+            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, this.a, c);
         }
         s.hourlySoilT= hourlySoilT;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static double[] getHourlySoilSurfaceTemperature(double TMax, double TMin, double ady, double b, double a, double c)
     {
@@ -179,7 +180,7 @@ public class CalculateHourlySoilTemperature
         {
             if (i >= (int)(bb) && i <= (int)(be))
             {
-                result[i] = (TMax - TMin) * sin(3.14 * (i - bb) / (ady + (2 * a))) + TMin;
+                result[i] = (TMax - TMin) * Math.Sin(3.14 * (i - bb) / (ady + (2 * a))) + TMin;
             }
             else
             {
@@ -192,8 +193,8 @@ public class CalculateHourlySoilTemperature
                     bbd = 24 + be + i;
                 }
                 ddy = ady - c;
-                tsn = (TMax - TMin) * sin(3.14 * ddy / (ady + (2 * a))) + TMin;
-                result[i] = TMin + ((tsn - TMin) * exp(-b * bbd / ani));
+                tsn = (TMax - TMin) * Math.Sin(3.14 * ddy / (ady + (2 * a))) + TMin;
+                result[i] = TMin + ((tsn - TMin) * Math.Exp(-b * bbd / ani));
             }
         }
         return result;

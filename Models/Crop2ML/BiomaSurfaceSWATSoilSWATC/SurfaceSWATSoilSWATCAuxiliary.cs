@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.BiomaSurfaceSWATSoilSWATC;
 
 /// <summary>
 /// auxiliary variables class of the SurfaceSWATSoilSWATC component
@@ -21,7 +22,7 @@ public class SurfaceSWATSoilSWATCAuxiliary
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SurfaceSWATSoilSWATCAuxiliary(SurfaceSWATSoilSWATCAuxiliary toCopy, bool copyAll) // copy constructor 
+    public SurfaceSWATSoilSWATCAuxiliary(SurfaceSWATSoilSWATCAuxiliary toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
@@ -33,23 +34,23 @@ public class SurfaceSWATSoilSWATCAuxiliary
     /// <summary>
     /// Gets and sets the Above ground biomass
     /// </summary>
-    [Description("Above ground biomass")] 
-    [Units("Kg ha-1")] 
+    [Description("Above ground biomass")]
+    [Units("Kg ha-1")]
     public double AboveGroundBiomass
     {
         get { return this._AboveGroundBiomass; }
-        set { this._AboveGroundBiomass= value; } 
+        set { this._AboveGroundBiomass= value; }
     }
 
     /// <summary>
     /// Gets and sets the Average surface soil temperature
     /// </summary>
-    [Description("Average surface soil temperature")] 
-    [Units("degC")] 
+    [Description("Average surface soil temperature")]
+    [Units("degC")]
     public double SurfaceSoilTemperature
     {
         get { return this._SurfaceSoilTemperature; }
-        set { this._SurfaceSoilTemperature= value; } 
+        set { this._SurfaceSoilTemperature= value; }
     }
 
 }

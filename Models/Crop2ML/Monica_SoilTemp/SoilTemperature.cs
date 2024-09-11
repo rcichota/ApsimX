@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Monica_SoilTemp;
 
 /// <summary>
 ///- Name: SoilTemperature -Version: 1, -Time step: 1
@@ -19,8 +20,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 20
 ///                          ** unit : dimensionless
 ///            * name: noOfTempLayers
@@ -28,8 +29,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 22
 ///                          ** unit : dimensionless
 ///            * name: noOfTempLayersPlus1
@@ -37,8 +38,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INT
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 23
 ///                          ** unit : dimensionless
 ///            * name: soilSurfaceTemperature
@@ -55,8 +56,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1.0
 ///                          ** unit : dimensionless
 ///            * name: soilMoistureConst
@@ -65,17 +66,17 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfSoilLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : m**3/m**3
 ///            * name: baseTemp
 ///                          ** description : baseTemperature
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 9.5
 ///                          ** unit : °C
 ///            * name: initialSurfaceTemp
@@ -83,8 +84,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 10.0
 ///                          ** unit : °C
 ///            * name: densityAir
@@ -92,8 +93,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1.25
 ///                          ** unit : kg/m**3
 ///            * name: specificHeatCapacityAir
@@ -101,8 +102,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1005.0
 ///                          ** unit : J/kg/K
 ///            * name: densityHumus
@@ -110,8 +111,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1300.0
 ///                          ** unit : kg/m**3
 ///            * name: specificHeatCapacityHumus
@@ -119,8 +120,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1920.0
 ///                          ** unit : J/kg/K
 ///            * name: densityWater
@@ -128,8 +129,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 1000.0
 ///                          ** unit : kg/m**3
 ///            * name: specificHeatCapacityWater
@@ -137,8 +138,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 4192.0
 ///                          ** unit : J/kg/K
 ///            * name: quartzRawDensity
@@ -146,8 +147,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 2650.0
 ///                          ** unit : kg/m**3
 ///            * name: specificHeatCapacityQuartz
@@ -155,8 +156,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 750.0
 ///                          ** unit : J/kg/K
 ///            * name: nTau
@@ -164,8 +165,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 0.65
 ///                          ** unit : ?
 ///            * name: layerThickness
@@ -174,9 +175,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : m
 ///            * name: soilBulkDensity
 ///                          ** description : bulkDensity
@@ -184,9 +185,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfSoilLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : kg/m**3
 ///            * name: saturation
 ///                          ** description : saturation
@@ -194,9 +195,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfSoilLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : m**3/m**3
 ///            * name: soilOrganicMatter
 ///                          ** description : soilOrganicMatter
@@ -204,9 +205,9 @@ namespace Models.Crop2ML;
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfSoilLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : m**3/m**3
 ///            * name: soilTemperature
 ///                          ** description : soilTemperature
@@ -214,9 +215,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: V
 ///                          ** description : V
@@ -224,9 +225,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: B
 ///                          ** description : B
@@ -234,9 +235,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: volumeMatrix
 ///                          ** description : volumeMatrix
@@ -244,9 +245,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: volumeMatrixOld
 ///                          ** description : volumeMatrixOld
@@ -254,9 +255,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: matrixPrimaryDiagonal
 ///                          ** description : matrixPrimaryDiagonal
@@ -264,9 +265,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: matrixSecondaryDiagonal
 ///                          ** description : matrixSecondaryDiagonal
@@ -274,9 +275,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayersPlus1
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: heatConductivity
 ///                          ** description : heatConductivity
@@ -284,9 +285,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: heatConductivityMean
 ///                          ** description : heatConductivityMean
@@ -294,9 +295,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: heatCapacity
 ///                          ** description : heatCapacity
@@ -304,9 +305,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: solution
 ///                          ** description : solution
@@ -314,9 +315,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: matrixDiagonal
 ///                          ** description : matrixDiagonal
@@ -324,9 +325,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: matrixLowerTriangle
 ///                          ** description : matrixLowerTriangle
@@ -334,9 +335,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: heatFlow
 ///                          ** description : heatFlow
@@ -344,9 +345,9 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : noOfTempLayers
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : °C
 ///- outputs:
 ///            * name: soilTemperature
@@ -354,8 +355,8 @@ namespace Models.Crop2ML;
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : 22
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : °C
 /// </summary>
 public class SoilTemperature
@@ -498,268 +499,268 @@ public class SoilTemperature
     /// <summary>
     /// Gets and sets the noOfSoilLayers
     /// </summary>
-    [Description("noOfSoilLayers")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="INT", min=null, max=null, default=20, parametercategory=constant, inputtype="parameter")] 
+    [Description("noOfSoilLayers")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="INT", min=null, max=null, default=20, parametercategory=constant, inputtype="parameter")]
     public int noOfSoilLayers
     {
         get { return this._noOfSoilLayers; }
-        set { this._noOfSoilLayers= value; } 
+        set { this._noOfSoilLayers= value; }
     }
 
     private int _noOfTempLayers;
     /// <summary>
     /// Gets and sets the noOfTempLayers=noOfSoilLayers+2
     /// </summary>
-    [Description("noOfTempLayers=noOfSoilLayers+2")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="INT", min=null, max=null, default=22, parametercategory=constant, inputtype="parameter")] 
+    [Description("noOfTempLayers=noOfSoilLayers+2")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="INT", min=null, max=null, default=22, parametercategory=constant, inputtype="parameter")]
     public int noOfTempLayers
     {
         get { return this._noOfTempLayers; }
-        set { this._noOfTempLayers= value; } 
+        set { this._noOfTempLayers= value; }
     }
 
     private int _noOfTempLayersPlus1;
     /// <summary>
     /// Gets and sets the for matrixSecondaryDiagonal
     /// </summary>
-    [Description("for matrixSecondaryDiagonal")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="INT", min=null, max=null, default=23, parametercategory=constant, inputtype="parameter")] 
+    [Description("for matrixSecondaryDiagonal")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="INT", min=null, max=null, default=23, parametercategory=constant, inputtype="parameter")]
     public int noOfTempLayersPlus1
     {
         get { return this._noOfTempLayersPlus1; }
-        set { this._noOfTempLayersPlus1= value; } 
+        set { this._noOfTempLayersPlus1= value; }
     }
 
     private double _timeStep;
     /// <summary>
     /// Gets and sets the timeStep
     /// </summary>
-    [Description("timeStep")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("timeStep")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1.0, parametercategory=constant, inputtype="parameter")]
     public double timeStep
     {
         get { return this._timeStep; }
-        set { this._timeStep= value; } 
+        set { this._timeStep= value; }
     }
 
     private double[] _soilMoistureConst;
     /// <summary>
     /// Gets and sets the constant soilmoisture during the model run
     /// </summary>
-    [Description("constant soilmoisture during the model run")] 
-    [Units("m**3/m**3")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("constant soilmoisture during the model run")]
+    [Units("m**3/m**3")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] soilMoistureConst
     {
         get { return this._soilMoistureConst; }
-        set { this._soilMoistureConst= value; } 
+        set { this._soilMoistureConst= value; }
     }
 
     private double _baseTemp;
     /// <summary>
     /// Gets and sets the baseTemperature
     /// </summary>
-    [Description("baseTemperature")] 
-    [Units("°C")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=9.5, parametercategory=constant, inputtype="parameter")] 
+    [Description("baseTemperature")]
+    [Units("°C")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=9.5, parametercategory=constant, inputtype="parameter")]
     public double baseTemp
     {
         get { return this._baseTemp; }
-        set { this._baseTemp= value; } 
+        set { this._baseTemp= value; }
     }
 
     private double _initialSurfaceTemp;
     /// <summary>
     /// Gets and sets the initialSurfaceTemperature
     /// </summary>
-    [Description("initialSurfaceTemperature")] 
-    [Units("°C")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=10.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("initialSurfaceTemperature")]
+    [Units("°C")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=10.0, parametercategory=constant, inputtype="parameter")]
     public double initialSurfaceTemp
     {
         get { return this._initialSurfaceTemp; }
-        set { this._initialSurfaceTemp= value; } 
+        set { this._initialSurfaceTemp= value; }
     }
 
     private double _densityAir;
     /// <summary>
     /// Gets and sets the DensityAir
     /// </summary>
-    [Description("DensityAir")] 
-    [Units("kg/m**3")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1.25, parametercategory=constant, inputtype="parameter")] 
+    [Description("DensityAir")]
+    [Units("kg/m**3")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1.25, parametercategory=constant, inputtype="parameter")]
     public double densityAir
     {
         get { return this._densityAir; }
-        set { this._densityAir= value; } 
+        set { this._densityAir= value; }
     }
 
     private double _specificHeatCapacityAir;
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityAir
     /// </summary>
-    [Description("SpecificHeatCapacityAir")] 
-    [Units("J/kg/K")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1005.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("SpecificHeatCapacityAir")]
+    [Units("J/kg/K")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1005.0, parametercategory=constant, inputtype="parameter")]
     public double specificHeatCapacityAir
     {
         get { return this._specificHeatCapacityAir; }
-        set { this._specificHeatCapacityAir= value; } 
+        set { this._specificHeatCapacityAir= value; }
     }
 
     private double _densityHumus;
     /// <summary>
     /// Gets and sets the DensityHumus
     /// </summary>
-    [Description("DensityHumus")] 
-    [Units("kg/m**3")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1300.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("DensityHumus")]
+    [Units("kg/m**3")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1300.0, parametercategory=constant, inputtype="parameter")]
     public double densityHumus
     {
         get { return this._densityHumus; }
-        set { this._densityHumus= value; } 
+        set { this._densityHumus= value; }
     }
 
     private double _specificHeatCapacityHumus;
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityHumus
     /// </summary>
-    [Description("SpecificHeatCapacityHumus")] 
-    [Units("J/kg/K")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1920.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("SpecificHeatCapacityHumus")]
+    [Units("J/kg/K")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1920.0, parametercategory=constant, inputtype="parameter")]
     public double specificHeatCapacityHumus
     {
         get { return this._specificHeatCapacityHumus; }
-        set { this._specificHeatCapacityHumus= value; } 
+        set { this._specificHeatCapacityHumus= value; }
     }
 
     private double _densityWater;
     /// <summary>
     /// Gets and sets the DensityWater
     /// </summary>
-    [Description("DensityWater")] 
-    [Units("kg/m**3")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1000.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("DensityWater")]
+    [Units("kg/m**3")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1000.0, parametercategory=constant, inputtype="parameter")]
     public double densityWater
     {
         get { return this._densityWater; }
-        set { this._densityWater= value; } 
+        set { this._densityWater= value; }
     }
 
     private double _specificHeatCapacityWater;
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityWater
     /// </summary>
-    [Description("SpecificHeatCapacityWater")] 
-    [Units("J/kg/K")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=4192.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("SpecificHeatCapacityWater")]
+    [Units("J/kg/K")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=4192.0, parametercategory=constant, inputtype="parameter")]
     public double specificHeatCapacityWater
     {
         get { return this._specificHeatCapacityWater; }
-        set { this._specificHeatCapacityWater= value; } 
+        set { this._specificHeatCapacityWater= value; }
     }
 
     private double _quartzRawDensity;
     /// <summary>
     /// Gets and sets the QuartzRawDensity
     /// </summary>
-    [Description("QuartzRawDensity")] 
-    [Units("kg/m**3")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=2650.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("QuartzRawDensity")]
+    [Units("kg/m**3")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=2650.0, parametercategory=constant, inputtype="parameter")]
     public double quartzRawDensity
     {
         get { return this._quartzRawDensity; }
-        set { this._quartzRawDensity= value; } 
+        set { this._quartzRawDensity= value; }
     }
 
     private double _specificHeatCapacityQuartz;
     /// <summary>
     /// Gets and sets the SpecificHeatCapacityQuartz
     /// </summary>
-    [Description("SpecificHeatCapacityQuartz")] 
-    [Units("J/kg/K")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=750.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("SpecificHeatCapacityQuartz")]
+    [Units("J/kg/K")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=750.0, parametercategory=constant, inputtype="parameter")]
     public double specificHeatCapacityQuartz
     {
         get { return this._specificHeatCapacityQuartz; }
-        set { this._specificHeatCapacityQuartz= value; } 
+        set { this._specificHeatCapacityQuartz= value; }
     }
 
     private double _nTau;
     /// <summary>
     /// Gets and sets the NTau
     /// </summary>
-    [Description("NTau")] 
-    [Units("?")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.65, parametercategory=constant, inputtype="parameter")] 
+    [Description("NTau")]
+    [Units("?")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.65, parametercategory=constant, inputtype="parameter")]
     public double nTau
     {
         get { return this._nTau; }
-        set { this._nTau= value; } 
+        set { this._nTau= value; }
     }
 
     private double[] _layerThickness;
     /// <summary>
     /// Gets and sets the layerThickness
     /// </summary>
-    [Description("layerThickness")] 
-    [Units("m")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("layerThickness")]
+    [Units("m")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] layerThickness
     {
         get { return this._layerThickness; }
-        set { this._layerThickness= value; } 
+        set { this._layerThickness= value; }
     }
 
     private double[] _soilBulkDensity;
     /// <summary>
     /// Gets and sets the bulkDensity
     /// </summary>
-    [Description("bulkDensity")] 
-    [Units("kg/m**3")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("bulkDensity")]
+    [Units("kg/m**3")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] soilBulkDensity
     {
         get { return this._soilBulkDensity; }
-        set { this._soilBulkDensity= value; } 
+        set { this._soilBulkDensity= value; }
     }
 
     private double[] _saturation;
     /// <summary>
     /// Gets and sets the saturation
     /// </summary>
-    [Description("saturation")] 
-    [Units("m**3/m**3")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("saturation")]
+    [Units("m**3/m**3")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] saturation
     {
         get { return this._saturation; }
-        set { this._saturation= value; } 
+        set { this._saturation= value; }
     }
 
     private double[] _soilOrganicMatter;
     /// <summary>
     /// Gets and sets the soilOrganicMatter
     /// </summary>
-    [Description("soilOrganicMatter")] 
-    [Units("m**3/m**3")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("soilOrganicMatter")]
+    [Units("m**3/m**3")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public double[] soilOrganicMatter
     {
         get { return this._soilOrganicMatter; }
-        set { this._soilOrganicMatter= value; } 
+        set { this._soilOrganicMatter= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the SoilTemperature component")
-    /// </summary>  
+    /// </summary>
     public SoilTemperature() { }
-    
+
     /// <summary>
     /// Algorithm of the SoilTemperature component
     /// </summary>

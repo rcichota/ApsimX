@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 ///- Name: layers_temp -Version: 1.0, -Time step: 1
@@ -28,10 +29,10 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INTARRAY
-///                          ** len : 
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** len :
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///- outputs:
 ///            * name: layer_temp
@@ -49,21 +50,21 @@ public class Layers_temp
     /// <summary>
     /// Gets and sets the layers thickness
     /// </summary>
-    [Description("layers thickness")] 
-    [Units("cm")] 
-    //[Crop2ML(datatype="INTARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("layers thickness")]
+    [Units("cm")]
+    //[Crop2ML(datatype="INTARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public int[] layer_thick
     {
         get { return this._layer_thick; }
-        set { this._layer_thick= value; } 
+        set { this._layer_thick= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the Layers_temp component")
-    /// </summary>  
+    /// </summary>
     public Layers_temp() { }
-    
+
     /// <summary>
     /// Algorithm of the Layers_temp component
     /// </summary>
@@ -85,16 +86,16 @@ public class Layers_temp
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
             depth_value = layer_depth[z - 1];
-            up_depth[z + 1 - 1] = depth_value;
+            up_depth[z] = depth_value;
         }
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
-            layer_temp[z - 1] = temp_profile.GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)] - (up_depth[z - 1] + 1 - 1)).Sum() / layer_thick[(z - 1)];
+            layer_temp.Add(temp_profile.GetRange((up_depth[z - 1]), up_depth[(z)] - (up_depth[z - 1])).Sum() / layer_thick[(z - 1)]);
         }
         s.layer_temp= layer_temp;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static int get_layers_number(int[] layer_thick_or_depth)
     {
@@ -111,23 +112,24 @@ public class Layers_temp
         return layers_number;
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static List<int> layer_thickness2depth(int[] layer_thick)
     {
-        List<int> layer_depth = new List<int>();
+        //List<int> layer_depth = new List<int>();
         int layers_nb;
         int z;
         layers_nb = layer_thick.Length;
-        layer_depth = new List<int>(layers_nb);
-        for (var i = 0; i < layers_nb; i++){layer_depth.Add(0);}
+        int[] layer_depth = new int[layers_nb];
+        //layer_depth = new List<int>(layers_nb);
+        //for (var i = 0; i < layers_nb; i++){layer_depth.Add(0);}
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
             if (layer_thick[z - 1] != 0)
             {
-                layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z - 1 - 1).Sum();
+                layer_depth[z - 1] = layer_thick.ToList().GetRange(0,z).Sum();
             }
         }
-        return layer_depth;
+        return layer_depth.ToList();
     }
 }

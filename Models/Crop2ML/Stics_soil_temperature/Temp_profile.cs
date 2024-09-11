@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 ///- Name: temp_profile -Version: 1.0, -Time step: 1
@@ -30,7 +31,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLELIST
 ///                          ** max : 50.0
 ///                          ** min : -50.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: prev_canopy_temp
 ///                          ** description : previous crop temperature
@@ -39,7 +40,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 50.0
 ///                          ** min : 0.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: min_air_temp
 ///                          ** description : current minimum air temperature
@@ -48,7 +49,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 50.0
 ///                          ** min : -50.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : degC
 ///            * name: air_temp_day1
 ///                          ** description : Mean temperature on first day
@@ -64,10 +65,10 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : INTARRAY
-///                          ** len : 
-///                          ** max : 
-///                          ** min : 
-///                          ** default : 
+///                          ** len :
+///                          ** max :
+///                          ** min :
+///                          ** default :
 ///                          ** unit : cm
 ///- outputs:
 ///            * name: temp_profile
@@ -106,34 +107,34 @@ public class Temp_profile
     /// <summary>
     /// Gets and sets the Mean temperature on first day
     /// </summary>
-    [Description("Mean temperature on first day")] 
-    [Units("degC")] 
-    //[Crop2ML(datatype="DOUBLE", min=0.0, max=100.0, default=0.0, parametercategory=constant, inputtype="parameter")] 
+    [Description("Mean temperature on first day")]
+    [Units("degC")]
+    //[Crop2ML(datatype="DOUBLE", min=0.0, max=100.0, default=0.0, parametercategory=constant, inputtype="parameter")]
     public double air_temp_day1
     {
         get { return this._air_temp_day1; }
-        set { this._air_temp_day1= value; } 
+        set { this._air_temp_day1= value; }
     }
 
     private int[] _layer_thick;
     /// <summary>
     /// Gets and sets the layers thickness
     /// </summary>
-    [Description("layers thickness")] 
-    [Units("cm")] 
-    //[Crop2ML(datatype="INTARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
+    [Description("layers thickness")]
+    [Units("cm")]
+    //[Crop2ML(datatype="INTARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")]
     public int[] layer_thick
     {
         get { return this._layer_thick; }
-        set { this._layer_thick= value; } 
+        set { this._layer_thick= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the Temp_profile component")
-    /// </summary>  
+    /// </summary>
     public Temp_profile() { }
-    
+
     /// <summary>
     /// Algorithm of the Temp_profile component
     /// </summary>

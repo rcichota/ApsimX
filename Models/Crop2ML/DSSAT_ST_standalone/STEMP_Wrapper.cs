@@ -5,10 +5,13 @@ using Models.Interfaces;
 using Models.PMF;
 using Models.Soils;
 using Models.Surface;
+using Models.WaterModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Models.Crop2ML;
+using Models.Factorial;
+
+namespace Models.Crop2ML.DSSAT_ST_standalone;
 
 /// <summary>
 ///  This class encapsulates the STEMP_Component
@@ -16,12 +19,18 @@ namespace Models.Crop2ML;
 [Serializable]
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
+[ValidParent(ParentType = typeof(CompositeFactor))]
+
 [ValidParent(ParentType = typeof(Zone))]
-class STEMP_Wrapper :  Model
+public class STEMP_Wrapper :  Model, ISoilTemperature
 {
     [Link] Clock clock = null;
-    //[Link] Weather weather = null; // other links
-
+    [Link] Weather weather = null;
+    [Link] Physical physical = null;
+    [Link] Water water = null;
+    [Link] WaterBalance waterBalance = null;
+    /// <summary>Event invoke when the soil temperature has changed</summary>
+    public event EventHandler SoilTemperatureChanged;
     private STEMP_State s;
     private STEMP_State s1;
     private STEMP_Rate r;
@@ -47,63 +56,105 @@ class STEMP_Wrapper :  Model
     /// </summary>
     [Description("Temperature of soil surface litter")]
     [Units("degC")]
-    public double SRFTEMP{ get { return s.SRFTEMP;}} 
-     
+    public double SRFTEMP{ get { return s.SRFTEMP;}}
+
 
     /// <summary>
     ///  The get method of the Soil temperature in soil layer L output variable
     /// </summary>
     [Description("Soil temperature in soil layer L")]
     [Units("degC")]
-    public double[] ST{ get { return s.ST;}} 
-     
+    public double[] ST{ get { return s.ST;}}
+
 
     /// <summary>
     ///  The get method of the Array of previous 5 days of average soil temperatures output variable
     /// </summary>
     [Description("Array of previous 5 days of average soil temperatures")]
     [Units("degC")]
-    public double[] TMA{ get { return s.TMA;}} 
-     
+    public double[] TMA{ get { return s.TMA;}}
+
 
     /// <summary>
     ///  The get method of the Total water content of soil at drained upper limit output variable
     /// </summary>
     [Description("Total water content of soil at drained upper limit")]
     [Units("cm")]
-    public double TDL{ get { return s.TDL;}} 
-     
+    public double TDL{ get { return s.TDL;}}
+
 
     /// <summary>
     ///  The get method of the Cumulative depth of soil profile output variable
     /// </summary>
     [Description("Cumulative depth of soil profile")]
     [Units("mm")]
-    public double CUMDPT{ get { return s.CUMDPT;}} 
-     
+    public double CUMDPT{ get { return s.CUMDPT;}}
+
 
     /// <summary>
     ///  The get method of the Sum of TMA array (last 5 days soil temperature) output variable
     /// </summary>
     [Description("Sum of TMA array (last 5 days soil temperature)")]
     [Units("degC")]
-    public double ATOT{ get { return s.ATOT;}} 
-     
+    public double ATOT{ get { return s.ATOT;}}
+
 
     /// <summary>
     ///  The get method of the Depth to midpoint of soil layer L output variable
     /// </summary>
     [Description("Depth to midpoint of soil layer L")]
     [Units("cm")]
-    public double[] DSMID{ get { return s.DSMID;}} 
-     
+    public double[] DSMID{ get { return s.DSMID;}}
+
+        /// <summary>
+    ///  The get method of the Soil temperature of each layer output variable
+    /// </summary>
+    public double[] Value{ get { return s.ST;}}
+
+
+    /// <summary>
+    ///  Soil surface temperature
+    /// </summary>
+    public double SurfaceSoilTemperature{ get { return s.SRFTEMP;}}
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double AverageSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MinimumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MaximumSoilSurfaceTemperature => double.NaN;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MinimumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the STEMP_Component
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public STEMP_Wrapper(STEMP_Wrapper toCopy, bool copyAll) 
+    public STEMP_Wrapper(STEMP_Wrapper toCopy, bool copyAll)
     {
         s = (toCopy.s != null) ? new STEMP_State(toCopy.s, copyAll) : null;
         r = (toCopy.r != null) ? new STEMP_Rate(toCopy.r, copyAll) : null;
@@ -129,17 +180,17 @@ class STEMP_Wrapper :  Model
     /// </summary>
     private void loadParameters()
     {
-        stemp_Component.MSALB = null; // To be modified
-        stemp_Component.NL = null; // To be modified
-        stemp_Component.LL = null; // To be modified
-        stemp_Component.NLAYR = null; // To be modified
-        stemp_Component.DS = null; // To be modified
-        stemp_Component.DLAYR = null; // To be modified
-        stemp_Component.ISWWAT = null; // To be modified
-        stemp_Component.BD = null; // To be modified
-        stemp_Component.SW = null; // To be modified
-        stemp_Component.XLAT = null; // To be modified
-        stemp_Component.DUL = null; // To be modified
+        stemp_Component.MSALB = waterBalance.Salb;
+        stemp_Component.NL = physical.Thickness.Length;
+        stemp_Component.LL = physical.LL15;
+        stemp_Component.NLAYR = physical.Thickness.Length;
+        stemp_Component.DS = SoilUtilities.ToCumThickness(MathUtilities.Divide_Value(physical.Thickness, 10));
+        stemp_Component.DLAYR = MathUtilities.Divide_Value(physical.Thickness, 10.0); // to cm
+        stemp_Component.ISWWAT = "Y";
+        stemp_Component.BD = physical.BD;
+        stemp_Component.SW = water.Volumetric;
+        stemp_Component.XLAT = weather.Latitude;
+        stemp_Component.DUL = physical.DUL;
     }
 
     /// <summary>
@@ -147,14 +198,19 @@ class STEMP_Wrapper :  Model
     /// </summary>
     private void setExogenous()
     {
-        ex.TMAX = null; // To be modified
-        ex.SRAD = null; // To be modified
-        ex.TAMP = null; // To be modified
-        ex.TAVG = null; // To be modified
-        ex.TAV = null; // To be modified
-        ex.DOY = null; // To be modified
+        ex.TMAX = weather.MaxT;
+        ex.SRAD = weather.Radn;
+        ex.TAMP = weather.Amp;
+        ex.TAVG = weather.MeanT;
+        ex.TAV = weather.Tav;
+        ex.DOY = clock.Today.DayOfYear;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     [EventSubscribe("Crop2MLProcess")]
     public void CalculateModel(object sender, EventArgs e)
     {
@@ -162,8 +218,10 @@ class STEMP_Wrapper :  Model
         {
             Init();
         }
+
         setExogenous();
         stemp_Component.CalculateModel(s,s1, r, a, ex);
+        SoilTemperatureChanged?.Invoke(this, EventArgs.Empty);
     }
 
 }

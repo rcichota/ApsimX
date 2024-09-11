@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.SQ_Soil_Temperature;
 
 /// <summary>
 /// exogenous variables class of the SoilTemperature component
@@ -24,7 +25,7 @@ public class SoilTemperatureExogenous
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SoilTemperatureExogenous(SoilTemperatureExogenous toCopy, bool copyAll) // copy constructor 
+    public SoilTemperatureExogenous(SoilTemperatureExogenous toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
@@ -39,56 +40,56 @@ public class SoilTemperatureExogenous
     /// <summary>
     /// Gets and sets the Mean Air Temperature
     /// </summary>
-    [Description("Mean Air Temperature")] 
-    [Units("Â°C")] 
+    [Description("Mean Air Temperature")]
+    [Units("Â°C")]
     public double meanTAir
     {
         get { return this._meanTAir; }
-        set { this._meanTAir= value; } 
+        set { this._meanTAir= value; }
     }
 
     /// <summary>
     /// Gets and sets the Minimum Air Temperature from Weather files
     /// </summary>
-    [Description("Minimum Air Temperature from Weather files")] 
-    [Units("Â°C")] 
+    [Description("Minimum Air Temperature from Weather files")]
+    [Units("Â°C")]
     public double minTAir
     {
         get { return this._minTAir; }
-        set { this._minTAir= value; } 
+        set { this._minTAir= value; }
     }
 
     /// <summary>
     /// Gets and sets the Annual Mean Air Temperature
     /// </summary>
-    [Description("Annual Mean Air Temperature")] 
-    [Units("Â°C")] 
+    [Description("Annual Mean Air Temperature")]
+    [Units("Â°C")]
     public double meanAnnualAirTemp
     {
         get { return this._meanAnnualAirTemp; }
-        set { this._meanAnnualAirTemp= value; } 
+        set { this._meanAnnualAirTemp= value; }
     }
 
     /// <summary>
     /// Gets and sets the Maximum Air Temperature from Weather Files
     /// </summary>
-    [Description("Maximum Air Temperature from Weather Files")] 
-    [Units("Â°C")] 
+    [Description("Maximum Air Temperature from Weather Files")]
+    [Units("Â°C")]
     public double maxTAir
     {
         get { return this._maxTAir; }
-        set { this._maxTAir= value; } 
+        set { this._maxTAir= value; }
     }
 
     /// <summary>
     /// Gets and sets the Length of the day
     /// </summary>
-    [Description("Length of the day")] 
-    [Units("hour")] 
+    [Description("Length of the day")]
+    [Units("hour")]
     public double dayLength
     {
         get { return this._dayLength; }
-        set { this._dayLength= value; } 
+        set { this._dayLength= value; }
     }
 
 }

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 ///- Name: update -Version: 1.0, -Time step: 1
@@ -28,10 +29,10 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 50.0
 ///                          ** min : -50.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : degC
 ///- outputs:
 ///            * name: prev_canopy_temp
@@ -52,12 +53,12 @@ namespace Models.Crop2ML;
 public class Update
 {
 
-    
+
     /// <summary>
     /// Constructor of the Update component")
-    /// </summary>  
+    /// </summary>
     public Update() { }
-    
+
     /// <summary>
     /// Algorithm of the Update component
     /// </summary>

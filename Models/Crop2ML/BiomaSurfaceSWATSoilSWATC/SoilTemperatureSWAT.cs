@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.BiomaSurfaceSWATSoilSWATC;
 
 /// <summary>
 ///- Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
@@ -19,7 +20,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 0.8
 ///                          ** min : 0
 ///                          ** default : 0.25
@@ -38,7 +39,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 3
 ///                          ** min : 0.005
 ///                          ** default : 0.05
@@ -57,7 +58,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 60
 ///                          ** min : -60
 ///                          ** default : 15
@@ -76,7 +77,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLEARRAY
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 1.8
 ///                          ** min : 0.9
 ///                          ** default : 1.3
@@ -95,7 +96,7 @@ namespace Models.Crop2ML;
 ///                          ** description : Soil temperature of each layer
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** variablecategory : state
-///                          ** len : 
+///                          ** len :
 ///                          ** max : 60
 ///                          ** min : -60
 ///                          ** unit : degC
@@ -123,73 +124,73 @@ public class SoilTemperatureSWAT
     /// <summary>
     /// Gets and sets the Soil layer thickness
     /// </summary>
-    [Description("Soil layer thickness")] 
-    [Units("m")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=0.005, max=3, default=0.05, parametercategory=constant, inputtype="parameter")] 
+    [Description("Soil layer thickness")]
+    [Units("m")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=0.005, max=3, default=0.05, parametercategory=constant, inputtype="parameter")]
     public double[] LayerThickness
     {
         get { return this._LayerThickness; }
-        set { this._LayerThickness= value; } 
+        set { this._LayerThickness= value; }
     }
 
     private double _LagCoefficient;
     /// <summary>
     /// Gets and sets the Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
     /// </summary>
-    [Description("Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=1, default=0.8, parametercategory=constant, inputtype="parameter")] 
+    [Description("Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=1, default=0.8, parametercategory=constant, inputtype="parameter")]
     public double LagCoefficient
     {
         get { return this._LagCoefficient; }
-        set { this._LagCoefficient= value; } 
+        set { this._LagCoefficient= value; }
     }
 
     private double _AirTemperatureAnnualAverage;
     /// <summary>
     /// Gets and sets the Annual average air temperature
     /// </summary>
-    [Description("Annual average air temperature")] 
-    [Units("degC")] 
-    //[Crop2ML(datatype="DOUBLE", min=-40, max=50, default=15, parametercategory=constant, inputtype="parameter")] 
+    [Description("Annual average air temperature")]
+    [Units("degC")]
+    //[Crop2ML(datatype="DOUBLE", min=-40, max=50, default=15, parametercategory=constant, inputtype="parameter")]
     public double AirTemperatureAnnualAverage
     {
         get { return this._AirTemperatureAnnualAverage; }
-        set { this._AirTemperatureAnnualAverage= value; } 
+        set { this._AirTemperatureAnnualAverage= value; }
     }
 
     private double[] _BulkDensity;
     /// <summary>
     /// Gets and sets the Bulk density
     /// </summary>
-    [Description("Bulk density")] 
-    [Units("t m-3")] 
-    //[Crop2ML(datatype="DOUBLEARRAY", min=0.9, max=1.8, default=1.3, parametercategory=constant, inputtype="parameter")] 
+    [Description("Bulk density")]
+    [Units("t m-3")]
+    //[Crop2ML(datatype="DOUBLEARRAY", min=0.9, max=1.8, default=1.3, parametercategory=constant, inputtype="parameter")]
     public double[] BulkDensity
     {
         get { return this._BulkDensity; }
-        set { this._BulkDensity= value; } 
+        set { this._BulkDensity= value; }
     }
 
     private double _SoilProfileDepth;
     /// <summary>
     /// Gets and sets the Soil profile depth
     /// </summary>
-    [Description("Soil profile depth")] 
-    [Units("m")] 
-    //[Crop2ML(datatype="DOUBLE", min=0, max=50, default=3, parametercategory=constant, inputtype="parameter")] 
+    [Description("Soil profile depth")]
+    [Units("m")]
+    //[Crop2ML(datatype="DOUBLE", min=0, max=50, default=3, parametercategory=constant, inputtype="parameter")]
     public double SoilProfileDepth
     {
         get { return this._SoilProfileDepth; }
-        set { this._SoilProfileDepth= value; } 
+        set { this._SoilProfileDepth= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the SoilTemperatureSWAT component")
-    /// </summary>  
+    /// </summary>
     public SoilTemperatureSWAT() { }
-    
+
     /// <summary>
     /// Algorithm of the SoilTemperatureSWAT component
     /// </summary>

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Models.Core;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.BiomaSurfacePartonSoilSWATC;
 
 /// <summary>
 /// auxiliary variables class of the SurfacePartonSoilSWATC component
@@ -22,7 +23,7 @@ public class SurfacePartonSoilSWATCAuxiliary
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public SurfacePartonSoilSWATCAuxiliary(SurfacePartonSoilSWATCAuxiliary toCopy, bool copyAll) // copy constructor 
+    public SurfacePartonSoilSWATCAuxiliary(SurfacePartonSoilSWATCAuxiliary toCopy, bool copyAll) // copy constructor
     {
         if (copyAll)
         {
@@ -35,34 +36,34 @@ public class SurfacePartonSoilSWATCAuxiliary
     /// <summary>
     /// Gets and sets the Minimum surface soil temperature
     /// </summary>
-    [Description("Minimum surface soil temperature")] 
-    [Units("degC")] 
+    [Description("Minimum surface soil temperature")]
+    [Units("degC")]
     public double SurfaceTemperatureMinimum
     {
         get { return this._SurfaceTemperatureMinimum; }
-        set { this._SurfaceTemperatureMinimum= value; } 
+        set { this._SurfaceTemperatureMinimum= value; }
     }
 
     /// <summary>
     /// Gets and sets the Maximum surface soil temperature
     /// </summary>
-    [Description("Maximum surface soil temperature")] 
-    [Units("degC")] 
+    [Description("Maximum surface soil temperature")]
+    [Units("degC")]
     public double SurfaceTemperatureMaximum
     {
         get { return this._SurfaceTemperatureMaximum; }
-        set { this._SurfaceTemperatureMaximum= value; } 
+        set { this._SurfaceTemperatureMaximum= value; }
     }
 
     /// <summary>
     /// Gets and sets the Average surface soil temperature
     /// </summary>
-    [Description("Average surface soil temperature")] 
-    [Units("degC")] 
+    [Description("Average surface soil temperature")]
+    [Units("degC")]
     public double SurfaceSoilTemperature
     {
         get { return this._SurfaceSoilTemperature; }
-        set { this._SurfaceSoilTemperature= value; } 
+        set { this._SurfaceSoilTemperature= value; }
     }
 
 }

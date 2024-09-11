@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
 
 /// <summary>
 ///- Name: temp_amp -Version: 1.0, -Time step: 1
@@ -44,12 +45,12 @@ namespace Models.Crop2ML;
 public class Temp_amp
 {
 
-    
+
     /// <summary>
     /// Constructor of the Temp_amp component")
-    /// </summary>  
+    /// </summary>
     public Temp_amp() { }
-    
+
     /// <summary>
     /// Algorithm of the Temp_amp component
     /// </summary>

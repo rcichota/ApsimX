@@ -1,13 +1,14 @@
 using Models.Core;
 using Models.Utilities;
-using System; 
-namespace Models.Crop2ML;
-     
+using System;
+
+namespace Models.Crop2ML.Stics_soil_temperature;
+
 
 /// <summary>
 ///  soil_temp component
 /// </summary>
-public class Soil_tempComponent 
+public class Soil_tempComponent
 {
 
     /// <summary>
@@ -25,13 +26,13 @@ public class Soil_tempComponent
     /// <summary>
     /// Gets and sets the Mean temperature on first day
     /// </summary>
-    [Description("Mean temperature on first day")] 
-    [Units("degC")] 
+    [Description("Mean temperature on first day")]
+    [Units("degC")]
     public double air_temp_day1
     {
         get
         {
-             return _Temp_profile.air_temp_day1; 
+             return _Temp_profile.air_temp_day1;
         }
         set
         {
@@ -42,13 +43,13 @@ public class Soil_tempComponent
     /// <summary>
     /// Gets and sets the layers thickness
     /// </summary>
-    [Description("layers thickness")] 
-    [Units("cm")] 
+    [Description("layers thickness")]
+    [Units("cm")]
     public int[] layer_thick
     {
         get
         {
-             return _Temp_profile.layer_thick; 
+             return _Temp_profile.layer_thick;
         }
         set
         {
@@ -81,12 +82,12 @@ public class Soil_tempComponent
     /// constructor copy of Soil_temp component
     /// </summary>
     /// <param name="toCopy"></param>
-    public Soil_tempComponent(Soil_tempComponent toCopy): this() // copy constructor 
+    public Soil_tempComponent(Soil_tempComponent toCopy): this() // copy constructor
     {
             air_temp_day1 = toCopy.air_temp_day1;
-            
+
             for (int i = 0; i < toCopy.layer_thick.Length; i++)
                 { layer_thick[i] = toCopy.layer_thick[i]; }
-    
+
     }
 }

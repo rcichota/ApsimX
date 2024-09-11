@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;    
-using Models.Core;   
-namespace Models.Crop2ML;
+using System.Linq;
+using Models.Core;
+
+namespace Models.Crop2ML.Monica_SoilTemp;
 
 /// <summary>
 ///- Name: NoSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
@@ -21,7 +22,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 70.0
 ///                          ** min : -50.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: tmax
 ///                          ** description : the days max air temperature
@@ -30,7 +31,7 @@ namespace Models.Crop2ML;
 ///                          ** datatype : DOUBLE
 ///                          ** max : 70.0
 ///                          ** min : -50.0
-///                          ** default : 
+///                          ** default :
 ///                          ** unit : °C
 ///            * name: globrad
 ///                          ** description : the days global radiation
@@ -46,7 +47,7 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : exogenous
 ///                          ** datatype : DOUBLE
-///                          ** max : 
+///                          ** max :
 ///                          ** min : 0.0
 ///                          ** default : 0.0
 ///                          ** unit : dimensionless
@@ -55,8 +56,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : parameter
 ///                          ** parametercategory : constant
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 0.8
 ///                          ** unit : dimensionless
 ///            * name: soilSurfaceTemperature
@@ -64,8 +65,8 @@ namespace Models.Crop2ML;
 ///                          ** inputtype : variable
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** default : 0.0
 ///                          ** unit : °C
 ///- outputs:
@@ -73,8 +74,8 @@ namespace Models.Crop2ML;
 ///                          ** description : soilSurfaceTemperature
 ///                          ** variablecategory : state
 ///                          ** datatype : DOUBLE
-///                          ** max : 
-///                          ** min : 
+///                          ** max :
+///                          ** min :
 ///                          ** unit : °C
 /// </summary>
 public class NoSnowSoilSurfaceTemperature
@@ -84,21 +85,21 @@ public class NoSnowSoilSurfaceTemperature
     /// <summary>
     /// Gets and sets the dampingFactor
     /// </summary>
-    [Description("dampingFactor")] 
-    [Units("dimensionless")] 
-    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.8, parametercategory=constant, inputtype="parameter")] 
+    [Description("dampingFactor")]
+    [Units("dimensionless")]
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.8, parametercategory=constant, inputtype="parameter")]
     public double dampingFactor
     {
         get { return this._dampingFactor; }
-        set { this._dampingFactor= value; } 
+        set { this._dampingFactor= value; }
     }
 
-    
+
     /// <summary>
     /// Constructor of the NoSnowSoilSurfaceTemperature component")
-    /// </summary>  
+    /// </summary>
     public NoSnowSoilSurfaceTemperature() { }
-    
+
     /// <summary>
     /// Algorithm of the NoSnowSoilSurfaceTemperature component
     /// </summary>
