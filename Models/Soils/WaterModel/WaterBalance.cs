@@ -110,10 +110,13 @@ namespace Models.WaterModel
         /// <summary>Water content (mm/mm).</summary>
         private double[] waterVolumetric;
 
+        /// <summary>Invoked when this soil water has been moved.</summary>
+        public event EventHandler SoilWaterMoved;
+
         /// <summary>Start date for switch to summer parameters for soil water evaporation (dd-mmm)</summary>
         [Units("dd-mmm")]
         [Caption("Summer date")]
-        [Description("Start date for switch to summer parameters for soil water evaporation")]
+        [Description("Start date for switch to summer parameters for soil water evaporwation")]
         public string SummerDate { get; set; } = "1-Nov";
 
         /// <summary>Cummulative soil water evaporation to reach the end of stage 1 soil water evaporation in summer (a.k.a. U)</summary>
@@ -629,6 +632,8 @@ namespace Models.WaterModel
 
             // Update the variable in the water model.
             water.Volumetric = waterVolumetric;
+
+            SoilWaterMoved?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>Move water down the profile</summary>
