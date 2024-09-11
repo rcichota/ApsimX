@@ -140,38 +140,33 @@ namespace Models.Core
                 Symbol sym = (Symbol)variablesToFill[i];
                 sym.m_values = null;
                 sym.m_value = 0;
-                IVariable sometypeofobject = (Object as Model).Locator.GetObjectProperties(sym.m_name.Trim(), LocatorFlags.IncludeReportVars | LocatorFlags.ThrowOnError);
+                object sometypeofobject = (Object as Model).FindByPath(sym.m_name.Trim(), LocatorFlags.IncludeReportVars | LocatorFlags.ThrowOnError)?.Value;
                 if (sometypeofobject == null)
                     throw new Exception("Cannot find variable: " + sym.m_name + " while evaluating expression: " + expression);
-
-                object objectValue = sometypeofobject.Value;
-                if (objectValue == null)
-                    throw new Exception("Variable " + sym.m_name + " evaluated to NULL in expression: " + expression);
-                    
-                if (objectValue is double)
-                    sym.m_value = (double)objectValue;
-                else if (objectValue is int)
-                    sym.m_value = Convert.ToDouble(objectValue, System.Globalization.CultureInfo.InvariantCulture);
-                else if (objectValue is double[])
+                if (sometypeofobject is double)
+                    sym.m_value = (double)sometypeofobject;
+                else if (sometypeofobject is int)
+                    sym.m_value = Convert.ToDouble(sometypeofobject, System.Globalization.CultureInfo.InvariantCulture);
+                else if (sometypeofobject is double[])
                 {
-                    sym.m_values = (double[])objectValue;
+                    sym.m_values = (double[])sometypeofobject;
                 }
-                else if (objectValue is double[][])
+                else if (sometypeofobject is double[][])
                 {
-                    double[][] allvalues = objectValue as double[][];
+                    double[][] allvalues = sometypeofobject as double[][];
                     List<double> singleArrayOfValues = new List<double>();
                     foreach (double[] dimension in allvalues)
                         foreach (double value in dimension)
                             singleArrayOfValues.Add(value);
                     sym.m_values = (double[])singleArrayOfValues.ToArray();
                 }
-                else if (objectValue is IFunction fun)
+                else if (sometypeofobject is IFunction fun)
                     sym.m_value = fun.Value();
                 else
                 {
                     try
                     {
-                        sym.m_value = Convert.ToDouble(objectValue, System.Globalization.CultureInfo.InvariantCulture);
+                        sym.m_value = Convert.ToDouble(sometypeofobject, System.Globalization.CultureInfo.InvariantCulture);
                     }
                     catch (InvalidCastException)
                     {
