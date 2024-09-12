@@ -6,7 +6,7 @@
   "Children": [
     {
       "$type": "Models.Memo, Models",
-      "Text": "# Crop2ML - Testing SoilTemperature Models\n\nRogerio Cichota (Plant and Food Research, New Zealand) and Dean Holzworth (CSIRO, Australia)\n\n - Seven sites (climates): sub-tropical (Gainesville, FL, USA), continental (Müncheberg, Germany), tropical (Cali, Colombia), oceanic (Lusignan, France), semi-arid (Maricopa, AZ, USA), Mediterranean (Montpellier, France), Boreal (Quebec City, Canada)\n - Three values for LAI: 0 (bare soil) , 2 (open canopy), 7 (closed canopy)  m2 m-2 (no snow, soil cover, or crop residue)\n - Five soil water content levels: 0%, 25%, 50%, 75%, 100% available water content\n - Four standardised soil types: deep silty clay, deep silty loam, deep sandy loam, deep sand\n - Twelve soil temperature models: DSSAT-ST (DS), DSSAT-EPIC (DE), EPIC (EP), STICS (ST), SIMPLACE-APEX (SA), SiriusQuality (SQ), BioMA-SWAT (SW), BioMA-Parton-SWAT* (PS), BioMA-Campbell** (CA), APSIM *** (AP), MONICA*** (MO) \n\nSimulations will run for 30 years, from 1991 to 2020 (data from NASA POWER)\nFull factorial of the studied factors (420 simulations per platform and model)\n\n\n",
+      "Text": "# Crop2ML - Testing SoilTemperature Models\n\nRogerio Cichota (Plant and Food Research, New Zealand) and Dean Holzworth (CSIRO, Australia)\n\n - Seven sites (climates): sub-tropical (Gainesville, FL, USA), continental (Müncheberg, Germany), tropical (Cali, Colombia), oceanic (Lusignan, France), semi-arid (Maricopa, AZ, USA), Mediterranean (Montpellier, France), Boreal (Quebec City, Canada)\n - Three values for LAI: 0 (bare soil) , 2 (open canopy), 7 (closed canopy)  m2 m-2 (no snow, soil cover, or crop residue)\n - Five soil water content levels: 0%, 25%, 50%, 75%, 100% available water content\n - Four standardised soil types: deep silty clay, deep silty loam, deep sandy loam, deep sand\n - Twelve soil temperature models: DSSAT-ST (DS), DSSAT-EPIC (DE), EPIC (EP), STICS (ST), SIMPLACE-APEX (SA), SiriusQuality (SQ), BioMA-SWAT (SW), BioMA-Parton-SWAT* (PS), BioMA-Campbell** (CA), APSIM *** (AP), MONICA*** (MO) \n\nSimulations will run for 30 years, from 1991 to 2020 (data from NASA POWER)\nFull factorial of the studied factors (420 simulations per platform and model)\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  \n### KEY to model setup and output marking  \n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  \n\n|Platform      |Code   |                  |Model               |Original_Code |Crop2ML_Code |\n|:------------ | -----:|                  |:------------------ | ------------:| -----------:|\n|BioMa         | BI    |                  |APSIM               |    APO       |    APC      |\n|DSSAT         | DS    |                  |BioMA-Campbell      |    CAO       |    CAC      |\n|MONICA        | MO    |                  |BioMA-Parton-SWAT   |    PSO       |    PSC      |\n|OpenAlea      | OA    |                  |BioMA-SWAT          |    SWO       |    SWC      |\n|SIMPLACE      | SI    |                  |DSSAT-EPIC          |    DEO       |    DEC      |\n|SiriusQuality | SQ    |                  |DSSAT-ST            |    DSO       |    DSC      |\n|STICS         | ST    |                  |EPIC                |    EPO       |    EPC      |\n|              |       |                  |MONICA              |    MOO       |    MOC      |\n|              |       |                  |SIMPLACE-APEX       |    SAO       |    SAC      |\n|              |       |                  |SiriusQuality       |    SQO       |    SQC      |\n|              |       |.                .|STICS               |    STO       |    STC      |\n\n!- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  \n\n|Location              | Code  |                  |Soil            | Code  |\n|:-------------------- | -----:|                  |:-------------- | -----:|\n|Cali, Colombia        | COCA  |                  |Silty Clay      | SICL  |\n|Gainesville, USA      | USGA  |                  |Silty Loam      | SILO  |\n|Lusignan, France      | FRLU  |                  |Sandy Loam      | SALO  |\n|Maricopa, USA         | USMA  |                  |Sand            | SAND  |\n|Montpellier, France   | FRMO  |                  |                |       |\n|Muncheburg, Germany   | GEMU  |                  |                |       |\n|Quebec City, Canada   | CAQU  |.                .|                |       |\n\n!- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  \n\n|AW             |  Code   |                               |LAI       | Code  |\n|:------------- | -------:|                               |:-------- | -----:|\n|0% AWC         | AW0.00  |                               |LAI=0     |  L0   |\n|50% AWC        | AW0.50  |                               |LAI=2     |  L2   |\n|75% AWC        | AW0.75  |                               |LAI=7     |  L7   |\n|100% AWC       | AW1.00  |.                             .|          |       |\n",
       "Name": "Introduction",
       "ResourceName": null,
       "Children": [],
@@ -2811,7 +2811,7 @@
                       "Name": "APC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2819,7 +2819,7 @@
                       "Name": "PSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2827,7 +2827,7 @@
                       "Name": "SWC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2843,7 +2843,7 @@
                       "Name": "DSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2851,7 +2851,7 @@
                       "Name": "MOC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2860,7 +2860,7 @@
                       "Name": "SAC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2868,7 +2868,7 @@
                       "Name": "SQC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2876,7 +2876,7 @@
                       "Name": "STC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
@@ -3289,8 +3289,7 @@
                 "\t\t\tdouble paw = Convert.ToDouble(words[3]);",
                 "\t\t\tstring model = words[4];",
                 "\t\t\tstring fileName = $\"SoilTemperature_AP_{model}_{location}_{soil}_L{lai}_AW{paw:0.00}.txt\";",
-                "\t\t\t//string outputFolder = \"Outputs\";",
-                "\t\t\tstring outputFolder = \"Outputs_EPIC\";",
+                "\t\t\tstring outputFolder = \"Outputs\";",
                 "\t\t\tfileName = Path.Combine(Path.GetDirectoryName(simulation.FileName), outputFolder, fileName);",
                 "\t\t\t",
                 "\t\t\t// Open the file for writing.",
