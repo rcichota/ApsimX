@@ -2819,7 +2819,7 @@
                       "Name": "PSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2827,7 +2827,7 @@
                       "Name": "SWC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2835,7 +2835,7 @@
                       "Name": "DEC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2843,7 +2843,7 @@
                       "Name": "DSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2851,7 +2851,7 @@
                       "Name": "MOC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2860,7 +2860,7 @@
                       "Name": "SAC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2868,7 +2868,7 @@
                       "Name": "SQC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2876,7 +2876,7 @@
                       "Name": "STC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
@@ -2954,9 +2954,10 @@
                 "        [Link] Clock clock;",
                 "        [Link] Weather weather;",
                 "        [Link] Simulation simulation;",
-                "        [Link] Water water;",
+                "        //[Link] Water water;",
                 "        [Link] WaterBalance waterBalance;",
                 "        [Link] Soil mySoil;",
+                "        [Link] IPhysical soilPhysical;",
                 "        ",
                 "        private DataTable data;",
                 "        private List<DateTime> dates = new List<DateTime>();",
@@ -3012,8 +3013,14 @@
                 "        \tweather.Amp = Convert.ToDouble(dataView[0][\"TAMP\"]);",
                 "        \t",
                 "        \t// Set starting water",
-                "        \twater.FilledFromTop = true;",
-                "        \twater.FractionFull = PAW;",
+                "        \t//System.Diagnostics.Debugger.Break();",
+                "        \t//water.FilledFromTop = true;",
+                "        \t//water.FractionFull = PAW;   //  <-- this sets the moisture too late (after init of first day)",
+                "        \tdouble[] newSW = new double[soilPhysical.Thickness.Length];",
+                "        \tfor (int z=0; z<soilPhysical.Thickness.Length; z++)",
+                "        \t    newSW[z] = soilPhysical.LL15[z] + (soilPhysical.DUL[z] - soilPhysical.LL15[z])*PAW;",
+                "        \twaterBalance.SW = newSW;",
+                "",
                 "",
                 "        \t// Broadcast mean profile density (needed by SimPlace)",
                 "       \t    if (mySoil.LocalName == \"SICL\")",
@@ -3258,7 +3265,8 @@
                 "\t\t\tdouble paw = Convert.ToDouble(words[3]);",
                 "\t\t\tstring model = words[4];",
                 "\t\t\tstring fileName = $\"SoilTemperature_AP_{model}_{location}_{soil}_L{lai}_AW{paw:0.00}.txt\";",
-                "\t\t\tstring outputFolder = \"Outputs\";",
+                "\t\t\t//string outputFolder = \"Outputs\";",
+                "\t\t\tstring outputFolder = \"Outputs_SimPlace\";",
                 "\t\t\tfileName = Path.Combine(Path.GetDirectoryName(simulation.FileName), outputFolder, fileName);",
                 "\t\t\t",
                 "\t\t\t// Open the file for writing.",
