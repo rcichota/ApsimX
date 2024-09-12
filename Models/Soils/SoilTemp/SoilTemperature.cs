@@ -550,7 +550,7 @@ namespace Models.Soils.SoilTemp
         /// <summary>HACK to use set evaporation</summary>
         [JsonIgnore]
         [Units("mm")]
-        private double waterBalanceEos
+        private double waterBalanceEo
         {
             get
             {
@@ -561,7 +561,7 @@ namespace Models.Soils.SoilTemp
         /// <summary>HACK to use set evaporation</summary>
         [JsonIgnore]
         [Units("mm")]
-        private double waterBalanceEo
+        private double waterBalanceEos
         {
             get
             {

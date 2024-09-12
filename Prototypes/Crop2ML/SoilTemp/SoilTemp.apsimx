@@ -2811,7 +2811,7 @@
                       "Name": "APC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     },
                     {
@@ -2868,7 +2868,7 @@
                       "Name": "SQC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -3049,11 +3049,11 @@
                   "Value": "0"
                 },
                 {
-                  "Key": "PAW",
+                  "Key": "profileDensity",
                   "Value": "0"
                 },
                 {
-                  "Key": "profileDensity",
+                  "Key": "PAW",
                   "Value": "0"
                 }
               ],
@@ -3076,6 +3076,7 @@
                 "using Models.Interfaces;",
                 "using Models.Core;",
                 "using Models.Climate;",
+                "using Models.WaterModel;",
                 "using APSIM.Shared.Utilities;",
                 "namespace Models",
                 "{",
@@ -3087,6 +3088,7 @@
                 "        [Link] Weather weather;",
                 "        [Link] Simulation simulation;",
                 "        [Link] CalcWTHFileName calcWTHFileName;",
+                "        [Link] WaterBalance waterBalance;",
                 "        ",
                 "        private DataTable data;",
                 "        private List<DateTime> dates = new List<DateTime>();",
@@ -3150,7 +3152,12 @@
                 "               weather.Radn = Convert.ToDouble(data.Rows[rowIndex][\"SRAD\"]);",
                 "               PotEvapotranspiration = Convert.ToDouble(data.Rows[rowIndex][\"EOAD\"]);",
                 "               PotEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"ESP\"]);",
+                "               //ActualEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"G\"]) / 2465000.0;",
                 "               ActualEvaporation = 0.0;",
+                "",
+                "               //PotEvapotranspiration = waterBalance.Eo;",
+                "               //PotEvaporation = waterBalance.Eos;",
+                "               //ActualEvaporation = waterBalance.Es;",
                 "            }",
                 "        }",
                 "    }",
@@ -3163,11 +3170,11 @@
                   "Value": ""
                 },
                 {
-                  "Key": "PotEvaporation",
+                  "Key": "PotEvapotranspiration",
                   "Value": "0"
                 },
                 {
-                  "Key": "PotEvapotranspiration",
+                  "Key": "PotEvaporation",
                   "Value": "0"
                 },
                 {
