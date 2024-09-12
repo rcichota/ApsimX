@@ -61,9 +61,16 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
     public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}}
 
     /// <summary>
+    ///  The get method of the Average surface soil temperature output variable
+    /// </summary>
+    [Description("Average surface soil temperature")]
+    [Units("degC")]
+    public double SurfaceSoilTemperature { get { return a.SurfaceSoilTemperature; } }
+
+    /// <summary>
     ///
     /// </summary>
-    public double AverageSoilSurfaceTemperature => double.NaN;
+    public double AverageSoilSurfaceTemperature => SurfaceSoilTemperature;
 
     /// <summary>
     ///
@@ -78,7 +85,7 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
+    public double[] AverageSoilTemperature => SoilTemperatureByLayers;
 
     /// <summary>
     ///
@@ -90,17 +97,12 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
 
-    /// <summary>
-    ///  The get method of the Average surface soil temperature output variable
-    /// </summary>
-    [Description("Average surface soil temperature")]
-    [Units("degC")]
-    public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}}
 
     /// <summary>
-    ///  The get method of the Soil temperature of each layer output variable
+    /// Soil temperature of each layer output variable
     /// </summary>
-    public double[] Value{ get { return s.SoilTemperatureByLayers;}}
+    public double[] Value => AverageSoilTemperature;
+
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SurfaceSWATSoilSWATCComponent

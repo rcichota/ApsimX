@@ -106,21 +106,10 @@ public class STEMP_Wrapper :  Model, ISoilTemperature
     [Units("cm")]
     public double[] DSMID{ get { return s.DSMID;}}
 
-        /// <summary>
-    ///  The get method of the Soil temperature of each layer output variable
-    /// </summary>
-    public double[] Value{ get { return s.ST;}}
-
-
-    /// <summary>
-    ///  Soil surface temperature
-    /// </summary>
-    public double SurfaceSoilTemperature{ get { return s.SRFTEMP;}}
-
     /// <summary>
     ///
     /// </summary>
-    public double AverageSoilSurfaceTemperature => double.NaN;
+    public double AverageSoilSurfaceTemperature { get { return s.SRFTEMP; } }
 
     /// <summary>
     ///
@@ -135,7 +124,7 @@ public class STEMP_Wrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+    public double[] AverageSoilTemperature { get { return s.ST; } }
 
     /// <summary>
     ///
@@ -147,6 +136,10 @@ public class STEMP_Wrapper :  Model, ISoilTemperature
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
 
+    /// <summary>
+    ///  The get method of the Soil temperature of each layer output variable
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
 
 
     /// <summary>

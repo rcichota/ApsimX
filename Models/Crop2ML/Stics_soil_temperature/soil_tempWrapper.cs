@@ -98,18 +98,6 @@ public class Soil_tempWrapper :  Model, ISoilTemperature
     [Units("degC")]
     public double canopy_temp_avg{ get { return s.canopy_temp_avg;}}
 
-        /// <summary>
-    /// Soil temperature by layer
-    /// </summary>
-    public double[] Value => AverageSoilTemperature;
-
-    /// <summary>
-    /// Surface soil temperature.
-    /// </summary>
-    public double SurfaceSoilTemperature => 0;
-
-
-
     /// <summary>
     ///
     /// </summary>
@@ -139,6 +127,11 @@ public class Soil_tempWrapper :  Model, ISoilTemperature
     ///
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    /// Soil temperature by layer
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
 
 
     /// <summary>

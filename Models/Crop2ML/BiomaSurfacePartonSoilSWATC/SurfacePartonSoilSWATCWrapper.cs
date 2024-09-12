@@ -59,7 +59,6 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     [Units("degC")]
     public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}}
 
-
     /// <summary>
     ///  The get method of the Minimum surface soil temperature output variable
     /// </summary>
@@ -81,30 +80,26 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     [Units("degC")]
     public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}}
 
-    /// <summary>
-    ///  The get method of the Soil temperature of each layer output variable
-    /// </summary>
-    public double[] Value{ get { return s.SoilTemperatureByLayers;}}
 
     /// <summary>
     ///
     /// </summary>
-    public double AverageSoilSurfaceTemperature => double.NaN;
+    public double AverageSoilSurfaceTemperature => SurfaceSoilTemperature;
 
     /// <summary>
     ///
     /// </summary>
-    public double MinimumSoilSurfaceTemperature => a.SurfaceTemperatureMinimum;
+    public double MinimumSoilSurfaceTemperature => double.NaN;
 
     /// <summary>
     ///
     /// </summary>
-    public double MaximumSoilSurfaceTemperature => a.SurfaceTemperatureMaximum;
+    public double MaximumSoilSurfaceTemperature => double.NaN;
 
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
+    public double[] AverageSoilTemperature { get { return s.SoilTemperatureByLayers; } }
 
     /// <summary>
     ///
@@ -116,6 +111,10 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, s.SoilTemperatureByLayers.Length).ToArray();
 
+    /// <summary>
+    ///  The get method of the Soil temperature of each layer output variable
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
 
 
 

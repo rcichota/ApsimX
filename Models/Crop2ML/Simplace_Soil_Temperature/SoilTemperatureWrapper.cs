@@ -117,17 +117,11 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")]
     public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}}
 
-
     /// <summary>
     ///
     /// </summary>
     [Units("mm")]
     public double cDampingDepth { get; set; } = 6000.0;
-
-    /// <summary>
-    /// Soil temperature by layer.
-    /// </summary>
-    public double[] Value => AverageSoilTemperature;
 
     /// <summary>
     ///
@@ -159,6 +153,10 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
 
+    /// <summary>
+    /// Soil temperature by layer.
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
 
 
     /// <summary>

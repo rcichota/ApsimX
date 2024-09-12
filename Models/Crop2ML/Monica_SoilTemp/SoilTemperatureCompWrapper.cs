@@ -77,22 +77,11 @@ public class SoilTemperatureCompWrapper :  Model, ISoilTemperature
     }
 
     /// <summary>
-    ///  The get method of the soilTemperature next day output variable
-    /// </summary>
-    public double[] Value => soilTemperature;
-
-    /// <summary>
     ///  The get method of the soilSurfaceTemperature output variable
     /// </summary>
     [Description("soilSurfaceTemperature")]
     [Units("°C")]
     public double SoilSurfaceTemperature{ get { return s.soilSurfaceTemperature;}}
-
-
-    /// <summary>
-    ///  Soil surface temperature
-    /// </summary>
-    public double SurfaceSoilTemperature{ get { return SoilSurfaceTemperature;}}
 
     /// <summary>
     ///
@@ -123,6 +112,12 @@ public class SoilTemperatureCompWrapper :  Model, ISoilTemperature
     ///
     /// </summary>
     public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+
+    /// <summary>
+    ///  The get method of the soilTemperature next day output variable
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
+
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SoilTemperatureCompComponent

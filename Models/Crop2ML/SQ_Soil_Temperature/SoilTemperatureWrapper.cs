@@ -22,7 +22,7 @@ namespace Models.Crop2ML.SQ_Soil_Temperature;
 [ValidParent(ParentType = typeof(Zone))]
 [ValidParent(ParentType = typeof(CompositeFactor))]
 
-public class SoilTemperatureWrapper :  Model, ISoilTemperature
+public class SoilTemperatureWrapper : Model, ISoilTemperature
 {
     [Link] Clock clock = null;
     [Link] Weather weather = null;
@@ -56,7 +56,7 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// </summary>
     [Description("Minimum Soil Temperature")]
     [Units("Â°C")]
-    public double minTSoil{ get { return s.minTSoil;}}
+    public double minTSoil { get { return s.minTSoil; } }
 
 
     /// <summary>
@@ -64,7 +64,7 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// </summary>
     [Description("Temperature of the last soil layer")]
     [Units("Â°C")]
-    public double deepLayerT{ get { return s.deepLayerT;}}
+    public double deepLayerT { get { return s.deepLayerT; } }
 
 
     /// <summary>
@@ -72,7 +72,7 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// </summary>
     [Description("Maximum Soil Temperature")]
     [Units("Â°C")]
-    public double maxTSoil{ get { return s.maxTSoil;}}
+    public double maxTSoil { get { return s.maxTSoil; } }
 
 
     /// <summary>
@@ -80,18 +80,7 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// </summary>
     [Description("Hourly Soil Temperature")]
     [Units("Â°C")]
-    public double[] hourlySoilT{ get { return s.hourlySoilT;}}
-
-    /// <summary>
-    /// Soil temperature by layer
-    /// </summary>
-    public double[] Value => Enumerable.Repeat(deepLayerT, physical.Thickness.Length).ToArray();
-
-    /// <summary>
-    /// Surface soil temperature.
-    /// </summary>
-    public double SurfaceSoilTemperature => deepLayerT;
-
+    public double[] hourlySoilT { get { return s.hourlySoilT; } }
 
     /// <summary>
     ///
@@ -111,18 +100,46 @@ public class SoilTemperatureWrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+    public double[] AverageSoilTemperature
+    {
+        get
+        {
+            double[] result = Enumerable.Repeat(deepLayerT, physical.Thickness.Length).ToArray();
+            result[0] = (maxTSoil + minTSoil)/ 2.0;
+            return result;
+        }
+    }
 
     /// <summary>
     ///
     /// </summary>
-    public double[] MinimumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+    public double[] MinimumSoilTemperature
+    {
+        get
+        {
+            double[] result = Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+            result[0] = minTSoil;
+            return result;
+        }
+    }
 
     /// <summary>
     ///
     /// </summary>
-    public double[] MaximumSoilTemperature => Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+    public double[] MaximumSoilTemperature
+    {
+        get
+        {
+            double[] result = Enumerable.Repeat(double.NaN, Value.Length).ToArray();
+            result[0] = maxTSoil;
+            return result;
+        }
+    }
 
+    /// <summary>
+    /// Soil temperature by layer
+    /// </summary>
+    public double[] Value => AverageSoilTemperature;
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SoilTemperatureComponent
