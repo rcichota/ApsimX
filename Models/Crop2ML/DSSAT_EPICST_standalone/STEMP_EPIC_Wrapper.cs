@@ -27,9 +27,10 @@ public class STEMP_EPIC_Wrapper :  Model, ISoilTemperature
     [Link] Clock clock = null;
     [Link] Weather weather = null;
     [Link] Physical physical = null;
-    [Link] Plant[] plants = null;
-    [Link] Water water = null;
+    //[Link] Plant[] plants = null;
+    [Link] ISoilWater waterBalance = null;
     [Link] SurfaceOrganicMatter surfaceOrganicMatter = null;
+    [Link] Simulation simulation = null;
 
     /// <summary>Event invoke when the soil temperature has changed</summary>
     public event EventHandler SoilTemperatureChanged;
@@ -129,7 +130,7 @@ public class STEMP_EPIC_Wrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double AverageSoilSurfaceTemperature { get { return s.SRFTEMP; } }
+    public double AverageSoilSurfaceTemperature => SRFTEMP;
 
     /// <summary>
     ///
@@ -144,7 +145,7 @@ public class STEMP_EPIC_Wrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double[] AverageSoilTemperature { get { return s.ST; } }
+    public double[] AverageSoilTemperature => ST;
 
     /// <summary>
     ///
@@ -196,12 +197,12 @@ public class STEMP_EPIC_Wrapper :  Model, ISoilTemperature
         stemp_epic_Component.DUL = physical.DUL;
         stemp_epic_Component.NL = physical.Thickness.Length;
         stemp_epic_Component.NLAYR = physical.Thickness.Length;
-        stemp_epic_Component.DS = SoilUtilities.ToCumThickness(MathUtilities.Divide_Value(physical.Thickness, 10));
+        stemp_epic_Component.DS = MathUtilities.Divide_Value(physical.ThicknessCumulative, 10.0); // to cm
         stemp_epic_Component.ISWWAT = "Y";
         stemp_epic_Component.BD = physical.BD;
         stemp_epic_Component.LL = physical.LL15;
         stemp_epic_Component.DLAYR = MathUtilities.Divide_Value(physical.Thickness, 10.0); // to cm
-        stemp_epic_Component.SW = water.Volumetric;
+        stemp_epic_Component.SW = waterBalance.SW;
     }
 
     /// <summary>
@@ -210,10 +211,10 @@ public class STEMP_EPIC_Wrapper :  Model, ISoilTemperature
     private void setExogenous()
     {
         ex.TAV = weather.Tav;
-        ex.RAIN = weather.Rain;
-        ex.BIOMAS = plants.Sum(p => p.AboveGround.Wt);
+        ex.RAIN = (double)simulation.Get("[ReadWTHFile].Script.Rain");
+        ex.BIOMAS = (double)simulation.Get("[TreatmentApply].Script.AboveGroundBiomass");
         ex.SNOW = 0;
-        ex.TAVG = weather.Tav;
+        ex.TAVG = weather.MeanT;
         ex.DEPIR = 0;
         ex.MULCHMASS = surfaceOrganicMatter.Wt;
         ex.TMAX = weather.MaxT;

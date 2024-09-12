@@ -2811,7 +2811,7 @@
                       "Name": "APC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2819,7 +2819,7 @@
                       "Name": "PSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2827,7 +2827,7 @@
                       "Name": "SWC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2843,7 +2843,7 @@
                       "Name": "DSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2851,7 +2851,7 @@
                       "Name": "MOC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2860,7 +2860,7 @@
                       "Name": "SAC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2868,7 +2868,7 @@
                       "Name": "SQC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2876,7 +2876,7 @@
                       "Name": "STC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
@@ -2970,6 +2970,9 @@
                 "        [Description(\"LAI\")]",
                 "        public double LAI { get; set; }",
                 "        ",
+                "        [Description(\"AboveGroundBiomass\")]",
+                "        public double AboveGroundBiomass { get; set; }",
+                "        ",
                 "        [Description(\"Profile average bulk density\")]",
                 "        public double profileDensity { get; set; }",
                 "        ",
@@ -3012,6 +3015,15 @@
                 "        \tweather.Tav = Convert.ToDouble(dataView[0][\"TAV\"]);",
                 "        \tweather.Amp = Convert.ToDouble(dataView[0][\"TAMP\"]);",
                 "        \t",
+                "            if (LAI == 0.0)",
+                "           \t    AboveGroundBiomass = 0.0;",
+                "       \t    else if (LAI == 2.0)",
+                "           \t    AboveGroundBiomass = 1800;",
+                "       \t    else if (LAI == 7.0)",
+                "       \t        AboveGroundBiomass = 10500;",
+                "       \t    else",
+                "               \tthrow new Exception($\"Cannot define the AboveGroundBiomass for LAI {LAI}\");",
+                "",
                 "        \t// Set starting water",
                 "        \t//System.Diagnostics.Debugger.Break();",
                 "        \t//water.FilledFromTop = true;",
@@ -3020,7 +3032,6 @@
                 "        \tfor (int z=0; z<soilPhysical.Thickness.Length; z++)",
                 "        \t    newSW[z] = soilPhysical.LL15[z] + (soilPhysical.DUL[z] - soilPhysical.LL15[z])*PAW;",
                 "        \twaterBalance.SW = newSW;",
-                "",
                 "",
                 "        \t// Broadcast mean profile density (needed by SimPlace)",
                 "       \t    if (mySoil.LocalName == \"SICL\")",
@@ -3061,6 +3072,10 @@
                 },
                 {
                   "Key": "PAW",
+                  "Value": "0"
+                },
+                {
+                  "Key": "AboveGroundBiomass",
                   "Value": "0"
                 }
               ],
@@ -3113,6 +3128,10 @@
                 "        [Description(\"Actual soil evaporation\")]",
                 "        public double ActualEvaporation { get; set; }",
                 "        ",
+                "        [Description(\"Rainfall\")]",
+                "        public double Rain { get; set; }",
+                "",
+                "        ",
                 "        [EventSubscribe(\"StartOfSimulation\")]",
                 "        private void OnStartOfSimulation(object sender, EventArgs e)",
                 "        {",
@@ -3161,6 +3180,7 @@
                 "               PotEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"ESP\"]);",
                 "               //ActualEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"G\"]) / 2465000.0;",
                 "               ActualEvaporation = 0.0;",
+                "               Rain = Convert.ToDouble(data.Rows[rowIndex][\"RAIN\"]);",
                 "",
                 "               //PotEvapotranspiration = waterBalance.Eo;",
                 "               //PotEvaporation = waterBalance.Eos;",
@@ -3186,6 +3206,10 @@
                 },
                 {
                   "Key": "ActualEvaporation",
+                  "Value": "0"
+                },
+                {
+                  "Key": "Rain",
                   "Value": "0"
                 }
               ],
@@ -3266,7 +3290,7 @@
                 "\t\t\tstring model = words[4];",
                 "\t\t\tstring fileName = $\"SoilTemperature_AP_{model}_{location}_{soil}_L{lai}_AW{paw:0.00}.txt\";",
                 "\t\t\t//string outputFolder = \"Outputs\";",
-                "\t\t\tstring outputFolder = \"Outputs_SimPlace\";",
+                "\t\t\tstring outputFolder = \"Outputs_EPIC\";",
                 "\t\t\tfileName = Path.Combine(Path.GetDirectoryName(simulation.FileName), outputFolder, fileName);",
                 "\t\t\t",
                 "\t\t\t// Open the file for writing.",
