@@ -2811,7 +2811,7 @@
                       "Name": "APC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2819,7 +2819,7 @@
                       "Name": "PSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2827,7 +2827,7 @@
                       "Name": "SWC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2835,7 +2835,7 @@
                       "Name": "DEC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2843,7 +2843,7 @@
                       "Name": "DSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2851,7 +2851,7 @@
                       "Name": "MOC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2860,7 +2860,7 @@
                       "Name": "SAC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2876,7 +2876,7 @@
                       "Name": "STC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
@@ -3095,9 +3095,14 @@
                 "        [Description(\"Name of .WTH file to read\")]",
                 "        public string FileName { get; set; }",
                 "        ",
+                "        [Description(\"Potential Evapotranspiration\")]",
+                "        public double PotEvapotranspiration { get; set; }",
+                "        ",
                 "        [Description(\"Potential soil evaporation\")]",
                 "        public double PotEvaporation { get; set; }",
-                "        ",
+                "",
+                "        [Description(\"Actual soil evaporation\")]",
+                "        public double ActualEvaporation { get; set; }",
                 "        ",
                 "        [EventSubscribe(\"StartOfSimulation\")]",
                 "        private void OnStartOfSimulation(object sender, EventArgs e)",
@@ -3143,7 +3148,9 @@
                 "               weather.MaxT = Convert.ToDouble(data.Rows[rowIndex][\"TMAX\"]);",
                 "               weather.MinT = Convert.ToDouble(data.Rows[rowIndex][\"TMIN\"]);",
                 "               weather.Radn = Convert.ToDouble(data.Rows[rowIndex][\"SRAD\"]);",
+                "               PotEvapotranspiration = Convert.ToDouble(data.Rows[rowIndex][\"EOAD\"]);",
                 "               PotEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"ESP\"]);",
+                "               ActualEvaporation = 0.0;",
                 "            }",
                 "        }",
                 "    }",
@@ -3157,6 +3164,14 @@
                 },
                 {
                   "Key": "PotEvaporation",
+                  "Value": "0"
+                },
+                {
+                  "Key": "PotEvapotranspiration",
+                  "Value": "0"
+                },
+                {
+                  "Key": "ActualEvaporation",
                   "Value": "0"
                 }
               ],
@@ -3235,7 +3250,7 @@
                 "\t\t\tdouble lai = Convert.ToDouble(words[2]);",
                 "\t\t\tdouble paw = Convert.ToDouble(words[3]);",
                 "\t\t\tstring model = words[4];",
-                "\t\t\tstring fileName = $\"SoilTemperature_APSIM_{model}_{location}_{soil}_L{lai}_AW{paw:0.00}.txt\";",
+                "\t\t\tstring fileName = $\"SoilTemperature_AP_{model}_{location}_{soil}_L{lai}_AW{paw:0.00}.txt\";",
                 "\t\t\tstring outputFolder = \"Outputs\";",
                 "\t\t\tfileName = Path.Combine(Path.GetDirectoryName(simulation.FileName), outputFolder, fileName);",
                 "\t\t\t",
