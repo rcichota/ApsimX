@@ -137,9 +137,9 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
     {
         surfaceswatsoilswatcComponent.BulkDensity = physical.BD;
         surfaceswatsoilswatcComponent.AirTemperatureAnnualAverage = weather.Tav;
-        surfaceswatsoilswatcComponent.SoilProfileDepth = physical.Thickness.Sum();
+        surfaceswatsoilswatcComponent.SoilProfileDepth = physical.Thickness.Sum() / 1000.0;  // to m
         surfaceswatsoilswatcComponent.LagCoefficient = 0.8;
-        surfaceswatsoilswatcComponent.LayerThickness = physical.Thickness;
+        surfaceswatsoilswatcComponent.LayerThickness = MathUtilities.Divide_Value(physical.Thickness, 1000.0);  // to m
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
         ex.AirTemperatureMaximum = weather.MaxT;
         ex.AirTemperatureMinimum = weather.MinT;
         ex.GlobalSolarRadiation = weather.Radn;
-        ex.WaterEquivalentOfSnowPack = 10;
+        ex.WaterEquivalentOfSnowPack = 0.0;  // should be read in  (always = 0)
         ex.Albedo = waterBalance.Salb;
         ex.VolumetricWaterContent = water.Volumetric;
     }

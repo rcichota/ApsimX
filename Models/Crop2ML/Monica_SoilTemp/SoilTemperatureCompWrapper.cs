@@ -29,6 +29,7 @@ public class SoilTemperatureCompWrapper :  Model, ISoilTemperature
     [Link] Physical physical = null;
     [Link] Water water = null;
     [Link] Organic organic = null;
+    [Link] Simulation simulation = null;
 
     /// <summary>Event invoke when the soil temperature has changed</summary>
     public event EventHandler SoilTemperatureChanged;
@@ -168,9 +169,9 @@ public class SoilTemperatureCompWrapper :  Model, ISoilTemperature
         soiltemperaturecompComponent.noOfTempLayers = 44;
         soiltemperaturecompComponent.noOfTempLayersPlus1 = 45;
         soiltemperaturecompComponent.noOfSoilLayers = monicaSoilThickness.Length;
-        soiltemperaturecompComponent.soilBulkDensity = SoilUtilities.MapConcentration(physical.BD, physical.Thickness, monicaSoilThickness, double.NaN);
+        soiltemperaturecompComponent.soilBulkDensity = MathUtilities.Multiply_Value(SoilUtilities.MapConcentration(physical.BD, physical.Thickness, monicaSoilThickness, double.NaN), 1000.0);  // to kg/m3
         soiltemperaturecompComponent.saturation = SoilUtilities.MapConcentration(physical.SAT, physical.Thickness, monicaSoilThickness, double.NaN);
-        soiltemperaturecompComponent.soilOrganicMatter = SoilUtilities.MapConcentration(organic.Carbon, physical.Thickness, monicaSoilThickness, double.NaN);
+        soiltemperaturecompComponent.soilOrganicMatter = MathUtilities.Divide_Value(SoilUtilities.MapConcentration(organic.Carbon, physical.Thickness, monicaSoilThickness, double.NaN), 0.57 * 100);   // convert to OM (g/g)
         monicaSoilThickness = Enumerable.Repeat(50.0, 44).ToArray();
         soiltemperaturecompComponent.layerThickness = MathUtilities.Divide_Value(monicaSoilThickness, 1000.0);
     }
@@ -183,7 +184,8 @@ public class SoilTemperatureCompWrapper :  Model, ISoilTemperature
         ex.tmin = weather.MinT;
         ex.tmax = weather.MaxT;
         ex.globrad = weather.Radn;
-        ex.soilCoverage = 0;
+        double myLAI = (double)simulation.Get("[TreatmentApply].Script.LAI");
+        ex.soilCoverage = 1.0 - Math.Exp(-0.5 * myLAI);
         ex.soilSurfaceTemperatureBelowSnow = 0.0;
         ex.hasSnowCover = false;
     }

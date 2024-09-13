@@ -2808,7 +2808,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "APC",
+                      "Name": "APO",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -2954,7 +2954,7 @@
                 "        [Link] Clock clock;",
                 "        [Link] Weather weather;",
                 "        [Link] Simulation simulation;",
-                "        //[Link] Water water;",
+                "        [Link] Water water;",
                 "        [Link] WaterBalance waterBalance;",
                 "        [Link] Soil mySoil;",
                 "        [Link] IPhysical soilPhysical;",
@@ -3026,8 +3026,8 @@
                 "",
                 "        \t// Set starting water",
                 "        \t//System.Diagnostics.Debugger.Break();",
-                "        \t//water.FilledFromTop = true;",
-                "        \t//water.FractionFull = PAW;   //  <-- this sets the moisture too late (after init of first day)",
+                "        \twater.FilledFromTop = false;",
+                "        \twater.FractionFull = PAW;   //  <-- this sets the moisture too late (after init of first day), still needed (there are two settings...)",
                 "        \tdouble[] newSW = new double[soilPhysical.Thickness.Length];",
                 "        \tfor (int z=0; z<soilPhysical.Thickness.Length; z++)",
                 "        \t    newSW[z] = soilPhysical.LL15[z] + (soilPhysical.DUL[z] - soilPhysical.LL15[z])*PAW;",
@@ -3130,6 +3130,9 @@
                 "        ",
                 "        [Description(\"Rainfall\")]",
                 "        public double Rain { get; set; }",
+                "        ",
+                "        [Description(\"Length of the day\")]",
+                "        public double DayLength { get; set; }",
                 "",
                 "        ",
                 "        [EventSubscribe(\"StartOfSimulation\")]",
@@ -3181,6 +3184,7 @@
                 "               //ActualEvaporation = Convert.ToDouble(data.Rows[rowIndex][\"G\"]) / 2465000.0;",
                 "               ActualEvaporation = 0.0;",
                 "               Rain = Convert.ToDouble(data.Rows[rowIndex][\"RAIN\"]);",
+                "               DayLength = Convert.ToDouble(data.Rows[rowIndex][\"DAYLD\"]);",
                 "",
                 "               //PotEvapotranspiration = waterBalance.Eo;",
                 "               //PotEvaporation = waterBalance.Eos;",
@@ -3210,6 +3214,10 @@
                 },
                 {
                   "Key": "Rain",
+                  "Value": "0"
+                },
+                {
+                  "Key": "DayLength",
                   "Value": "0"
                 }
               ],

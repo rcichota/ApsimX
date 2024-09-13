@@ -26,8 +26,9 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     [Link] Clock clock = null;
     [Link] Weather weather = null;
     [Link] Physical physical = null;
-    [Link] Plant[] plants = null;
+    //[Link] Plant[] plants = null;
     [Link] Water water = null;
+    [Link] Simulation simulation = null;
 
     private SurfacePartonSoilSWATCState s;
     private SurfacePartonSoilSWATCState s1;
@@ -89,12 +90,12 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double MinimumSoilSurfaceTemperature => double.NaN;
+    public double MinimumSoilSurfaceTemperature => SurfaceTemperatureMinimum;
 
     /// <summary>
     ///
     /// </summary>
-    public double MaximumSoilSurfaceTemperature => double.NaN;
+    public double MaximumSoilSurfaceTemperature => SurfaceTemperatureMaximum;
 
     /// <summary>
     ///
@@ -149,9 +150,9 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     /// </summary>
     private void loadParameters()
     {
-        surfacepartonsoilswatcComponent.LayerThickness = physical.Thickness;
+        surfacepartonsoilswatcComponent.LayerThickness = MathUtilities.Divide_Value(physical.Thickness, 1000.0); // to m
         surfacepartonsoilswatcComponent.BulkDensity = physical.BD;
-        surfacepartonsoilswatcComponent.SoilProfileDepth = physical.Thickness.Sum();
+        surfacepartonsoilswatcComponent.SoilProfileDepth = physical.Thickness.Sum() / 1000.0;  // to m
         surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = weather.Tav;
         surfacepartonsoilswatcComponent.LagCoefficient = 0.8;
     }
@@ -161,9 +162,9 @@ public class SurfacePartonSoilSWATCWrapper :  Model, ISoilTemperature
     /// </summary>
     private void setExogenous()
     {
-        ex.DayLength = weather.DayLength;
+        ex.DayLength = (double)simulation.Get("[ReadWTHFile].Script.DayLength");
         ex.GlobalSolarRadiation = weather.Radn;
-        ex.AboveGroundBiomass = plants.Sum(p => p.AboveGround.Wt);
+        ex.AboveGroundBiomass = (double)simulation.Get("[TreatmentApply].Script.AboveGroundBiomass");
         ex.AirTemperatureMinimum = weather.MinT;
         ex.AirTemperatureMaximum = weather.MaxT;
         ex.VolumetricWaterContent  = water.Volumetric;
