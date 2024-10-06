@@ -29,6 +29,7 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
     [Link] Physical physical = null;
     [Link] Water water = null;
     [Link] WaterBalance waterBalance = null;
+    [Link] Simulation simulation = null;
 
     private SurfaceSWATSoilSWATCState s;
     private SurfaceSWATSoilSWATCState s1;
@@ -153,6 +154,7 @@ public class SurfaceSWATSoilSWATCWrapper :  Model, ISoilTemperature
         ex.WaterEquivalentOfSnowPack = 0.0;  // should be read in  (always = 0)
         ex.Albedo = waterBalance.Salb;
         ex.VolumetricWaterContent = water.Volumetric;
+        a.AboveGroundBiomass = (double)simulation.Get("[TreatmentApply].Script.AboveGroundBiomass");
     }
 
     /// <summary>
