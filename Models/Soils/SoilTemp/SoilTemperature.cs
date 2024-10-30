@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using APSIM.Shared.Utilities;
 using Models.Core;
 using Models.Interfaces;
 
@@ -320,7 +322,7 @@ namespace Models.Soils.SoilTemp
             const double RGAS = 8.3143;       // universal gas constant (J/mol/K)
             const double HPA2PA = 100.0;      // hectoPascals to Pascals
 
-            return Divide(MWair * AirPressure * HPA2PA, kelvinT(temperature) * RGAS, 0.0);
+            return MathUtilities.Divide(MWair * AirPressure * HPA2PA, kelvinT(temperature) * RGAS, 0.0);
         }
 
         #endregion  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -519,8 +521,19 @@ namespace Models.Soils.SoilTemp
 
         #region Input for this model  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        /// <summary>Thickness of soil layers (mm)</summary>
+        /// <summary>Depth strings. Wrapper around Thickness</summary>
+        /// <remarks>Use for display only, values taken from thickness</remarks>
+        [Display]
+        [Summary]
         [Units("mm")]
+        [JsonIgnore]
+        public string[] Depth
+        {
+            get => SoilUtilities.ToDepthStrings(Thickness);
+            set => Thickness = SoilUtilities.ToThickness(value);
+        }
+
+        /// <summary>Thickness of soil layers (mm)</summary>
         public double[] Thickness { get; set; }
 
         /// <summary>Initial values for the temperature in each layer (oC)</summary>
@@ -724,7 +737,7 @@ namespace Models.Soils.SoilTemp
 
             if (doInitialisationStuff)
             {
-                if (ValuesInArray(InitialValues))
+                if (MathUtilities.ValuesInArray(InitialValues))
                 {
                     soilTemp = new double[numNodes + 1 + 1];
                     Array.ConstrainedCopy(InitialValues, 0, soilTemp, topsoilNode, InitialValues.Length);
@@ -824,7 +837,7 @@ namespace Models.Soils.SoilTemp
 
             // add enough to make last node at 9-10 meters - should always be enough to assume constant temperature
             // Depth added below profile to take last node to constant temperature zone (m)
-            double belowProfileDepth = Math.Max(DepthToConstantTemperature - Sum(thickness, 1, numLayers), 1000.0);
+            double belowProfileDepth = Math.Max(DepthToConstantTemperature - MathUtilities.Sum(thickness, 1, numLayers), 1000.0);
 
             double thicknessForPhantomNodes = belowProfileDepth * 2.0 / numPhantomNodes; // double depth so that bottom node at mid-point is at the ConstantTempDepth
             int firstPhantomNode = numLayers;
@@ -840,7 +853,7 @@ namespace Models.Soils.SoilTemp
             nodeDepth[surfaceNode] = 0.0;
             nodeDepth[topsoilNode] = 0.5 * thickness[1] / 1000.0;
             for (int node = topsoilNode; node <= numNodes; node++)
-                nodeDepth[node + 1] = (Sum(thickness, 1, node - 1) + 0.5 * thickness[node]) / 1000.0;
+                nodeDepth[node + 1] = (MathUtilities.Sum(thickness, 1, node - 1) + 0.5 * thickness[node]) / 1000.0;
 
             // BD
             var oldBulkDensity = bulkDensity;
@@ -860,7 +873,7 @@ namespace Models.Soils.SoilTemp
             if (waterBalance.SW != null)
             {
                 for (int layer = 1; layer <= numLayers; layer++)
-                    soilWater[layer] = Divide(waterBalance.SWmm[layer - 1], thickness[layer], 0);
+                    soilWater[layer] = MathUtilities.Divide(waterBalance.SWmm[layer - 1], thickness[layer], 0);
                 for (int layer = numLayers + 1; layer <= numLayers + numPhantomNodes; layer++)
                     soilWater[layer] = soilWater[numLayers];
             }
@@ -955,7 +968,7 @@ namespace Models.Soils.SoilTemp
                 thermCondPar2[element] = 1.06 * bulkDensity[layer];                              // * SW[i]; //B for mineral soil - assume (is there missing text here??)
                                                                                                  // The coefficient C3 (C in Caqmpbell 4.28) determines the water content where thermal conductivity begins to
                                                                                                  // increase rapidly and is highly correlated with clay content. The following correlation appears to fit data well.
-                thermCondPar3[element] = 1.0D + Divide(2.6, Math.Sqrt(clay[layer]), 0);             // C is the water content where co (is there missing text here??)
+                thermCondPar3[element] = 1.0D + MathUtilities.Divide(2.6, Math.Sqrt(clay[layer]), 0);             // C is the water content where co (is there missing text here??)
                                                                                                                   // Coefficient C4 (D in Campbell 4.22) is the thermal conductivity when volumetric water content=0.
                                                                                                                   // For mineral soils with a particle density of 2.65 Mg/m3 the equation becomes the following.
                 thermCondPar4[element] = 0.03 + 0.1 * Math.Pow(bulkDensity[layer], 2);           // D assume mineral soil particle d (is there missing text here??)
@@ -992,9 +1005,9 @@ namespace Models.Soils.SoilTemp
             doNetRadiation(ref solarRadn, ref cloudFr, ref cva, interactionsPerDay);
 
             // zero the temperature profiles
-            Zero(minSoilTemp);
-            Zero(maxSoilTemp);
-            Zero(aveSoilTemp);
+            MathUtilities.Zero(minSoilTemp);
+            MathUtilities.Zero(maxSoilTemp);
+            MathUtilities.Zero(aveSoilTemp);
             boundaryLayerConductance = 0.0;
 
             // calc dt
@@ -1111,13 +1124,13 @@ namespace Models.Soils.SoilTemp
             for (int node = surfaceNode; node <= numNodes; node++)
             {
                 int layer = node - 1;     // node n lies at the centre of layer n-1
-                double depthLayerAbove = layer >= 1 ? Sum(thickness, 1, layer) : 0.0;
+                double depthLayerAbove = layer >= 1 ? MathUtilities.Sum(thickness, 1, layer) : 0.0;
                 double d1 = depthLayerAbove - (nodeDepth[node] * 1000.0);
                 double d2 = nodeDepth[node + 1] * 1000.0 - depthLayerAbove;
                 double dSum = d1 + d2;
 
-                nodeArray[node] = Divide(layerArray[layer] * d1, dSum, 0)
-                                + Divide(layerArray[layer + 1] * d2, dSum, 0);
+                nodeArray[node] = MathUtilities.Divide(layerArray[layer] * d1, dSum, 0)
+                                + MathUtilities.Divide(layerArray[layer + 1] * d2, dSum, 0);
             }
         }
 
@@ -1141,11 +1154,11 @@ namespace Models.Soils.SoilTemp
             {
                 // volume of soil around node (m3/m2)
                 double volumeOfSoilAtNode = 0.5 * (nodeDepth[node + 1] - nodeDepth[node - 1]);   // Volume of soil around node (m^3), assuming area is 1 m^2
-                heatStorage[node] = Divide(volSpecHeatSoil[node] * volumeOfSoilAtNode, internalTimeStep, 0);       // Joules/s/K or W/K
+                heatStorage[node] = MathUtilities.Divide(volSpecHeatSoil[node] * volumeOfSoilAtNode, internalTimeStep, 0);       // Joules/s/K or W/K
                                                                                                                                  // rate of heat
                                                                                                                                  // convert to thermal conductance
                 double elementLength = nodeDepth[node + 1] - nodeDepth[node];             // (m)
-                thermalConductance[node] = Divide(thermalConductivity[node], elementLength, 0);  // (W/m/K)
+                thermalConductance[node] = MathUtilities.Divide(thermalConductivity[node], elementLength, 0);  // (W/m/K)
             }
 
             // John's version
@@ -1178,7 +1191,7 @@ namespace Models.Soils.SoilTemp
                 case "calc":
                     {
                         // interpolated from actual net radiation
-                        radnNet = Divide(netRadiation * 1000000.0, internalTimeStep, 0);
+                        radnNet = MathUtilities.Divide(netRadiation * 1000000.0, internalTimeStep, 0);
                         break;
                     }
 
@@ -1208,12 +1221,12 @@ namespace Models.Soils.SoilTemp
             // Calculate coeffs A, B, C, D for intermediate nodes
             for (int node = surfaceNode; node <= numNodes - 1; node++)
             {
-                c[node] = Divide(c[node], b[node], 0);
-                d[node] = Divide(d[node], b[node], 0);
+                c[node] = MathUtilities.Divide(c[node], b[node], 0);
+                d[node] = MathUtilities.Divide(d[node], b[node], 0);
                 b[node + 1] -= a[node + 1] * c[node];
                 d[node + 1] -= a[node + 1] * d[node];
             }
-            newTemps[numNodes] = Divide(d[numNodes], b[numNodes], 0);  // do temperature at bottom node
+            newTemps[numNodes] = MathUtilities.Divide(d[numNodes], b[numNodes], 0);  // do temperature at bottom node
 
             // Do temperatures at intermediate nodes from second bottom to top in soil profile
             for (int node = numNodes - 1; node >= surfaceNode; node += -1)
@@ -1289,9 +1302,9 @@ namespace Models.Soils.SoilTemp
                     minSoilTemp[node] = soilTemp[node];
                 else if (soilTemp[node] > maxSoilTemp[node])
                     maxSoilTemp[node] = soilTemp[node];
-                aveSoilTemp[node] += Divide(soilTemp[node], numInterationsPerDay, 0);
+                aveSoilTemp[node] += MathUtilities.Divide(soilTemp[node], numInterationsPerDay, 0);
             }
-            boundaryLayerConductance += Divide(thermalConductivity[airNode], numInterationsPerDay, 0);
+            boundaryLayerConductance += MathUtilities.Divide(thermalConductivity[airNode], numInterationsPerDay, 0);
         }
 
         /// <summary>Calculate atmospheric boundary layer conductance</summary>
@@ -1353,14 +1366,14 @@ namespace Models.Soils.SoilTemp
                 // of turbulence above the crop. The level of turbulence, in turn, is determined by the roughness of the surface,
                 // the distance from the surface and the thermal stratification of the boundary layer.
                 // Eqn 12.11 Campbell
-                frictionVelocity = Divide(weather.Wind * vonKarmanConstant,
-                                                        Math.Log(Divide(instrumentHeight - d + roughnessFactorMomentum,
+                frictionVelocity = MathUtilities.Divide(weather.Wind * vonKarmanConstant,
+                                                        Math.Log(MathUtilities.Divide(instrumentHeight - d + roughnessFactorMomentum,
                                                                                       roughnessFactorMomentum,
                                                                                       0)) + stabilityCorrectionMomentum,
                                                         0);
                 // Eqn 12.10 Campbell
-                boundaryLayerCond = Divide(SpecificHeatAir * vonKarmanConstant * frictionVelocity,
-                                                         Math.Log(Divide(instrumentHeight - d + roughnessFactorHeat,
+                boundaryLayerCond = MathUtilities.Divide(SpecificHeatAir * vonKarmanConstant * frictionVelocity,
+                                                         Math.Log(MathUtilities.Divide(instrumentHeight - d + roughnessFactorHeat,
                                                                                        roughnessFactorHeat, 0)) + stabilityCorrectionHeat,
                                                          0);
 
@@ -1368,7 +1381,7 @@ namespace Models.Soils.SoilTemp
 
                 heatFluxDensity = boundaryLayerCond * (surfaceTemperature - airTemperature);
                 // Eqn 12.14
-                stabilityParammeter = Divide(-vonKarmanConstant * instrumentHeight * gravitationalConstant * heatFluxDensity,
+                stabilityParammeter = MathUtilities.Divide(-vonKarmanConstant * instrumentHeight * gravitationalConstant * heatFluxDensity,
                                                       SpecificHeatAir * kelvinT(airTemperature) * Math.Pow(frictionVelocity, 3.0)
                                                       , 0);
 
@@ -1419,7 +1432,7 @@ namespace Models.Soils.SoilTemp
         /// <param name="soilTempIO">temperature of each layer in profile</param>
         private void calcSoilTemperature(ref double[] soilTempIO) // CHECK, is byRef a good idea?
         {
-            double[] cumulativeDepth = ToCumThickness(thickness);
+            double[] cumulativeDepth = SoilUtilities.ToCumThickness(thickness);
             double w = 2 * Math.PI / (365.25 * 24 * 3600);
             double dh = 0.6;   // this needs to be in mm a default value for a loam at field capacity - consider makeing this settable
             double zd = Math.Sqrt(2 * dh / w);
@@ -1468,7 +1481,7 @@ namespace Models.Soils.SoilTemp
         /// <remarks></remarks>
         private void doNetRadiation(ref double[] solarRadn, ref double cloudFr, ref double cva, int ITERATIONSperDAY)
         {
-            double TSTEPS2RAD = Divide(2.0 * Math.PI, Convert.ToDouble(ITERATIONSperDAY), 0);          // convert timestep of day to radians
+            double TSTEPS2RAD = MathUtilities.Divide(2.0 * Math.PI, Convert.ToDouble(ITERATIONSperDAY), 0);          // convert timestep of day to radians
             const double solarConstant = 1360.0;     // W/M^2
             double solarDeclination = 0.3985 * Math.Sin(4.869 + (clock.Today.DayOfYear * 2.0 * Math.PI / 365.25) + 0.03345 * Math.Sin(6.224 + (clock.Today.DayOfYear * 2.0 * Math.PI / 365.25)));
             double cD = Math.Sqrt(1.0 - solarDeclination * solarDeclination);
@@ -1484,13 +1497,13 @@ namespace Models.Soils.SoilTemp
             }
 
             double psr = m1Tot * solarConstant * 3600.0 / 1000000.0;   // potential solar radiation for the day (MJ/m^2)
-            double fr = Divide(Math.Max(weather.Radn, 0.1), psr, 0);               // ratio of potential to measured daily solar radiation (0-1)
+            double fr = MathUtilities.Divide(Math.Max(weather.Radn, 0.1), psr, 0);               // ratio of potential to measured daily solar radiation (0-1)
             cloudFr = 2.33 - 3.33 * fr;    // fractional cloud cover (0-1)
             cloudFr = Math.Min(Math.Max(cloudFr, 0.0), 1.0);
 
             for (int timestepNumber = 1; timestepNumber <= ITERATIONSperDAY; timestepNumber++)
                 solarRadn[timestepNumber] = Math.Max(weather.Radn, 0.1) *
-                                            Divide(m1[timestepNumber], m1Tot, 0);
+                                            MathUtilities.Divide(m1[timestepNumber], m1Tot, 0);
 
             // cva is vapour concentration of the air (g/m^3)
             cva = Math.Exp(31.3716 - 6014.79 / kelvinT(weather.MinT) - 0.00792495 * kelvinT(weather.MinT)) / kelvinT(weather.MinT);
@@ -1554,97 +1567,5 @@ namespace Models.Soils.SoilTemp
 
             return;
         }
-
-        // Methods copied from APSIM.Shared
-
-        /// <summary>
-        /// A constant double value denoting a missing value
-        /// </summary>
-        public const double MissingValue = 999999;
-
-        /// <summary>
-        /// Divide value1 by value2. On error, the value errVal will be returned.
-        /// </summary>
-        public static double Divide(double value1, double value2, double errVal)
-        {
-            double returnValue = value1 / value2;
-            if (double.IsInfinity(returnValue) || double.IsNaN(returnValue))
-                return errVal;
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Returns true if there are values in the specified array that aren't missing values.
-        /// </summary>
-        /// <param name="Values"></param>
-        /// <returns></returns>
-        static public bool ValuesInArray(double[] Values)
-        {
-            if (Values != null)
-            {
-                foreach (double Value in Values)
-                {
-                    if (Value != MissingValue && !double.IsNaN(Value))
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Sum an array of numbers starting at startIndex up to endIndex (inclusive)
-        /// </summary>
-        public static double Sum(double[] values, int startIndex, int endIndex)
-        {
-            double result = 0.0;
-            if (startIndex > endIndex)
-                throw new Exception("MathUtilities.Sum: Start index is greater than end index");
-            if (startIndex < 0 || endIndex >= (values as Array).Length)
-                throw new Exception("MathUtilities.Sum: End index or start index is out of range");
-            int index = -1;
-            foreach (double value in values)
-            {
-                index++;
-                if (index >= startIndex && value != MissingValue)
-                    result += value;
-                if (index == endIndex)
-                    break;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Zero the specified array.
-        /// </summary>
-        /// <param name="arr">The array to be zeroed</param>
-        static public void Zero(double[] arr)
-        {
-            if (arr != null)
-            {
-                for (int i = 0; i < arr.Length; i++)
-                {
-                    arr[i] = 0;
-                }
-            }
-        }
-
-        /// <summary>Returns a cumulative thickness based on the specified thickness.</summary>
-        /// <param name="Thickness">The thickness.</param>
-        static public double[] ToCumThickness(double[] Thickness)
-        {
-            // ------------------------------------------------
-            // Return cumulative thickness for each layer - mm
-            // ------------------------------------------------
-            double[] CumThickness = new double[Thickness.Length];
-            if (Thickness.Length > 0)
-            {
-                CumThickness[0] = Thickness[0];
-                for (int Layer = 1; Layer != Thickness.Length; Layer++)
-                    CumThickness[Layer] = Thickness[Layer] + CumThickness[Layer - 1];
-            }
-            return CumThickness;
-        }
-
     }
 }
