@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelUnit modelid="AP_SoilTemperature" name="SoilTemperature" timestep="1" version="1.0">
+  <Description>
+    <Title>SoilTemperature</Title>
+    <Authors>APSIM Initiative</Authors>
+    <Institution>APSIM Initiative</Institution>
+    <URI>www.apsim.info</URI>
+    <ShortDescription>The soil temperature model includes functionality for simulating the heat flux and temperatures over
+the soil profile, includes temperature on the soil surface. The processes are described below, most
+are based on Campbell, 1985. "Soil physics with BASIC: Transport models for soil-plant systems"</ShortDescription>
+  </Description>
+  <Inputs>
+    <Input name="IWeather.MeanT" description="Mean temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="oC" />
+    <Input name="IWeather.Tav" description="Average annual temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="oC" />
+    <Input name="IWeather.MaxT" description="Maximum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="oC" />
+    <Input name="IWeather.MinT" description="Minimum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="oC" />
+    <Input name="IWeather.AirPressure" description="Atmospheric air pressure" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="hPa" />
+    <Input name="IWeather.Wind" description="Wind speed" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="m/s" />
+    <Input name="IWeather.Latitude" description="Latitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="degrees" />
+    <Input name="IWeather.Amp" description="Average monthly temperature amplitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="oC" />
+    <Input name="IWeather.Radn" description="Solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="MJ/m2/day" />
+    <Input name="IClock.Today" description="Simulation date." inputtype="variable" variablecategory="exogenous" datatype="DATETIME" />
+    <Input name="MicroClimate.CanopyHeight" description="Height of the tallest canopy." inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
+    <Input name="Physical.Thickness" description="The soil thickness (mm)." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="mm" />
+    <Input name="Physical.BD" description="Bulk density (g/cc)." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="g/cc" />
+    <Input name="Physical.Rocks" description="Rocks." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
+    <Input name="Physical.ParticleSizeSand" description="Particle size sand." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
+    <Input name="Physical.ParticleSizeSilt" description="Particle size silt." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
+    <Input name="Physical.ParticleSizeClay" description="Particle size clay." inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
+    <Input name="Organic.Carbon" description="Carbon concentration" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
+    <Input name="ISoilWater.SW" description="Volumetric soil water content(" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="mm/mm" />
+    <Input name="ISoilWater.SWmm" description="Water content" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="mm" />
+    <Input name="ISoilWater.Eos" description="Potential evaporation from soil surface" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
+    <Input name="ISoilWater.Es" description="Actual (realised) soil water evaporation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
+    <Input name="ISoilWater.Eo" description="Potential evapotranspiration of the whole soil-plant system" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
+    <Input name="ISoilWater.Salb" description="Fraction of incoming radiation reflected from bare soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="0-1" />
+    <Input name="Thickness" description="Thickness of soil layers (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" unit="mm" />
+    <Input name="InitialValues" description="Initial values for the temperature in each layer (oC)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" unit="oC" />
+    <Input name="DepthToConstantTemperature" description="Depth down to the constant temperature (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" unit="mm" />
+    <Input name="pom" description="Particle density of organic matter (Mg/m3), from Campbell (1985)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="ps" description="Particle density of soil fines (Mg/m3)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="soilConstituentNames" description="List of names of soil constituents" inputtype="variable" variablecategory="state" datatype="STRINGARRAY" unit="" />
+    <Input name="timestep" description="Internal time-step (minutes)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="defaultTimeOfMaximumTemperature" description="Time of maximum temperature (h)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="doInitialisationStuff" description="Flag whether initialisation is needed" inputtype="variable" variablecategory="state" datatype="BOOLEAN" unit="" />
+    <Input name="internalTimeStep" description="Internal time-step (s)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="timeOfDaySecs" description="Time of day from midnight (s)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="numNodes" description="Number of nodes over the soil profile" inputtype="variable" variablecategory="state" datatype="INT32" unit="" />
+    <Input name="numLayers" description="Number of layers in the soil profile" inputtype="variable" variablecategory="state" datatype="INT32" unit="" />
+    <Input name="nodeDepth" description="Depths of nodes (m)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermCondPar1" description="Parameter 1 for computing thermal conductivity of soil solids" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermCondPar2" description="Parameter 2 for computing thermal conductivity of soil solids" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermCondPar3" description="Parameter 3 for computing thermal conductivity of soil solids" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermCondPar4" description="Parameter 4 for computing thermal conductivity of soil solids" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="volSpecHeatSoil" description="Volumetric specific heat over the soil profile (J/K/m3)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="soilTemp" description="Temperature of each soil layer (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="morningSoilTemp" description="Soil temperature over the soil profile at morning (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="heatStorage" description="CP, heat storage between nodes (J/K) - index is same as upper node" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermalConductance" description="K, conductance of element between nodes (W/K) - index is same as upper node" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thermalConductivity" description="thermal conductivity (W.m/K)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="boundaryLayerConductance" description="Average daily atmosphere boundary layer conductance" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="newTemperature" description="Soil temperature at the end of this iteration (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="airTemperature" description="Air temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="maxTempYesterday" description="Yesterday's maximum daily air temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="minTempYesterday" description="Yesterday's minimum daily air temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="soilWater" description="Volumetric water content of each soil layer (mm3/mm3)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="minSoilTemp" description="Minimum soil temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="maxSoilTemp" description="Maximum soil temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="aveSoilTemp" description="Average soil temperature (oC)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="thickness" description="Thickness of each soil, includes phantom layer (mm)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="bulkDensity" description="Soil bulk density, includes phantom layer (g/cm3)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="rocks" description="Volumetric fraction of rocks in each soil layer (%)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="carbon" description="Volumetric fraction of carbon (CHECK, OM?) in each soil layer (%)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="sand" description="Volumetric fraction of sand in each soil layer (%)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="silt" description="Volumetric fraction of silt in each soil layer (%)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="clay" description="Volumetric fraction of clay in each soil layer (%)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" unit="" />
+    <Input name="soilRoughnessHeight" description="Height of soil roughness (mm)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="instrumentHeight" description="Height of instruments above soil surface (m)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="netRadiation" description="Net radiation per internal time-step (MJ)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="canopyHeight" description="Height of canopy above ground (m)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="instrumHeight" description="Height of instruments above ground" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="nu" description="Forward/backward differencing coefficient (0-1)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
+    <Input name="boundarLayerConductanceSource" description="Flag whether boundary layer conductance is calculated or gotten from input" inputtype="variable" variablecategory="state" datatype="STRING" unit="" />
+    <Input name="netRadiationSource" description="Flag whether net radiation is calculated or gotten from input" inputtype="variable" variablecategory="state" datatype="STRING" unit="" />
+  </Inputs>
+  <Outputs>
+    <Output name="pom" description="Particle density of organic matter (Mg/m3), from Campbell (1985)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="ps" description="Particle density of soil fines (Mg/m3)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="soilConstituentNames" description="List of names of soil constituents" datatype="STRINGARRAY" variablecategory="state" />
+    <Output name="timestep" description="Internal time-step (minutes)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="defaultTimeOfMaximumTemperature" description="Time of maximum temperature (h)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="doInitialisationStuff" description="Flag whether initialisation is needed" datatype="BOOLEAN" variablecategory="state" />
+    <Output name="internalTimeStep" description="Internal time-step (s)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="timeOfDaySecs" description="Time of day from midnight (s)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="numNodes" description="Number of nodes over the soil profile" datatype="INT32" variablecategory="state" />
+    <Output name="numLayers" description="Number of layers in the soil profile" datatype="INT32" variablecategory="state" />
+    <Output name="nodeDepth" description="Depths of nodes (m)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermCondPar1" description="Parameter 1 for computing thermal conductivity of soil solids" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermCondPar2" description="Parameter 2 for computing thermal conductivity of soil solids" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermCondPar3" description="Parameter 3 for computing thermal conductivity of soil solids" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermCondPar4" description="Parameter 4 for computing thermal conductivity of soil solids" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="volSpecHeatSoil" description="Volumetric specific heat over the soil profile (J/K/m3)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="soilTemp" description="Temperature of each soil layer (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="morningSoilTemp" description="Soil temperature over the soil profile at morning (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="heatStorage" description="CP, heat storage between nodes (J/K) - index is same as upper node" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermalConductance" description="K, conductance of element between nodes (W/K) - index is same as upper node" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thermalConductivity" description="thermal conductivity (W.m/K)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="boundaryLayerConductance" description="Average daily atmosphere boundary layer conductance" datatype="DOUBLE" variablecategory="state" />
+    <Output name="newTemperature" description="Soil temperature at the end of this iteration (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="airTemperature" description="Air temperature (oC)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="maxTempYesterday" description="Yesterday's maximum daily air temperature (oC)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="minTempYesterday" description="Yesterday's minimum daily air temperature (oC)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="soilWater" description="Volumetric water content of each soil layer (mm3/mm3)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="minSoilTemp" description="Minimum soil temperature (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="maxSoilTemp" description="Maximum soil temperature (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="aveSoilTemp" description="Average soil temperature (oC)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="thickness" description="Thickness of each soil, includes phantom layer (mm)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="bulkDensity" description="Soil bulk density, includes phantom layer (g/cm3)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="rocks" description="Volumetric fraction of rocks in each soil layer (%)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="carbon" description="Volumetric fraction of carbon (CHECK, OM?) in each soil layer (%)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="sand" description="Volumetric fraction of sand in each soil layer (%)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="silt" description="Volumetric fraction of silt in each soil layer (%)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="clay" description="Volumetric fraction of clay in each soil layer (%)" datatype="DOUBLEARRAY" variablecategory="state" />
+    <Output name="soilRoughnessHeight" description="Height of soil roughness (mm)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="instrumentHeight" description="Height of instruments above soil surface (m)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="netRadiation" description="Net radiation per internal time-step (MJ)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="canopyHeight" description="Height of canopy above ground (m)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="instrumHeight" description="Height of instruments above ground" datatype="DOUBLE" variablecategory="state" />
+    <Output name="nu" description="Forward/backward differencing coefficient (0-1)" datatype="DOUBLE" variablecategory="state" />
+    <Output name="boundarLayerConductanceSource" description="Flag whether boundary layer conductance is calculated or gotten from input" datatype="STRING" variablecategory="state" />
+    <Output name="netRadiationSource" description="Flag whether net radiation is calculated or gotten from input" datatype="STRING" variablecategory="state" />
+    <Output name="FinalSoilTemperature" description="Temperatures over the soil profile at end of a day, i.e. at midnight" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+    <Output name="FinalSoilSurfaceTemperature" description="Temperature of soil surface at end of a day, i.e. at midnight" datatype="DOUBLE" variablecategory="state" unit="oC" />
+    <Output name="Value" description="Temperature of soil layers averaged over a day" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+    <Output name="AverageSoilTemperature" description="Temperatures over soil profile averaged over a day" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+    <Output name="AverageSoilSurfaceTemperature" description="Temperature of soil surface averaged over a day" datatype="DOUBLE" variablecategory="state" unit="oC" />
+    <Output name="MinimumSoilTemperature" description="Minimum temperatures over the soil profile within a day" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+    <Output name="MinimumSoilSurfaceTemperature" description="Minimum temperatures of soil surface within a day" datatype="DOUBLE" variablecategory="state" unit="oC" />
+    <Output name="MaximumSoilTemperature" description="Maximum temperatures over the soil profile within a day" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+    <Output name="MaximumSoilSurfaceTemperature" description="Maximum temperatures of soil surface within a day" datatype="DOUBLE" variablecategory="state" unit="oC" />
+    <Output name="BoundaryLayerConductance" description="Atmosphere boundary layer conductance averaged over a day" datatype="DOUBLE" variablecategory="state" unit="W/K" />
+    <Output name="ThermalConductivity" description="Thermal conductivity over the soil profile" datatype="DOUBLEARRAY" variablecategory="state" unit="W.m/K" />
+    <Output name="HeatCapacity" description="Volumetric heat capacity over the soil profile" datatype="DOUBLEARRAY" variablecategory="state" unit="J/K/m3" />
+    <Output name="HeatStore" description="Heat storage over the soil profile" datatype="DOUBLEARRAY" variablecategory="state" unit="J/K" />
+    <Output name="Thr_profile" description="FIXME" datatype="DOUBLEARRAY" variablecategory="state" unit="oC" />
+  </Outputs>
+  <Initialization name="init_SoilTemperature" language="cyml" filename="algo/pyx/init.SoilTemperature.pyx" />
+  <Function name="volumetricSpecificHeat" description="Gets the volumetric specific heat of soil constituents (MJ/m3/K)" language="cyml" type="external" filename="algo/pyx/volumetricSpecificHeat.pyx" />
+  <Function name="ThermalConductance" description="Gets the thermal conductance of soil constituents (W/K)" language="cyml" type="external" filename="algo/pyx/ThermalConductance.pyx" />
+  <Function name="shapeFactor" description="Gets the shape factor of soil constituents (W/m/K - CHECK, unit)" language="cyml" type="external" filename="algo/pyx/shapeFactor.pyx" />
+  <Function name="volumetricFractionRocks" description="Volumetric fraction of rocks in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionRocks.pyx" />
+  <Function name="volumetricFractionOrganicMatter" description="Volumetric fraction of organic matter in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionOrganicMatter.pyx" />
+  <Function name="volumetricFractionSand" description="Volumetric fraction of sand in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionSand.pyx" />
+  <Function name="volumetricFractionSilt" description="Volumetric fraction of silt in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionSilt.pyx" />
+  <Function name="volumetricFractionClay" description="Volumetric fraction of clay in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionClay.pyx" />
+  <Function name="volumetricFractionWater" description="Volumetric fraction of water in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionWater.pyx" />
+  <Function name="volumetricFractionIce" description="Volumetric fraction of ice in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionIce.pyx" />
+  <Function name="volumetricFractionAir" description="Volumetric fraction of air in the soil (m3/m3)" language="cyml" type="external" filename="algo/pyx/volumetricFractionAir.pyx" />
+  <Function name="airDensity" description="Calculate the density of air at a given environmental conditions" language="cyml" type="external" filename="algo/pyx/airDensity.pyx" />
+  <Function name="OnStartOfSimulation" description="Performs the tasks to initialise the model" language="cyml" type="external" filename="algo/pyx/OnStartOfSimulation.pyx" />
+  <Function name="OnEndOfSimulation" language="cyml" type="external" filename="algo/pyx/OnEndOfSimulation.pyx" />
+  <Function name="OnProcess" description="Performs the tasks to simulate soil temperature" language="cyml" type="external" filename="algo/pyx/OnProcess.pyx" />
+  <Function name="Reset" description="Performs the tasks to reset the model" language="cyml" type="external" filename="algo/pyx/Reset.pyx" />
+  <Function name="getIniVariables" language="cyml" type="external" filename="algo/pyx/getIniVariables.pyx" />
+  <Function name="getProfileVariables" language="cyml" type="external" filename="algo/pyx/getProfileVariables.pyx" />
+  <Function name="readParam" language="cyml" type="external" filename="algo/pyx/readParam.pyx" />
+  <Function name="doThermalConductivityCoeffs" language="cyml" type="external" filename="algo/pyx/doThermalConductivityCoeffs.pyx" />
+  <Function name="getOtherVariables" language="cyml" type="external" filename="algo/pyx/getOtherVariables.pyx" />
+  <Function name="doProcess" language="cyml" type="external" filename="algo/pyx/doProcess.pyx" />
+  <Function name="doVolumetricSpecificHeat" language="cyml" type="external" filename="algo/pyx/doVolumetricSpecificHeat.pyx" />
+  <Function name="doThermalConductivity" language="cyml" type="external" filename="algo/pyx/doThermalConductivity.pyx" />
+  <Function name="mapLayer2Node" language="cyml" type="external" filename="algo/pyx/mapLayer2Node.pyx" />
+  <Function name="doThomas" language="cyml" type="external" filename="algo/pyx/doThomas.pyx" />
+  <Function name="interpolateTemperature" description="Interpolate air temperature" language="cyml" type="external" filename="algo/pyx/interpolateTemperature.pyx" />
+  <Function name="doUpdate" description="Determine min, max, and average soil temperature from the half-hourly iterations" language="cyml" type="external" filename="algo/pyx/doUpdate.pyx" />
+  <Function name="getBoundaryLayerConductance" language="cyml" type="external" filename="algo/pyx/getBoundaryLayerConductance.pyx" />
+  <Function name="kelvinT" description="Convert degrees Celcius to Kelvin" language="cyml" type="external" filename="algo/pyx/kelvinT.pyx" />
+  <Function name="longWaveRadn" description="Computes the long-wave radiation emitted by a body" language="cyml" type="external" filename="algo/pyx/longWaveRadn.pyx" />
+  <Function name="calcSoilTemperature" language="cyml" type="external" filename="algo/pyx/calcSoilTemperature.pyx" />
+  <Function name="calcLayerTemperature" description="Gets the average soil temperature for each soil layer" language="cyml" type="external" filename="algo/pyx/calcLayerTemperature.pyx" />
+  <Function name="calcSurfaceTemperature" language="cyml" type="external" filename="algo/pyx/calcSurfaceTemperature.pyx" />
+  <Function name="doNetRadiation" language="cyml" type="external" filename="algo/pyx/doNetRadiation.pyx" />
+  <Function name="interpolateNetRadiation" description="Calculate the net radiation at the soil surface" language="cyml" type="external" filename="algo/pyx/interpolateNetRadiation.pyx" />
+  <Function name="boundCheck" description="Checks whether a variable within lower and upper bounds" language="cyml" type="external" filename="algo/pyx/boundCheck.pyx" />
+  <Function name="Divide" description="Divide value1 by value2. On error, the value errVal will be returned." language="cyml" type="external" filename="algo/pyx/Divide.pyx" />
+  <Function name="ValuesInArray" description="Returns true if there are values in the specified array that aren't missing values." language="cyml" type="external" filename="algo/pyx/ValuesInArray.pyx" />
+  <Function name="Sum" description="Sum an array of numbers starting at startIndex up to endIndex (inclusive)" language="cyml" type="external" filename="algo/pyx/Sum.pyx" />
+  <Function name="Zero" description="Zero the specified array." language="cyml" type="external" filename="algo/pyx/Zero.pyx" />
+  <Function name="ToCumThickness" description="Returns a cumulative thickness based on the specified thickness." language="cyml" type="external" filename="algo/pyx/ToCumThickness.pyx" />
+  <Algorithm language="cyml" filename="algo/pyx/init.SoilTemperature.pyx" />
+</ModelUnit>

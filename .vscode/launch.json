@@ -4,7 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+
         {
             "name": "ApsimNG: Debug",
             "type": "coreclr",
@@ -57,13 +57,26 @@
             "stopAtEntry": false
         },
         {
+            "name": "Crop2ML: Debug",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/Crop2ML/bin/Debug/net6.0/Crop2ML.exe",
+            "args": [
+                "Models.Soils.SoilTemp.SoilTemperature",
+                "C:\\Work\\Repos\\APSIMInitiative\\ApsimX\\Models\\Soils\\SoilTemp\\SoilTemperature.cs"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
             "name": "APSIM Server: Debug",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "Clean Debug",
             "program": "${workspaceFolder}/bin/Debug/net6.0/ApsimZMQServer.dll",
             "args": [
-                "-v", "-a", "127.0.0.1", 
+                "-v", "-a", "127.0.0.1",
                 "-p", "57220", "-P", "interactive",
                 "-f", "${workspaceFolder}/Tests/Simulation/ZMQ-Sync/ZMQ-sync.apsimx"
             ],
