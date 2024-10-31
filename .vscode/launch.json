@@ -60,7 +60,7 @@
             "name": "Crop2ML: Debug",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/Crop2ML/bin/Debug/net6.0/Crop2ML.exe",
+            "program": "${workspaceFolder}/AMEI/bin/Debug/net6.0/AMEI.exe",
             "args": [
                 "Models.Soils.SoilTemp.SoilTemperature",
                 "C:\\Work\\Repos\\APSIMInitiative\\ApsimX\\Models\\Soils\\SoilTemp\\SoilTemperature.cs"

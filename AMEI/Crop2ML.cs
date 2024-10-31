@@ -162,20 +162,20 @@ public class Crop2ML
                                                                                           BindingFlags.NonPublic |
                                                                                           BindingFlags.Instance |
                                                                                           BindingFlags.FlattenHierarchy);
-                if (property == null)
-                    throw new Exception($"Cannot find property {usedPropertyName} in type {linkField.FieldType}");
-
-                VariableProperty variableProperty = new(null, property);
-
-                // Add an exogenous variable to model unit.
-                string description = variableProperty.Description ?? usedPropertyName;
-                yield return new()
+                if (property != null)
                 {
-                    Name = $"{linkField.FieldType.Name}.{usedPropertyName}",
-                    Description = GetDescription(property),
-                    DataType = property.PropertyType,
-                    Unit = variableProperty.Units
-                };
+                    VariableProperty variableProperty = new(null, property);
+
+                    // Add an exogenous variable to model unit.
+                    string description = variableProperty.Description ?? usedPropertyName;
+                    yield return new()
+                    {
+                        Name = $"{linkField.FieldType.Name}.{usedPropertyName}",
+                        Description = GetDescription(property),
+                        DataType = property.PropertyType,
+                        Unit = variableProperty.Units
+                    };
+                }
             }
         }
     }
