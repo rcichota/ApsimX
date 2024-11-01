@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 181,
+  "Version": 183,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -2963,6 +2963,22 @@
                     {
                       "$type": "Models.Crop2ML.Stics_soil_temperature.Soil_tempWrapper, Models",
                       "Name": "STC",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Crop2ML.Model_SoilTempCampbellWrapper, Models",
+                      "Name": "Campbell",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Soils.CERESSoilTemperature, Models",
+                      "Name": "CERESSoilTemperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
