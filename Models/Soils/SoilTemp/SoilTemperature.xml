@@ -30,11 +30,9 @@ are based on Campbell, 1985. "Soil physics with BASIC: Transport models for soil
     <Input name="Organic.Carbon" description="Carbon concentration" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="%" />
     <Input name="ISoilWater.SW" description="Volumetric soil water content(" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="mm/mm" />
     <Input name="ISoilWater.SWmm" description="Water content" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" unit="mm" />
-    <Input name="ISoilWater.Eos" description="Potential evaporation from soil surface" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
-    <Input name="ISoilWater.Es" description="Actual (realised) soil water evaporation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
-    <Input name="ISoilWater.Eo" description="Potential evapotranspiration of the whole soil-plant system" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="mm" />
     <Input name="ISoilWater.Salb" description="Fraction of incoming radiation reflected from bare soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" unit="0-1" />
-    <Input name="Thickness" description="Thickness of soil layers (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" unit="mm" />
+    <Input name="Depth" description="Depth strings. Wrapper around Thickness" inputtype="parameter" parametercategory="constant" datatype="STRINGARRAY" unit="mm" />
+    <Input name="Thickness" description="Thickness of soil layers (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" />
     <Input name="InitialValues" description="Initial values for the temperature in each layer (oC)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" unit="oC" />
     <Input name="DepthToConstantTemperature" description="Depth down to the constant temperature (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" unit="mm" />
     <Input name="pom" description="Particle density of organic matter (Mg/m3), from Campbell (1985)" inputtype="variable" variablecategory="state" datatype="DOUBLE" unit="" />
@@ -182,10 +180,5 @@ are based on Campbell, 1985. "Soil physics with BASIC: Transport models for soil
   <Function name="doNetRadiation" language="cyml" type="external" filename="algo/pyx/doNetRadiation.pyx" />
   <Function name="interpolateNetRadiation" description="Calculate the net radiation at the soil surface" language="cyml" type="external" filename="algo/pyx/interpolateNetRadiation.pyx" />
   <Function name="boundCheck" description="Checks whether a variable within lower and upper bounds" language="cyml" type="external" filename="algo/pyx/boundCheck.pyx" />
-  <Function name="Divide" description="Divide value1 by value2. On error, the value errVal will be returned." language="cyml" type="external" filename="algo/pyx/Divide.pyx" />
-  <Function name="ValuesInArray" description="Returns true if there are values in the specified array that aren't missing values." language="cyml" type="external" filename="algo/pyx/ValuesInArray.pyx" />
-  <Function name="Sum" description="Sum an array of numbers starting at startIndex up to endIndex (inclusive)" language="cyml" type="external" filename="algo/pyx/Sum.pyx" />
-  <Function name="Zero" description="Zero the specified array." language="cyml" type="external" filename="algo/pyx/Zero.pyx" />
-  <Function name="ToCumThickness" description="Returns a cumulative thickness based on the specified thickness." language="cyml" type="external" filename="algo/pyx/ToCumThickness.pyx" />
   <Algorithm language="cyml" filename="algo/pyx/init.SoilTemperature.pyx" />
 </ModelUnit>
