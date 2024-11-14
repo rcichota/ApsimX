@@ -29,6 +29,7 @@ public class Model_SoilTempCampbellWrapper :  Model, ISoilTemperature
     [Link] Water water = null;
     [Link] WaterBalance waterBalance = null;
     [Link] MicroClimate microClimate = null;
+    [Link] Simulation simulation = null;
 
     private Model_SoilTempCampbellState s;
     private Model_SoilTempCampbellState s1;
@@ -301,18 +302,17 @@ public class Model_SoilTempCampbellWrapper :  Model, ISoilTemperature
     /// <summary>
     ///
     /// </summary>
-    public double AverageSoilSurfaceTemperature => 0;
+    public double AverageSoilSurfaceTemperature => s.aveSoilTemp.ToArray()[1];
 
     /// <summary>
     ///
     /// </summary>
-    public double MinimumSoilSurfaceTemperature => 0;
+    public double MinimumSoilSurfaceTemperature => s.minSoilTemp.ToArray()[1];
 
     /// <summary>
     ///
     /// </summary>
-    public double MaximumSoilSurfaceTemperature => 0;
-
+    public double MaximumSoilSurfaceTemperature => s.maxSoilTemp.ToArray()[1];
 
 
     /// <summary>
@@ -377,9 +377,12 @@ public class Model_SoilTempCampbellWrapper :  Model, ISoilTemperature
         ex.airPressure = weather.AirPressure;
         ex.canopyHeight = microClimate.CanopyHeight;
         ex.SRAD = weather.Radn;
-        ex.ESP = waterBalance.Eos;
-        ex.ES = waterBalance.Es;
-        ex.EOAD = waterBalance.Eo;
+        //ex.ESP = waterBalance.Eos;
+        ex.ESP = (double)simulation.Get("[ReadWTHFile].Script.PotEvaporation"); 
+        //ex.ES = waterBalance.Es;
+        ex.ES = (double)simulation.Get("[ReadWTHFile].Script.ActualEvaporation");
+        //ex.EOAD = waterBalance.Eo;
+        ex.EOAD = (double)simulation.Get("[ReadWTHFile].Script.PotEvapotranspiration");
         ex.windSpeed = weather.Wind;
     }
 
