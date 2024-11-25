@@ -1420,8 +1420,7 @@ namespace Models.Soils.SoilTemp
 
 
             // VOS 11Nov24 a temporary fix until there is a full connection of the energy balance.
-            //boundaryLayerCond = 20;
-			//RCichota 15Nov2024 - remove the fix to run sensitivity analysis with same code as processes in Crop2ML
+            boundaryLayerCond = 20; 
 
 
             return boundaryLayerCond;   // thermal conductivity  (W/m2/K)

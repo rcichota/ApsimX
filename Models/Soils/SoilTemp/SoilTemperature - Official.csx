@@ -64,9 +64,6 @@ namespace Models.Soils.SoilTemp
         [Link]
         ISoilWater waterBalance = null;
 
-        [Link]
-        Simulation simulation = null;
-
         #region Table of properties for soil constituents   - - - - - - - - - - - - - - - - - - - -
 
         /// <summary>Particle density of organic matter (Mg/m3), from Campbell (1985)</summary>
@@ -546,39 +543,6 @@ namespace Models.Soils.SoilTemp
         [JsonIgnore]   //FIXME, should this be in GUI?
         [Units("mm")]
         public double DepthToConstantTemperature { get; set; } = 10000.0;
-
-        /// <summary>HACK to use set evaporation</summary>
-        [JsonIgnore]
-        [Units("mm")]
-        private double waterBalanceEo
-        {
-            get
-            {
-                return (double)simulation.Get("[ReadWTHFile].Script.PotEvapotranspiration");
-            }
-        }
-
-        /// <summary>HACK to use set evaporation</summary>
-        [JsonIgnore]
-        [Units("mm")]
-        private double waterBalanceEos
-        {
-            get
-            {
-                return (double)simulation.Get("[ReadWTHFile].Script.PotEvaporation");
-            }
-        }
-
-        /// <summary>HACK to use set evaporation</summary>
-        [JsonIgnore]
-        [Units("mm")]
-        private double waterBalanceEs
-        {
-            get
-            {
-                return (double)simulation.Get("[ReadWTHFile].Script.ActualEvaporation");
-            }
-        }
 
         #endregion  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -1198,13 +1162,13 @@ namespace Models.Soils.SoilTemp
                 case "eos":
                     {
                         // estimated using Rn = Eos*L
-                        radnNet = MathUtilities.Divide(waterBalanceEos * latentHeatOfVapourisation, timestep, 0);
+                        radnNet = MathUtilities.Divide(waterBalance.Eos * latentHeatOfVapourisation, timestep, 0);
                         break;
                     }
             }
 
             // get latent heat flux, LE (W/m)
-            double latentHeatFlux = MathUtilities.Divide(waterBalanceEs * latentHeatOfVapourisation, timestep, 0);
+            double latentHeatFlux = MathUtilities.Divide(waterBalance.Es * latentHeatOfVapourisation, timestep, 0);
 
             // get the surface heat flux, from Rn = G + H + LE (W/m)
             double soilSurfaceHeatFlux = sensibleHeatFlux + radnNet - latentHeatFlux;
@@ -1353,7 +1317,7 @@ namespace Models.Soils.SoilTemp
             // in modifying soil temperature). Here we estimate this using the Soilwat algorithm for calculating EOS from EO and the cover effects,
             // assuming the cover effects on EO are similar to Bristow's diffuse penetration constant - 0.26 for horizontal mulch treatment and 0.44
             // for vertical mulch treatment.
-            double diffusePenetrationConstant = Math.Max(0.1, waterBalanceEos) / Math.Max(0.1, waterBalanceEo);
+            double diffusePenetrationConstant = Math.Max(0.1, waterBalance.Eos) / Math.Max(0.1, waterBalance.Eo);
 
             // Campbell, p136, indicates the radiative conductance is added to the boundary layer conductance to form a combined conductance for
             // heat transfer in the atmospheric boundary layer. Eqn 12.9 modified for residue and plant canopy cover
@@ -1541,8 +1505,8 @@ namespace Models.Soils.SoilTemp
             double emissivityAtmos = (1 - 0.84 * cloudFr) * 0.58 * Math.Pow(cva, (1.0 / 7.0)) + 0.84 * cloudFr;
             // To calculate the longwave radiation out, we need to account for canopy and residue cover
             // Calculate a penetration constant. Here we estimate this using the Soilwat algorithm for calculating EOS from EO and the cover effects.
-            double PenetrationConstant = MathUtilities.Divide(Math.Max(0.1, waterBalanceEos),
-                                                              Math.Max(0.1, waterBalanceEo), 0);
+            double PenetrationConstant = MathUtilities.Divide(Math.Max(0.1, waterBalance.Eos),
+                                                              Math.Max(0.1, waterBalance.Eo), 0);
 
             // Eqn 12.1 modified by cover.
             double lwRinSoil = longWaveRadn(emissivityAtmos, airTemperature) * PenetrationConstant * w2MJ;
