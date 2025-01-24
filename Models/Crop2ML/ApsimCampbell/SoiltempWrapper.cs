@@ -231,12 +231,17 @@ public class SoiltempWrapper :  Model, ISoilTemperature
             public double minTempYesterday{ get { return s.minTempYesterday;}} */
 
 
-            /// <summary>
-            ///  The get method of the Initial soil temperature output variable
-            /// </summary>
-            [Description("Initial soil temperature")]
-            [Units("oC")]
-            public double[] InitialValues{ get { return s.InitialValues;}} 
+    private double[] pInitialValues;
+    /// <summary>
+    ///  The get method of the Initial soil temperature output variable
+    /// </summary>
+    [Description("Initial soil temperature")]
+    [Units("oC")]
+    public double[] InitialValues
+    {
+        get { return s.InitialValues; }
+        set { pInitialValues = value; }
+    }
 
 
     /// <summary>
@@ -352,10 +357,7 @@ public class SoiltempWrapper :  Model, ISoilTemperature
 //        soiltempComponent.thermCondPar4 = null; // To be modified
 //        soiltempComponent.nodeDepth = null; // To be modified
         soiltempComponent.nu = 0.6;
-//        double[] initialTempValues = new double[physical.Thickness.Length];
-//        Array.Fill(initialTempValues, weather.Tav);
-//        soiltempComponent.InitialValues = initialTempValues;
-        soiltempComponent.pInitialValues = null; // To be modified
+        soiltempComponent.pInitialValues = pInitialValues;
         soiltempComponent.ps = 2.63;
         soiltempComponent.netRadiationSource = "calc";
         soiltempComponent.airNode = 0; 
