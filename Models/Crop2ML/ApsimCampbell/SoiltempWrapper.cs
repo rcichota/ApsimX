@@ -10,18 +10,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Models.Factorial;
+using APSIM.Shared.APSoil;
 
 namespace Models.Crop2ML.ApsimCampbell;
 
 /// <summary>
-///  This class encapsulates the SoiltempComponent
+///  This class encapsulates the Campbell Soiltemp Component
 /// </summary>
 [Serializable]
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
 [ValidParent(ParentType = typeof(Factor))]
-class SoiltempWrapper :  Model
+public class SoiltempWrapper :  Model, ISoilTemperature
 {
     [Link] Clock clock = null;
     [Link] Weather weather = null;
@@ -73,160 +74,235 @@ class SoiltempWrapper :  Model
     /// </summary>
     [Description("K, conductance of element between nodes")]
     [Units("W/K")]
-    public double[] thermalConductance{ get { return s.thermalConductance;}} 
-     
+    public double[] thermalConductance{ get { return s.thermalConductance;}}
+
+    /*
+        /// <summary>
+        ///  The get method of the Flag whether initialisation is needed output variable
+        /// </summary>
+        [Description("Flag whether initialisation is needed")]
+        [Units("true/false")]
+        public bool doInitialisationStuff{ get { return s.doInitialisationStuff;}} 
+
+
+        /// <summary>
+        ///  The get method of the Yesterday's maximum daily air temperature output variable
+        /// </summary>
+        [Description("Yesterday's maximum daily air temperature")]
+        [Units("oC")]
+        public double maxTempYesterday{ get { return s.maxTempYesterday;}} 
+
+
+        /// <summary>
+        ///  The get method of the Time of day from midnight output variable
+        /// </summary>
+        [Description("Time of day from midnight")]
+        [Units("sec")]
+        public double timeOfDaySecs{ get { return s.timeOfDaySecs;}} 
+
+
+        /// <summary>
+        ///  The get method of the Volumetric water content of each soil layer output variable
+        /// </summary>
+        [Description("Volumetric water content of each soil layer")]
+        [Units("mm3/mm3")]
+        public double[] soilWater{ get { return s.soilWater;}} 
+
+
+        /// <summary>
+        ///  The get method of the Soil temperature over the soil profile at morning output variable
+        /// </summary>
+        [Description("Soil temperature over the soil profile at morning")]
+        [Units("oC")]
+        public double[] soilTemp{ get { return s.soilTemp;}} 
+
+
+        /// <summary>
+        ///  The get method of the Height of instruments above soil surface output variable
+        /// </summary>
+        [Description("Height of instruments above soil surface")]
+        [Units("mm")]
+        public double instrumentHeight{ get { return s.instrumentHeight;}} 
+
+
+        /// <summary>
+        ///  The get method of the Volumetric specific heat over the soil profile output variable
+        /// </summary>
+        [Description("Volumetric specific heat over the soil profile")]
+        [Units("J/K/m3")]
+        public double[] volSpecHeatSoil{ get { return s.volSpecHeatSoil;}} 
+
+
+        /// <summary>
+        ///  The get method of the Height of canopy above ground output variable
+        /// </summary>
+        [Description("Height of canopy above ground")]
+        [Units("mm")]
+        public double canopyHeight{ get { return s.canopyHeight;}} 
+
+
+        /// <summary>
+        ///  The get method of the CP, heat storage between nodes output variable
+        /// </summary>
+        [Description("CP, heat storage between nodes")]
+        [Units("J/K")]
+        public double[] heatStorage{ get { return s.heatStorage;}} 
+*/
 
     /// <summary>
-    ///  The get method of the Flag whether initialisation is needed output variable
+    ///  The get method of the Minimum soil temperature in layers output variable
     /// </summary>
-    [Description("Flag whether initialisation is needed")]
-    [Units("mintes")]
-    public bool doInitialisationStuff{ get { return s.doInitialisationStuff;}} 
-     
+    [Description("Minimum soil temperature in layers")]
+    [Units("degC")]
+    public double[] MinimumSoilTemperature
+    {
+        get
+        {
+            int numLayers = soiltempComponent.physical_Thickness.Length;
+            int topsoilNode = 2;
+            double[] result = new double[numLayers];
+            Array.ConstrainedCopy(s.minSoilTemp.ToArray(), topsoilNode, result, 0, numLayers);
+            return result;
+        }
+    }
 
     /// <summary>
-    ///  The get method of the Yesterday's maximum daily air temperature output variable
+    ///  The get method of the Maximum soil temperature in layers output variable
     /// </summary>
-    [Description("Yesterday's maximum daily air temperature")]
-    [Units("oC")]
-    public double maxTempYesterday{ get { return s.maxTempYesterday;}} 
-     
+    [Description("Maximum soil temperature in layers")]
+    [Units("degC")]
+    public double[] MaximumSoilTemperature
+    {
+        get
+        {
+            int numLayers = soiltempComponent.physical_Thickness.Length;
+            int topsoilNode = 2;
+            double[] result = new double[numLayers];
+            Array.ConstrainedCopy(s.maxSoilTemp.ToArray(), topsoilNode, result, 0, numLayers);
+            return result;
+        }
+    }
 
-    /// <summary>
-    ///  The get method of the Time of day from midnight output variable
-    /// </summary>
-    [Description("Time of day from midnight")]
-    [Units("sec")]
-    public double timeOfDaySecs{ get { return s.timeOfDaySecs;}} 
-     
+    /*        /// <summary>
+            ///  The get method of the Minimum soil temperature output variable
+            /// </summary>
+            [Description("Minimum soil temperature")]
+            [Units("oC")]
+            public double[] minSoilTemp{ get { return s.minSoilTemp;}} 
 
-    /// <summary>
-    ///  The get method of the Volumetric water content of each soil layer output variable
-    /// </summary>
-    [Description("Volumetric water content of each soil layer")]
-    [Units("mm3/mm3")]
-    public double[] soilWater{ get { return s.soilWater;}} 
-     
 
-    /// <summary>
-    ///  The get method of the Soil temperature over the soil profile at morning output variable
-    /// </summary>
-    [Description("Soil temperature over the soil profile at morning")]
-    [Units("oC")]
-    public double[] soilTemp{ get { return s.soilTemp;}} 
-     
+            /// <summary>
+            ///  The get method of the Maximum soil temperature output variable
+            /// </summary>
+            [Description("Maximum soil temperature")]
+            [Units("oC")]
+            public double[] maxSoilTemp{ get { return s.maxSoilTemp;}} 
 
-    /// <summary>
-    ///  The get method of the Height of instruments above soil surface output variable
-    /// </summary>
-    [Description("Height of instruments above soil surface")]
-    [Units("mm")]
-    public double instrumentHeight{ get { return s.instrumentHeight;}} 
-     
 
-    /// <summary>
-    ///  The get method of the Volumetric specific heat over the soil profile output variable
-    /// </summary>
-    [Description("Volumetric specific heat over the soil profile")]
-    [Units("J/K/m3")]
-    public double[] volSpecHeatSoil{ get { return s.volSpecHeatSoil;}} 
-     
+            /// <summary>
+            ///  The get method of the Soil temperature at the end of this iteration output variable
+            /// </summary>
+            [Description("Soil temperature at the end of this iteration")]
+            [Units("oC")]
+            public double[] newTemperature{ get { return s.newTemperature;}} 
 
-    /// <summary>
-    ///  The get method of the Height of canopy above ground output variable
-    /// </summary>
-    [Description("Height of canopy above ground")]
-    [Units("mm")]
-    public double canopyHeight{ get { return s.canopyHeight;}} 
-     
 
-    /// <summary>
-    ///  The get method of the CP, heat storage between nodes output variable
-    /// </summary>
-    [Description("CP, heat storage between nodes")]
-    [Units("J/K")]
-    public double[] heatStorage{ get { return s.heatStorage;}} 
-     
+            /// <summary>
+            ///  The get method of the Air temperature output variable
+            /// </summary>
+            [Description("Air temperature")]
+            [Units("oC")]
+            public double airTemperature{ get { return s.airTemperature;}} 
 
-    /// <summary>
-    ///  The get method of the Minimum soil temperature output variable
-    /// </summary>
-    [Description("Minimum soil temperature")]
-    [Units("oC")]
-    public double[] minSoilTemp{ get { return s.minSoilTemp;}} 
-     
 
-    /// <summary>
-    ///  The get method of the Maximum soil temperature output variable
-    /// </summary>
-    [Description("Maximum soil temperature")]
-    [Units("oC")]
-    public double[] maxSoilTemp{ get { return s.maxSoilTemp;}} 
-     
+            /// <summary>
+            ///  The get method of the Thermal conductivity output variable
+            /// </summary>
+            [Description("Thermal conductivity")]
+            [Units("W.m/K")]
+            public double[] thermalConductivity{ get { return s.thermalConductivity;}} 
 
-    /// <summary>
-    ///  The get method of the Soil temperature at the end of this iteration output variable
-    /// </summary>
-    [Description("Soil temperature at the end of this iteration")]
-    [Units("oC")]
-    public double[] newTemperature{ get { return s.newTemperature;}} 
-     
 
-    /// <summary>
-    ///  The get method of the Air temperature output variable
-    /// </summary>
-    [Description("Air temperature")]
-    [Units("oC")]
-    public double airTemperature{ get { return s.airTemperature;}} 
-     
+            /// <summary>
+            ///  The get method of the Yesterday's minimum daily air temperature output variable
+            /// </summary>
+            [Description("Yesterday's minimum daily air temperature")]
+            [Units("oC")]
+            public double minTempYesterday{ get { return s.minTempYesterday;}} */
 
-    /// <summary>
-    ///  The get method of the Thermal conductivity output variable
-    /// </summary>
-    [Description("Thermal conductivity")]
-    [Units("W.m/K")]
-    public double[] thermalConductivity{ get { return s.thermalConductivity;}} 
-     
 
-    /// <summary>
-    ///  The get method of the Yesterday's minimum daily air temperature output variable
-    /// </summary>
-    [Description("Yesterday's minimum daily air temperature")]
-    [Units("oC")]
-    public double minTempYesterday{ get { return s.minTempYesterday;}} 
-     
+            /// <summary>
+            ///  The get method of the Initial soil temperature output variable
+            /// </summary>
+            [Description("Initial soil temperature")]
+            [Units("oC")]
+            public double[] InitialValues{ get { return s.InitialValues;}} 
 
-    /// <summary>
-    ///  The get method of the Initial soil temperature output variable
-    /// </summary>
-    [Description("Initial soil temperature")]
-    [Units("oC")]
-    public double[] InitialValues{ get { return s.InitialValues;}} 
-     
 
     /// <summary>
     ///  The get method of the Average daily atmosphere boundary layer conductance output variable
     /// </summary>
     [Description("Average daily atmosphere boundary layer conductance")]
     [Units("")]
-    public double boundaryLayerConductance{ get { return s.boundaryLayerConductance;}} 
-     
+    public double BoundaryLayerConductance { get { return s.boundaryLayerConductance; } }
 
     /// <summary>
-    ///  The get method of the average soil temperature output variable
+    ///  The get method of the Temperature averaged over all time-steps within a day in layers. output variable
     /// </summary>
-    [Description("average soil temperature")]
+    [Description("Temperature averaged over all time-steps within a day in layers.")]
+    [Units("degC")]
+    public double[] AverageSoilTemperature
+    {
+        get
+        {
+            int numLayers = soiltempComponent.physical_Thickness.Length;
+            int topsoilNode = 2;
+            double[] result = new double[numLayers];
+            Array.ConstrainedCopy(s.aveSoilTemp.ToArray(), topsoilNode, result, 0, numLayers);
+            return result;
+        }
+    }
+
+    /*            /// <summary>
+                ///  The get method of the average soil temperature output variable
+                /// </summary>
+                [Description("average soil temperature")]
+                [Units("oC")]
+                public double[] aveSoilTemp{ get { return s.aveSoilTemp;}} 
+
+
+                /// <summary>
+                ///  The get method of the Soil temperature over the soil profile at morning output variable
+                /// </summary>
+                [Description("Soil temperature over the soil profile at morning")]
+                [Units("oC")]
+                public double[] morningSoilTemp{ get { return s.morningSoilTemp;}} 
+            */
+
+    /// <summary>Temperature of soil layers averaged over a day</summary>
+    /// <remarks>Mandatory for ISoilTemperature interface. For now, just return average daily values - CHECK</remarks>
     [Units("oC")]
-    public double[] aveSoilTemp{ get { return s.aveSoilTemp;}} 
-     
+    public double[] Value { get { return AverageSoilTemperature; } }
 
     /// <summary>
-    ///  The get method of the Soil temperature over the soil profile at morning output variable
+    ///
     /// </summary>
-    [Description("Soil temperature over the soil profile at morning")]
-    [Units("oC")]
-    public double[] morningSoilTemp{ get { return s.morningSoilTemp;}} 
-     
+    public double AverageSoilSurfaceTemperature => s.aveSoilTemp.ToArray()[1];
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MinimumSoilSurfaceTemperature => s.minSoilTemp.ToArray()[1];
+
+    /// <summary>
+    ///
+    /// </summary>
+    public double MaximumSoilSurfaceTemperature => s.maxSoilTemp.ToArray()[1];
+
+    /// <summary>
+    ///
+    /// </summary>
+    public event EventHandler SoilTemperatureChanged;
 
     /// <summary>
     ///  The Constructor copy of the wrapper of the SoiltempComponent
@@ -310,6 +386,7 @@ class SoiltempWrapper :  Model
         ex.microClimate_CanopyHeight = microClimate.CanopyHeight;
         ex.waterBalance_Eos = (double)simulation.Get("[ReadWTHFile].Script.PotEvaporation");  //should be: waterBalance.Eos;
         ex.waterBalance_SW = waterBalance.SW;
+//        ex.waterBalance_SW = water.Volumetric;
         ex.weather_Amp = weather.Amp;
         ex.weather_MinT = weather.MinT;
         ex.weather_Radn = weather.Radn;
@@ -321,6 +398,11 @@ class SoiltempWrapper :  Model
         ex.physical_ParticleSizeClay = physical.ParticleSizeClay;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     [EventSubscribe("Crop2MLProcess")]
     public void CalculateModel(object sender, EventArgs e)
     {
@@ -330,6 +412,7 @@ class SoiltempWrapper :  Model
         }
         setExogenous();
         soiltempComponent.CalculateModel(s,s1, r, a, ex);
+        SoilTemperatureChanged?.Invoke(this, EventArgs.Empty);
     }
 
 }
