@@ -10,7 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Models.Factorial;
-namespace Models.Crop2ML;
+
+namespace Models.Crop2ML.py_campbell_SoilTemp;
 
 /// <summary>
 ///  This class encapsulates the Model_SoilTempCampbellComponent

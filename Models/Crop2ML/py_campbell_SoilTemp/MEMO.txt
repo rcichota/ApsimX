@@ -1,0 +1,5 @@
+
+
+These files are those transpilled by Cyrille based on Teiki's version of the APSIM-Campbell model coded in python in 2024. These were tested successfully against APSIM using the soil temperature sensitivity simulations...
+
+Superseeded by a new version transpilled straight from APSIM (Jan/2025)
