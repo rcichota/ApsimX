@@ -5,10 +5,13 @@ using Models.Interfaces;
 using Models.PMF;
 using Models.Soils;
 using Models.Surface;
+using Models.WaterModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Models.Crop2ML;
+using Models.Factorial;
+
+namespace Models.Crop2ML.ApsimCampbell;
 
 /// <summary>
 ///  This class encapsulates the SoiltempComponent
@@ -17,10 +20,17 @@ namespace Models.Crop2ML;
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
+[ValidParent(ParentType = typeof(Factor))]
 class SoiltempWrapper :  Model
 {
     [Link] Clock clock = null;
-    //[Link] Weather weather = null; // other links
+    [Link] Weather weather = null;
+    [Link] Physical physical = null;
+    [Link] Organic organic = null;
+//    [Link] Water water = null;
+    [Link] WaterBalance waterBalance = null;
+    [Link] MicroClimate microClimate = null;
+    [Link] Simulation simulation = null;
 
     private SoiltempState s;
     private SoiltempState s1;
@@ -249,36 +259,39 @@ class SoiltempWrapper :  Model
     /// </summary>
     private void loadParameters()
     {
-        soiltempComponent.thermCondPar1 = null; // To be modified
+//        soiltempComponent.thermCondPar1 = null; // To be modified
         soiltempComponent.topsoilNode = 2; 
         soiltempComponent.surfaceNode = 1; 
         soiltempComponent.numPhantomNodes = 5; 
-        soiltempComponent.soilConstituentNames = {"Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"};
-        soiltempComponent.physical_Thickness = null; // To be modified
+        soiltempComponent.soilConstituentNames = new string[] { "Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"};
+        soiltempComponent.physical_Thickness = physical.Thickness;
         soiltempComponent.MissingValue = 99999; 
         soiltempComponent.timestep = 24.0 * 60.0 * 60.0; 
-        soiltempComponent.soilRoughnessHeight = null; // To be modified
+//        soiltempComponent.soilRoughnessHeight = null; // To be modified
         soiltempComponent.numIterationsForBoundaryLayerConductance = 1; 
-        soiltempComponent.defaultTimeOfMaximumTemperature = 14.0; 
-        soiltempComponent.pom = null; // To be modified
+        soiltempComponent.defaultTimeOfMaximumTemperature = 14.0;
+        soiltempComponent.pom = 1.3;
         soiltempComponent.DepthToConstantTemperature = 10000; 
         soiltempComponent.constantBoundaryLayerConductance = 20; 
-        soiltempComponent.thermCondPar4 = null; // To be modified
-        soiltempComponent.nodeDepth = null; // To be modified
-        soiltempComponent.nu = 0.6; 
+//        soiltempComponent.thermCondPar4 = null; // To be modified
+//        soiltempComponent.nodeDepth = null; // To be modified
+        soiltempComponent.nu = 0.6;
+//        double[] initialTempValues = new double[physical.Thickness.Length];
+//        Array.Fill(initialTempValues, weather.Tav);
+//        soiltempComponent.InitialValues = initialTempValues;
         soiltempComponent.pInitialValues = null; // To be modified
-        soiltempComponent.ps = null; // To be modified
-        soiltempComponent.netRadiationSource = 'calc'
+        soiltempComponent.ps = 2.63;
+        soiltempComponent.netRadiationSource = "calc";
         soiltempComponent.airNode = 0; 
         soiltempComponent.bareSoilRoughness = 57; 
-        soiltempComponent.thermCondPar2 = null; // To be modified
-        soiltempComponent.defaultInstrumentHeight = 1.2; 
-        soiltempComponent.physical_BD = null; // To be modified
+//        soiltempComponent.thermCondPar2 = null; // To be modified
+        soiltempComponent.defaultInstrumentHeight = 1.2;
+        soiltempComponent.physical_BD = physical.BD;
         soiltempComponent.latentHeatOfVapourisation = 2465000; 
-        soiltempComponent.weather_Latitude = null; // To be modified
-        soiltempComponent.stefanBoltzmannConstant = 0.0000000567; 
-        soiltempComponent.boundarLayerConductanceSource = 'calc'
-        soiltempComponent.thermCondPar3 = null; // To be modified
+        soiltempComponent.weather_Latitude = weather.Latitude;
+        soiltempComponent.stefanBoltzmannConstant = 0.0000000567;
+        soiltempComponent.boundarLayerConductanceSource = "calc";
+//        soiltempComponent.thermCondPar3 = null; // To be modified
     }
 
     /// <summary>
@@ -286,26 +299,26 @@ class SoiltempWrapper :  Model
     /// </summary>
     private void setExogenous()
     {
-        ex.waterBalance_Eo = null; // To be modified
-        ex.waterBalance_Salb = null; // To be modified
-        ex.organic_Carbon = null; // To be modified
-        ex.waterBalance_Es = null; // To be modified
-        ex.weather_Wind = null; // To be modified
-        ex.physical_ParticleSizeSand = null; // To be modified
-        ex.weather_AirPressure = null; // To be modified
-        ex.clock_Today_DayOfYear = null; // To be modified
-        ex.microClimate_CanopyHeight = null; // To be modified
-        ex.waterBalance_Eos = null; // To be modified
-        ex.waterBalance_SW = null; // To be modified
-        ex.weather_Amp = null; // To be modified
-        ex.weather_MinT = null; // To be modified
-        ex.weather_Radn = null; // To be modified
-        ex.physical_Rocks = null; // To be modified
-        ex.weather_Tav = null; // To be modified
-        ex.weather_MaxT = null; // To be modified
-        ex.weather_MeanT = null; // To be modified
-        ex.physical_ParticleSizeSilt = null; // To be modified
-        ex.physical_ParticleSizeClay = null; // To be modified
+        ex.waterBalance_Eo = (double)simulation.Get("[ReadWTHFile].Script.PotEvapotranspiration"); //should be: waterBalance.Eo;
+        ex.waterBalance_Salb = waterBalance.Salb;
+        ex.organic_Carbon = organic.Carbon;
+        ex.waterBalance_Es = (double)simulation.Get("[ReadWTHFile].Script.ActualEvaporation");  //should be: waterBalance.Es;
+        ex.weather_Wind = weather.Wind;
+        ex.physical_ParticleSizeSand = physical.ParticleSizeSand;
+        ex.weather_AirPressure = weather.AirPressure;
+        ex.clock_Today_DayOfYear = clock.Today.DayOfYear;
+        ex.microClimate_CanopyHeight = microClimate.CanopyHeight;
+        ex.waterBalance_Eos = (double)simulation.Get("[ReadWTHFile].Script.PotEvaporation");  //should be: waterBalance.Eos;
+        ex.waterBalance_SW = waterBalance.SW;
+        ex.weather_Amp = weather.Amp;
+        ex.weather_MinT = weather.MinT;
+        ex.weather_Radn = weather.Radn;
+        ex.physical_Rocks = physical.Rocks;
+        ex.weather_Tav = weather.Tav;
+        ex.weather_MaxT = weather.MaxT;
+        ex.weather_MeanT = weather.MeanT;
+        ex.physical_ParticleSizeSilt = physical.ParticleSizeSilt;
+        ex.physical_ParticleSizeClay = physical.ParticleSizeClay;
     }
 
     [EventSubscribe("Crop2MLProcess")]
