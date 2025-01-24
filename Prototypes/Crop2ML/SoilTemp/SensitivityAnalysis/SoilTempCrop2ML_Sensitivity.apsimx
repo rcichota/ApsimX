@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 183,
+  "Version": 184,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -36,7 +36,7 @@
           "Children": [
             {
               "$type": "Models.Memo, Models",
-              "Text": "\n### Factors to run:\n\nSites to run:\nUSGA, DEMU, COCA, FRLU, USMA, FRMO, CAQC\n\nValues for LAI to run:\n0, 2, 7\n\nFraction of PAW to run:\n0, 0.25, 0.5, 0.75, 1.0\n\nSoils to run:\nSICL, SILO, SALO, SAND\n\nModels to run:\nAPC, SWC, DEC, DSC, MOC, SAC, SQC, STC\n\n\n",
+              "Text": "\n### Factors to run:\n\nSites to run:\nUSGA, DEMU, COCA, FRLU, USMA, FRMO, CAQC\n\nValues for LAI to run:\n0, 2, 7\n\nFraction of PAW to run:\n0.0, 0.25, 0.5, 0.75, 1.0\n\nSoils to run:\nSICL, SILO, SALO, SAND\n\nModels to run:\nAPC, SWC, DEC, DSC, MOC, SAC, SQC, STC\n\n\n",
               "Name": "Memo",
               "ResourceName": null,
               "Children": [],
@@ -50,7 +50,7 @@
               "Children": [
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[TreatmentApply].Script.Site = USGA",
+                  "Specification": "[TreatmentApply].Script.Site = USGA, DEMU, COCA, FRLU, USMA, FRMO, CAQC",
                   "Name": "Location",
                   "ResourceName": null,
                   "Children": [],
@@ -2871,7 +2871,7 @@
                 },
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[TreatmentApply].Script.LAI = 2",
+                  "Specification": "[TreatmentApply].Script.LAI = 0, 2, 7",
                   "Name": "LAI",
                   "ResourceName": null,
                   "Children": [],
@@ -2880,7 +2880,7 @@
                 },
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[TreatmentApply].Script.PAW = 0.5",
+                  "Specification": "[TreatmentApply].Script.PAW = 0.0, 0.25, 0.5, 0.75, 1.0",
                   "Name": "PAW",
                   "ResourceName": null,
                   "Children": [],
@@ -2894,8 +2894,26 @@
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Crop2ML.Model_SoilTempCampbellWrapper, Models",
-                      "Name": "Campbell",
+                      "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
+                      "Thickness": null,
+                      "InitialValues": null,
+                      "Name": "APO",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": false,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Crop2ML.py_campbell_SoilTemp.Model_SoilTempCampbellWrapper, Models",
+                      "Name": "APCpy",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": false,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Crop2ML.ApsimCampbell.SoiltempWrapper, Models",
+                      "Name": "APC",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -2903,20 +2921,10 @@
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "CERESSoilTemperature",
+                      "Name": "APE",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
-                      "Thickness": null,
-                      "InitialValues": null,
-                      "Name": "APO",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2924,7 +2932,7 @@
                       "Name": "PSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2932,7 +2940,7 @@
                       "Name": "SWC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2940,7 +2948,7 @@
                       "Name": "DEC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2948,7 +2956,7 @@
                       "Name": "DSC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2956,7 +2964,7 @@
                       "Name": "MOC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2965,7 +2973,7 @@
                       "Name": "SAC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2973,7 +2981,7 @@
                       "Name": "SQC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -2981,7 +2989,7 @@
                       "Name": "STC",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
