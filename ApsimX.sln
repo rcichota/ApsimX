@@ -35,8 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeepCloner.Core", "DeepClon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Sheet", "Gtk.Sheet\Gtk.Sheet.csproj", "{94D1379D-F504-4177-936A-AB48C2D3737A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMEI", "AMEI\AMEI.csproj", "{E8933291-4604-4BBF-9D68-699A982D8EDF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DebugAnyCPU|Any CPU = DebugAnyCPU|Any CPU

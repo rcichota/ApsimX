@@ -35,7 +35,6 @@
     <!-- Project references -->
     <ProjectReference Include="..\..\APSIM.Shared\APSIM.Shared.csproj" />
     <ProjectReference Include="..\..\ApsimNG\ApsimNG.csproj" />
-    <ProjectReference Include="..\..\AMEI\AMEI.csproj" />
     <ProjectReference Include="..\..\Models\Models.csproj" />
     <ProjectReference Include="..\..\APSIM.Server\V1\APSIM.Server.csproj" />
     <ProjectReference Include="..\..\APSIM.Interop\APSIM.Interop.csproj" />
